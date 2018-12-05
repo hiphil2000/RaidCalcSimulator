@@ -65,11 +65,16 @@ namespace RaidCalc.Views
 
         public void AddPoints(Dictionary<string, Point> dic_points)
         {
-            graphics.Clear(Color.Gray);
+            graphics.Clear(Color.White);
             DrawGrid();
             float gap = (float)this.Width / 21 - 0.04F;
             SolidBrush brush = new SolidBrush(Color.Black);
             Font font = new Font("맑은 고딕", 10);
+
+            foreach (var dicItem in dic_points)
+            {
+                points.Add(dicItem.Key, dicItem.Value);
+            }
 
             foreach (Point p in dic_points.Values)
             {

@@ -19,7 +19,14 @@ namespace RaidCalcCore.Game
         public int Turn { get; set; }
         public bool IsGameStart { get; set; }
 
-        public Queue<ICommands> CommandQueue = new Queue<ICommands>();
+        private Queue<ICommands> CommandQueue = new Queue<ICommands>();
+        private List<Player> PlayerList = new List<Player>();
+        private Player Boss;
+
+        private void NextTurn()
+        {
+            Turn++;
+        }
 
         public void SetCommands()
         {
@@ -28,7 +35,18 @@ namespace RaidCalcCore.Game
 
         public void StartGame()
         {
-            throw new NotImplementedException();
+            IsGameStart = true;
+            PlayerList.Clear();
+            CommandQueue.Clear();
+            Boss = null;
+            Turn = -1;
+            NextTurn();
+        }
+
+        public string NextPhase()
+        {
+            NextTurn();
+            return ((GameFlow)Turn).ToString().Replace("2", "");
         }
 
         public void StartGame(object Args)

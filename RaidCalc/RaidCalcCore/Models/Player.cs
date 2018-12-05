@@ -12,9 +12,6 @@ namespace RaidCalcCore.Models
         public Stats Stat { get { return _Stat; } set { _Stat = value; } }
         private Stats _Stat; 
 
-        public Perks Perk { get { return _Perk; } set { _Perk = value; } }
-        private Perks _Perk; 
-
         public double MaxHp { get { return _MaxHp; } set { _MaxHp = value; } }
         private double _MaxHp; 
 
@@ -34,11 +31,10 @@ namespace RaidCalcCore.Models
 
         public Player() { }
 
-        public Player(string name, Stats stat, Perks perk, double maxHp, double currentHp, double harmConst, int posX, int posY)
+        public Player(string name, Stats stat, double maxHp, double currentHp, double harmConst, int posX, int posY)
         {
             Name = name;
             Stat = stat;
-            Perk = perk;
             MaxHp = maxHp;
             CurrentHp = currentHp;
             HarmConst = harmConst;
@@ -46,7 +42,7 @@ namespace RaidCalcCore.Models
             PosY = posY;
         }
 
-        public Player(Player player) : this(player.Name, player.Stat, player.Perk, player.MaxHp, player.CurrentHp, player.HarmConst, player.PosX, player.PosY) { }
+        public Player(Player player) : this(player.Name, player.Stat, player.MaxHp, player.CurrentHp, player.HarmConst, player.PosX, player.PosY) { }
 
     }
 }

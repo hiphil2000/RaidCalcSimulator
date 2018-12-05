@@ -11,7 +11,6 @@ namespace RaidCalcCore.Models
     {
         string Name { get; set; }
         Stats Stat { get; set; }
-        Perks Perk { get; set; }
         double MaxHp { get; set; }
         double CurrentHp { get; set; }
         double HarmConst { get; set; }  // 받는 피해 상수

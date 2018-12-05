@@ -62,6 +62,18 @@ namespace RaidCalc
             controller = new PlayerCommand_Controller(this, view);
             view.SetController(controller);
             Dic_ViewController.Add(view.ViewName, new ViewController(view, controller));
+
+            // BossCommand
+            view = new BossCommand_View();
+            controller = new BossCommand_Controller(this, view);
+            view.SetController(controller);
+            Dic_ViewController.Add(view.ViewName, new ViewController(view, controller));
+
+            // BossAction
+            view = new BossAction_View();
+            controller = new BossAction_Controller(this, view);
+            view.SetController(controller);
+            Dic_ViewController.Add(view.ViewName, new ViewController(view, controller));
         }
 
         public void ChangeView(string viewName)
@@ -95,12 +107,13 @@ namespace RaidCalc
             {
                 MessageBox.Show("게임을 시작합니다.", "알림");
                 Game.StartGame();
+                ChangeView("UserCommand");
             }
         }
 
         private void Button_Next_Click(object sender, EventArgs e)
         {
-            ChangeView("PlayerCommand");
+            ChangeView(Game.NextPhase());
         }
 
         private void Panel_MainFrame_Resize(object sender, EventArgs e)
