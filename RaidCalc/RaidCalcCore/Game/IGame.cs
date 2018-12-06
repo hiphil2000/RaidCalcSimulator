@@ -12,6 +12,6 @@ namespace RaidCalcCore.Game
         void StartGame();
         void StartGame(object Args);
         void SetCommands();
-
+        void InitializeSkillset();
     }
 }

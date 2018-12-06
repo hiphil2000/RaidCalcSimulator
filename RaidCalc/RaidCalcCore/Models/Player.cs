@@ -27,9 +27,16 @@ namespace RaidCalcCore.Models
         public int PosY { get { return _PosY; } set { _PosY = value; } }
         private int _PosY; 
 
-        public List<ISkillBase> UsedSkills;
+        public List<ISkillBase> CommonSkills { get { return _CommonSkills; } set { _CommonSkills = value; } }
+        private List<ISkillBase> _CommonSkills;
 
-        public Player() { }
+        public ISkillBase UltimateSkill { get { return _UltimateSkill; } set { _UltimateSkill = value; } }
+        private ISkillBase _UltimateSkill;
+
+        public Player()
+        {
+            CommonSkills = new List<ISkillBase>();
+        }
 
         public Player(string name, Stats stat, double maxHp, double currentHp, double harmConst, int posX, int posY)
         {
@@ -44,5 +51,17 @@ namespace RaidCalcCore.Models
 
         public Player(Player player) : this(player.Name, player.Stat, player.MaxHp, player.CurrentHp, player.HarmConst, player.PosX, player.PosY) { }
 
+        public void AddSkill(ISkillBase skill)
+        {
+            _CommonSkills.Add(skill);
+        }
+
+        public void AddSkillRange(List<ISkillBase> skills)
+        {
+            foreach(var s in skills)
+            {
+                _CommonSkills.Add(s);
+            }
+        }
     }
 }

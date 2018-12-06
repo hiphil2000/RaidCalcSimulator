@@ -2,6 +2,7 @@
 using RaidCalc.Interfaces;
 using RaidCalc.Views;
 using RaidCalcCore.Game;
+using RaidCalcCore.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -30,6 +31,7 @@ namespace RaidCalc
     {
         Dictionary<string, ViewController> Dic_ViewController;
         Game Game;
+        private List<ISkillBase> _SkillList;
 
         public RaidCalcWindow()
         {
@@ -86,6 +88,11 @@ namespace RaidCalc
             Panel_MainFrame.Size = (vc.View as Control).Size;
         }
 
+        public List<ISkillBase> GetSkillList()
+        {
+            return _SkillList;
+        }
+
         private void RaidCalc_Load(object sender, EventArgs e)
         {
 
@@ -107,6 +114,7 @@ namespace RaidCalc
             {
                 MessageBox.Show("게임을 시작합니다.", "알림");
                 Game.StartGame();
+                _SkillList = Game.GetSkills();
                 ChangeView("UserCommand");
             }
         }

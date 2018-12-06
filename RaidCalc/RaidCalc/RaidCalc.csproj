@@ -92,17 +92,23 @@
     <Compile Include="Views\PlayerCommand_View.Designer.cs">
       <DependentUpon>PlayerCommand_View.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\PlayerListItem.cs">
+    <Compile Include="Views\SkillItem.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Views\PlayerListItem.Designer.cs">
-      <DependentUpon>PlayerListItem.cs</DependentUpon>
+    <Compile Include="Views\SkillItem.Designer.cs">
+      <DependentUpon>SkillItem.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\UserCommand_View.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Views\UserCommand_View.Designer.cs">
       <DependentUpon>UserCommand_View.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PlayerItem.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\PlayerItem.Designer.cs">
+      <DependentUpon>PlayerItem.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="RaidCalcWindow.resx">
       <DependentUpon>RaidCalcWindow.cs</DependentUpon>
@@ -131,11 +137,14 @@
     <EmbeddedResource Include="Views\PlayerCommand_View.resx">
       <DependentUpon>PlayerCommand_View.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\PlayerListItem.resx">
-      <DependentUpon>PlayerListItem.cs</DependentUpon>
+    <EmbeddedResource Include="Views\SkillItem.resx">
+      <DependentUpon>SkillItem.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\UserCommand_View.resx">
       <DependentUpon>UserCommand_View.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\PlayerItem.resx">
+      <DependentUpon>PlayerItem.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
