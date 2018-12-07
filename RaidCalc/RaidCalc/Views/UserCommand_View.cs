@@ -19,6 +19,7 @@ namespace RaidCalc.Views
         public string ViewName { get; set; }
 
         private PlayerItem _nowPlayer;
+        private bool Selecting;
 
         public UserCommand_View()
         {
@@ -130,17 +131,21 @@ namespace RaidCalc.Views
 
         private void Button_SetSkill_Click(object sender, EventArgs e)
         {
-            if (_nowPlayer != null)
+            if (_nowPlayer != null || Selecting)
             {
                 Button_PlayerAdd.Enabled = true;
                 Button_PlayerDel.Enabled = true;
                 foreach (var item in Flow_PlayerList.Controls)
                 {
                     PlayerItem pitem = item as PlayerItem;
-                    pitem.SelectiveMode = true;
-                    pitem.Click -= StartSelectOnce;
+                    pitem.SelectiveMode = false;
+                    foreach (Control child in (item as Control).Controls)
+                    {
+                        UnBindEventsAllChildren(child, StartSelectOnce);
+                    }
                 }
-
+                _nowPlayer = null;
+                Selecting = false;
             }
             else
             {
@@ -150,18 +155,66 @@ namespace RaidCalc.Views
                 {
                     PlayerItem pitem = item as PlayerItem;
                     pitem.SelectiveMode = true;
-                    pitem.Click += StartSelectOnce;
+                    foreach (Control child in (item as Control).Controls)
+                    {
+                        BindEventsAllChildren(child, StartSelectOnce);
+                    }
                 }
+                Selecting = true;
             }
         }
 
         private void StartSelectOnce(object o, EventArgs e)
         {
-            _nowPlayer = o as PlayerItem;
+            _nowPlayer = GetParentPlayerItem(o as Control);
             foreach (var item in Flow_PlayerList.Controls)
             {
                 PlayerItem pitem = item as PlayerItem;
                 pitem.IsSelected = false;
+            }
+        }
+
+        private PlayerItem GetParentPlayerItem(Control contrl)
+        {
+            if ((contrl.Parent as PlayerItem) == null)
+            {
+                return GetParentPlayerItem(contrl.Parent);
+            } else
+            {
+                return contrl.Parent as PlayerItem;
+            }
+        }
+
+        private Control BindEventsAllChildren(Control control, EventHandler e)
+        {
+            if (control != null)
+            {
+                foreach (Control child in control.Controls)
+                {
+                    child.Click += e;
+                    BindEventsAllChildren(child, e);
+                }
+                return null;
+            }
+            else
+            {
+                return null;
+            }
+        }
+        private Control UnBindEventsAllChildren(Control control, EventHandler e)
+        {
+            if (control != null)
+            {
+                foreach (Control child in control.Controls)
+                {
+                    child.Click -= e;
+                    BindEventsAllChildren(child, e);
+                }
+                return null;
+            }
+            else
+            {
+                return null;
             }
         }
     }
