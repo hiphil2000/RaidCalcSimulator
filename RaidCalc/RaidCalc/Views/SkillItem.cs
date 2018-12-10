@@ -13,6 +13,8 @@ namespace RaidCalc.Views
 {
     public partial class SkillItem : UserControl
     {
+        ISkillBase skill;
+
         public SkillItem()
         {
             InitializeComponent();
@@ -20,19 +22,21 @@ namespace RaidCalc.Views
 
         public SkillItem(SkillType type, string name, double skillConst, int cooltime, string description) : this()
         {
-            Lab_Description.Text = description;
-            string result = cooltime < 0 ? "패시브" : cooltime.ToString() + "턴";
+            skill = new BasicSkill() { Type = type, Name = name, ForceConst = skillConst, Cooltime = cooltime, Description = description };
+
+            Lab_Description.Text = skill.Description;
+            string result = skill.Cooltime < 0 ? "패시브" : skill.Cooltime.ToString() + "턴";
             Lab_Cooltime.Text = result;
-            Lab_SkillName.Text = name;
-            Lab_SkillType.Text = type.ToString();
-            Lab_SkillConst.Text = skillConst.ToString();
-            if (type.HasFlag(SkillType.Basic))
+            Lab_SkillName.Text = skill.Name;
+            Lab_SkillType.Text = skill.Type.ToString();
+            Lab_SkillConst.Text = skill.ForceConst < 0 ? "무제한" : skill.ForceConst.ToString();
+            if (skill.Type.HasFlag(SkillType.Basic))
                 BackColor = Color.FromArgb(255, 229, 153);
-            if (type.HasFlag(SkillType.Offence))
+            if (skill.Type.HasFlag(SkillType.Offence))
                 BackColor = Color.FromArgb(234, 153, 153);
-            if (type.HasFlag(SkillType.Defence))
+            if (skill.Type.HasFlag(SkillType.Defence))
                 BackColor = Color.FromArgb(159, 197, 232);
-            if (type.HasFlag(SkillType.Heal))
+            if (skill.Type.HasFlag(SkillType.Heal))
                 BackColor = Color.FromArgb(182, 215, 168);
         }
     }

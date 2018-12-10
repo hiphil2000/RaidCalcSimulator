@@ -42,18 +42,18 @@
             this.Lab_SkillType.AutoSize = true;
             this.Lab_SkillType.Location = new System.Drawing.Point(4, 4);
             this.Lab_SkillType.Name = "Lab_SkillType";
-            this.Lab_SkillType.Size = new System.Drawing.Size(38, 17);
+            this.Lab_SkillType.Size = new System.Drawing.Size(36, 17);
             this.Lab_SkillType.TabIndex = 0;
-            this.Lab_SkillType.Text = "Basic";
+            this.Lab_SkillType.Text = "Type";
             // 
             // Lab_SkillName
             // 
             this.Lab_SkillName.AutoSize = true;
             this.Lab_SkillName.Location = new System.Drawing.Point(57, 4);
             this.Lab_SkillName.Name = "Lab_SkillName";
-            this.Lab_SkillName.Size = new System.Drawing.Size(34, 17);
+            this.Lab_SkillName.Size = new System.Drawing.Size(43, 17);
             this.Lab_SkillName.TabIndex = 0;
-            this.Lab_SkillName.Text = "이동";
+            this.Lab_SkillName.Text = "Name";
             // 
             // label1
             // 
@@ -69,9 +69,9 @@
             this.Lab_SkillConst.AutoSize = true;
             this.Lab_SkillConst.Location = new System.Drawing.Point(44, 21);
             this.Lab_SkillConst.Name = "Lab_SkillConst";
-            this.Lab_SkillConst.Size = new System.Drawing.Size(47, 17);
+            this.Lab_SkillConst.Size = new System.Drawing.Size(65, 17);
             this.Lab_SkillConst.TabIndex = 0;
-            this.Lab_SkillConst.Text = "무제한";
+            this.Lab_SkillConst.Text = "SkillConst";
             // 
             // label2
             // 
@@ -87,9 +87,9 @@
             this.Lab_Cooltime.AutoSize = true;
             this.Lab_Cooltime.Location = new System.Drawing.Point(205, 21);
             this.Lab_Cooltime.Name = "Lab_Cooltime";
-            this.Lab_Cooltime.Size = new System.Drawing.Size(28, 17);
+            this.Lab_Cooltime.Size = new System.Drawing.Size(60, 17);
             this.Lab_Cooltime.TabIndex = 0;
-            this.Lab_Cooltime.Text = "5턴";
+            this.Lab_Cooltime.Text = "Cooltime";
             // 
             // Lab_Description
             // 
@@ -98,7 +98,7 @@
             this.Lab_Description.Name = "Lab_Description";
             this.Lab_Description.Size = new System.Drawing.Size(299, 52);
             this.Lab_Description.TabIndex = 0;
-            this.Lab_Description.Text = "마스레이드에서 이동 제한을 받지 않고, 원하는 마스로 이동할 수 있습니다.";
+            this.Lab_Description.Text = "Description";
             // 
             // SkillItem
             // 

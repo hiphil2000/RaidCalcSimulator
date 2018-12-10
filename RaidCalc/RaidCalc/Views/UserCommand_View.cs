@@ -139,6 +139,7 @@ namespace RaidCalc.Views
                 {
                     PlayerItem pitem = item as PlayerItem;
                     pitem.SelectiveMode = false;
+                    pitem.IsSelected = false;
                     foreach (Control child in (item as Control).Controls)
                     {
                         UnBindEventsAllChildren(child, StartSelectOnce);
@@ -169,6 +170,8 @@ namespace RaidCalc.Views
             _nowPlayer = GetParentPlayerItem(o as Control);
             foreach (var item in Flow_PlayerList.Controls)
             {
+                if (_nowPlayer.Equals(item))
+                    continue;
                 PlayerItem pitem = item as PlayerItem;
                 pitem.IsSelected = false;
             }
