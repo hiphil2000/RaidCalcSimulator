@@ -46,14 +46,14 @@
             this.Flow_PlayerList.AutoScroll = true;
             this.Flow_PlayerList.Location = new System.Drawing.Point(7, 113);
             this.Flow_PlayerList.Name = "Flow_PlayerList";
-            this.Flow_PlayerList.Size = new System.Drawing.Size(422, 324);
+            this.Flow_PlayerList.Size = new System.Drawing.Size(633, 324);
             this.Flow_PlayerList.TabIndex = 0;
             // 
             // Lab_SkillsetBox
             // 
             this.Lab_SkillsetBox.AutoSize = true;
             this.Lab_SkillsetBox.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Lab_SkillsetBox.Location = new System.Drawing.Point(435, 90);
+            this.Lab_SkillsetBox.Location = new System.Drawing.Point(646, 90);
             this.Lab_SkillsetBox.Name = "Lab_SkillsetBox";
             this.Lab_SkillsetBox.Size = new System.Drawing.Size(89, 20);
             this.Lab_SkillsetBox.TabIndex = 3;
@@ -71,7 +71,7 @@
             // 
             // Button_PlayerAdd
             // 
-            this.Button_PlayerAdd.Location = new System.Drawing.Point(327, 88);
+            this.Button_PlayerAdd.Location = new System.Drawing.Point(538, 87);
             this.Button_PlayerAdd.Name = "Button_PlayerAdd";
             this.Button_PlayerAdd.Size = new System.Drawing.Size(102, 23);
             this.Button_PlayerAdd.TabIndex = 100;
@@ -87,7 +87,7 @@
             "Offence",
             "Defence",
             "Heal"});
-            this.Combo_Skillset.Location = new System.Drawing.Point(658, 85);
+            this.Combo_Skillset.Location = new System.Drawing.Point(1042, 85);
             this.Combo_Skillset.Name = "Combo_Skillset";
             this.Combo_Skillset.Size = new System.Drawing.Size(121, 25);
             this.Combo_Skillset.TabIndex = 101;
@@ -105,7 +105,7 @@
             // 
             // Button_PlayerDel
             // 
-            this.Button_PlayerDel.Location = new System.Drawing.Point(219, 87);
+            this.Button_PlayerDel.Location = new System.Drawing.Point(430, 86);
             this.Button_PlayerDel.Name = "Button_PlayerDel";
             this.Button_PlayerDel.Size = new System.Drawing.Size(102, 23);
             this.Button_PlayerDel.TabIndex = 100;
@@ -115,7 +115,7 @@
             // 
             // Button_SetSkill
             // 
-            this.Button_SetSkill.Location = new System.Drawing.Point(699, 396);
+            this.Button_SetSkill.Location = new System.Drawing.Point(1083, 396);
             this.Button_SetSkill.Name = "Button_SetSkill";
             this.Button_SetSkill.Size = new System.Drawing.Size(80, 23);
             this.Button_SetSkill.TabIndex = 100;
@@ -137,9 +137,9 @@
             // 
             this.List_SkillsetList.AutoScroll = true;
             this.List_SkillsetList.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.List_SkillsetList.Location = new System.Drawing.Point(435, 113);
+            this.List_SkillsetList.Location = new System.Drawing.Point(646, 113);
             this.List_SkillsetList.Name = "List_SkillsetList";
-            this.List_SkillsetList.Size = new System.Drawing.Size(344, 277);
+            this.List_SkillsetList.Size = new System.Drawing.Size(517, 277);
             this.List_SkillsetList.TabIndex = 102;
             this.List_SkillsetList.WrapContents = false;
             // 
@@ -154,7 +154,7 @@
             this.playerItem1.Name = "playerItem1";
             this.playerItem1.Player_Name = "";
             this.playerItem1.SelectiveMode = false;
-            this.playerItem1.Size = new System.Drawing.Size(391, 31);
+            this.playerItem1.Size = new System.Drawing.Size(594, 31);
             this.playerItem1.TabIndex = 103;
             // 
             // UserCommand_View
@@ -177,7 +177,7 @@
             this.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "UserCommand_View";
-            this.Size = new System.Drawing.Size(785, 450);
+            this.Size = new System.Drawing.Size(1166, 450);
             this.ResumeLayout(false);
             this.PerformLayout();
 

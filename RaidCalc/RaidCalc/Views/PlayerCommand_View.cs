@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using RaidCalc.Interfaces;
+using RaidCalcCore.Models;
 
 namespace RaidCalc.Views
 {
@@ -28,17 +29,15 @@ namespace RaidCalc.Views
 
         public void DrawData(object[] data)
         {
-            throw new NotImplementedException();
+            foreach (Player player in data[0] as List<Player>)
+            {
+                Flow_PlayerList.Controls.Add(new PlayerItem(player) { Readonly = false });
+            }
         }
 
         private void gridMap1_Load(object sender, PaintEventArgs e)
         {
             Grid_GridMap.DrawGrid();
-            Dictionary<string, Point> dic = new Dictionary<string, Point>();
-            dic.Add("n1", new Point(1, 2));
-            dic.Add("n2", new Point(1, 3));
-            Grid_GridMap.AddPoints(dic);
-
         }
 
         private void Grid_GridMap_Click(object sender, EventArgs e)
@@ -49,6 +48,11 @@ namespace RaidCalc.Views
         {
             Grid_GridMap.AddPoint(new Random().NextDouble().ToString(), e.Location);
             Console.WriteLine(e.Location);
+        }
+
+        private void PlayerCommand_View_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

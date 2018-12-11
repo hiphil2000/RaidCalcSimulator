@@ -30,6 +30,16 @@ namespace RaidCalcCore.Game
             Turn++;
         }
 
+        public void SetPlayerList(List<Player> players)
+        {
+            PlayerList = players;
+        }
+
+        public List<Player> GetPlayerList()
+        {
+            return PlayerList;
+        }
+
         public void SetCommands()
         {
             throw new NotImplementedException();

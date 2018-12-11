@@ -41,6 +41,19 @@ namespace RaidCalc.Views
         }
         private bool _isSelected;
 
+        public bool Readonly { get { return _readonly; } set { _readonly = value; SetReadonly(); } }
+        private bool _readonly;
+
+        private void SetReadonly()
+        {
+            Text_Name.Enabled = _readonly;
+            Text_Stat1.Enabled = _readonly;
+            Text_Stat2.Enabled = _readonly;
+            Text_Stat3.Enabled = _readonly;
+            Text_CurrentHealth.Enabled = _readonly;
+            Text_MaxHealth.Enabled = _readonly;
+        }
+
         public bool IsBoss
         {
             get
@@ -67,6 +80,7 @@ namespace RaidCalc.Views
         }
 
         private bool _isBoss;
+
         public string Player_Name { get { return Text_Name.Text; } set { Text_Name.Text = value; } }
 
         public List<ISkillBase> CommonSkills;
@@ -82,6 +96,16 @@ namespace RaidCalc.Views
             Text_MaxHealth.Click += PlayerItem_Click;
 
             CommonSkills = new List<ISkillBase>();
+        }
+
+        public PlayerItem(Player player) : this()
+        {
+            Text_Name.Text = player.Name;
+            Text_Stat1.Text = player.Stat.Stat1.ToString();
+            Text_Stat2.Text = player.Stat.Stat2.ToString();
+            Text_Stat3.Text = player.Stat.Stat3.ToString();
+            Text_CurrentHealth.Text = player.CurrentHp.ToString();
+            Text_MaxHealth.Text = player.MaxHp.ToString();
         }
 
         public void SetSelectiveMode()
@@ -114,7 +138,14 @@ namespace RaidCalc.Views
 
         public void AddCommonSkill(ISkillBase skill)
         {
-            CommonSkills.Add(skill);
+            if (!CommonSkills.Contains(skill))
+                CommonSkills.Add(skill);
+        }
+
+        public void DeleteCommonSkill(ISkillBase skill)
+        {
+            if (CommonSkills.Contains(skill))
+                CommonSkills.Remove(skill);
         }
 
         public void AddCommonSkillRange(List<ISkillBase> skills)
@@ -128,6 +159,22 @@ namespace RaidCalc.Views
         public void SetUltimate(ISkillBase skill)
         {
             UltimateSkill = skill;
+        }
+
+        public Player ToPlayer()
+        {
+            return new Player(
+                Text_Name.Text,
+                new Stats(
+                    double.Parse(Text_Stat1.Text),
+                    double.Parse(Text_Stat2.Text),
+                    double.Parse(Text_Stat3.Text)),
+                double.Parse(Text_MaxHealth.Text),
+                double.Parse(Text_CurrentHealth.Text),
+                1,
+                -1,
+                -1)
+            { CommonSkills = CommonSkills, UltimateSkill = UltimateSkill };
         }
     }
 }

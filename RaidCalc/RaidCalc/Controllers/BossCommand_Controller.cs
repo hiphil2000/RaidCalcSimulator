@@ -17,5 +17,15 @@ namespace RaidCalc.Controllers
             MainFrame = mainFrame;
             View = view;
         }
+
+        public bool NextPage()
+        {
+            return false;
+        }
+
+        public void InitData()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

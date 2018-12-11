@@ -30,16 +30,16 @@
         {
             this.Text_Name = new System.Windows.Forms.TextBox();
             this.Text_Stat1 = new System.Windows.Forms.TextBox();
-            this.Text_CurrentHealth = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.Text_Stat2 = new System.Windows.Forms.TextBox();
             this.Text_Stat3 = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.Text_MaxHealth = new System.Windows.Forms.TextBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.Panel_Stat = new System.Windows.Forms.Panel();
-            this.Panel_Health = new System.Windows.Forms.Panel();
+            this.Panel_Health = new System.Windows.Forms.FlowLayoutPanel();
+            this.Text_MaxHealth = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.Text_CurrentHealth = new System.Windows.Forms.TextBox();
             this.flowLayoutPanel1.SuspendLayout();
             this.Panel_Stat.SuspendLayout();
             this.Panel_Health.SuspendLayout();
@@ -50,7 +50,7 @@
             this.Text_Name.Location = new System.Drawing.Point(3, 3);
             this.Text_Name.Margin = new System.Windows.Forms.Padding(0, 0, 4, 0);
             this.Text_Name.Name = "Text_Name";
-            this.Text_Name.Size = new System.Drawing.Size(139, 25);
+            this.Text_Name.Size = new System.Drawing.Size(168, 25);
             this.Text_Name.TabIndex = 0;
             // 
             // Text_Stat1
@@ -61,14 +61,6 @@
             this.Text_Stat1.Name = "Text_Stat1";
             this.Text_Stat1.Size = new System.Drawing.Size(22, 25);
             this.Text_Stat1.TabIndex = 0;
-            // 
-            // Text_CurrentHealth
-            // 
-            this.Text_CurrentHealth.Location = new System.Drawing.Point(0, 0);
-            this.Text_CurrentHealth.Margin = new System.Windows.Forms.Padding(4, 0, 0, 0);
-            this.Text_CurrentHealth.Name = "Text_CurrentHealth";
-            this.Text_CurrentHealth.Size = new System.Drawing.Size(63, 25);
-            this.Text_CurrentHealth.TabIndex = 0;
             // 
             // label1
             // 
@@ -108,24 +100,6 @@
             this.label2.TabIndex = 1;
             this.label2.Text = "/";
             // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(63, 3);
-            this.label3.Margin = new System.Windows.Forms.Padding(0);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(13, 17);
-            this.label3.TabIndex = 1;
-            this.label3.Text = "/";
-            // 
-            // Text_MaxHealth
-            // 
-            this.Text_MaxHealth.Location = new System.Drawing.Point(76, 0);
-            this.Text_MaxHealth.Margin = new System.Windows.Forms.Padding(0);
-            this.Text_MaxHealth.Name = "Text_MaxHealth";
-            this.Text_MaxHealth.Size = new System.Drawing.Size(63, 25);
-            this.Text_MaxHealth.TabIndex = 0;
-            // 
             // flowLayoutPanel1
             // 
             this.flowLayoutPanel1.Controls.Add(this.Text_Name);
@@ -135,7 +109,7 @@
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Padding = new System.Windows.Forms.Padding(3);
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(391, 31);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(594, 31);
             this.flowLayoutPanel1.TabIndex = 2;
             // 
             // Panel_Stat
@@ -145,7 +119,7 @@
             this.Panel_Stat.Controls.Add(this.Text_Stat3);
             this.Panel_Stat.Controls.Add(this.label2);
             this.Panel_Stat.Controls.Add(this.label1);
-            this.Panel_Stat.Location = new System.Drawing.Point(149, 3);
+            this.Panel_Stat.Location = new System.Drawing.Point(178, 3);
             this.Panel_Stat.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.Panel_Stat.Name = "Panel_Stat";
             this.Panel_Stat.Size = new System.Drawing.Size(94, 25);
@@ -154,13 +128,38 @@
             // Panel_Health
             // 
             this.Panel_Health.Controls.Add(this.Text_MaxHealth);
-            this.Panel_Health.Controls.Add(this.Text_CurrentHealth);
             this.Panel_Health.Controls.Add(this.label3);
-            this.Panel_Health.Location = new System.Drawing.Point(249, 3);
-            this.Panel_Health.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
+            this.Panel_Health.Controls.Add(this.Text_CurrentHealth);
+            this.Panel_Health.Location = new System.Drawing.Point(278, 3);
+            this.Panel_Health.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.Panel_Health.Name = "Panel_Health";
-            this.Panel_Health.Size = new System.Drawing.Size(139, 25);
-            this.Panel_Health.TabIndex = 3;
+            this.Panel_Health.Size = new System.Drawing.Size(309, 25);
+            this.Panel_Health.TabIndex = 4;
+            // 
+            // Text_MaxHealth
+            // 
+            this.Text_MaxHealth.Location = new System.Drawing.Point(0, 0);
+            this.Text_MaxHealth.Margin = new System.Windows.Forms.Padding(0);
+            this.Text_MaxHealth.Name = "Text_MaxHealth";
+            this.Text_MaxHealth.Size = new System.Drawing.Size(145, 25);
+            this.Text_MaxHealth.TabIndex = 2;
+            // 
+            // label3
+            // 
+            this.label3.Location = new System.Drawing.Point(148, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(13, 25);
+            this.label3.TabIndex = 4;
+            this.label3.Text = "/";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // Text_CurrentHealth
+            // 
+            this.Text_CurrentHealth.Location = new System.Drawing.Point(164, 0);
+            this.Text_CurrentHealth.Margin = new System.Windows.Forms.Padding(0);
+            this.Text_CurrentHealth.Name = "Text_CurrentHealth";
+            this.Text_CurrentHealth.Size = new System.Drawing.Size(145, 25);
+            this.Text_CurrentHealth.TabIndex = 3;
             // 
             // PlayerItem
             // 
@@ -171,7 +170,7 @@
             this.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "PlayerItem";
-            this.Size = new System.Drawing.Size(391, 31);
+            this.Size = new System.Drawing.Size(594, 31);
             this.Click += new System.EventHandler(this.PlayerItem_Click);
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel1.PerformLayout();
@@ -187,15 +186,15 @@
 
         private System.Windows.Forms.TextBox Text_Name;
         private System.Windows.Forms.TextBox Text_Stat1;
-        private System.Windows.Forms.TextBox Text_CurrentHealth;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox Text_Stat2;
         private System.Windows.Forms.TextBox Text_Stat3;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox Text_MaxHealth;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.Panel Panel_Stat;
-        private System.Windows.Forms.Panel Panel_Health;
+        private System.Windows.Forms.FlowLayoutPanel Panel_Health;
+        private System.Windows.Forms.TextBox Text_MaxHealth;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox Text_CurrentHealth;
     }
 }

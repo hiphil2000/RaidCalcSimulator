@@ -27,5 +27,15 @@ namespace RaidCalc.Controllers
         {
             MainFrame.StartGame();
         }
+
+        public bool NextPage()
+        {
+            return true;
+        }
+
+        public void InitData()
+        {
+            
+        }
     }
 }

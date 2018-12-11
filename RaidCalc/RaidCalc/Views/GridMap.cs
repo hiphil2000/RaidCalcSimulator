@@ -32,6 +32,13 @@ namespace RaidCalc.Views
 
         public void DrawGrid()
         {
+            DrawBackground();
+        }
+        
+        private void DrawBackground()
+        {
+            graphics.Clear(Color.White);
+
             float gap = (float)this.Width / 21 - 0.04F;
 
             for (int j = 0; j < 21; j++)

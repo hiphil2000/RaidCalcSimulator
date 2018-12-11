@@ -35,12 +35,13 @@
             this.label2 = new System.Windows.Forms.Label();
             this.Lab_Cooltime = new System.Windows.Forms.Label();
             this.Lab_Description = new System.Windows.Forms.Label();
+            this.Panel_Selected = new System.Windows.Forms.Panel();
             this.SuspendLayout();
             // 
             // Lab_SkillType
             // 
             this.Lab_SkillType.AutoSize = true;
-            this.Lab_SkillType.Location = new System.Drawing.Point(4, 4);
+            this.Lab_SkillType.Location = new System.Drawing.Point(18, 4);
             this.Lab_SkillType.Name = "Lab_SkillType";
             this.Lab_SkillType.Size = new System.Drawing.Size(36, 17);
             this.Lab_SkillType.TabIndex = 0;
@@ -49,7 +50,7 @@
             // Lab_SkillName
             // 
             this.Lab_SkillName.AutoSize = true;
-            this.Lab_SkillName.Location = new System.Drawing.Point(57, 4);
+            this.Lab_SkillName.Location = new System.Drawing.Point(71, 4);
             this.Lab_SkillName.Name = "Lab_SkillName";
             this.Lab_SkillName.Size = new System.Drawing.Size(43, 17);
             this.Lab_SkillName.TabIndex = 0;
@@ -58,7 +59,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(4, 21);
+            this.label1.Location = new System.Drawing.Point(219, 4);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(37, 17);
             this.label1.TabIndex = 0;
@@ -67,7 +68,7 @@
             // Lab_SkillConst
             // 
             this.Lab_SkillConst.AutoSize = true;
-            this.Lab_SkillConst.Location = new System.Drawing.Point(44, 21);
+            this.Lab_SkillConst.Location = new System.Drawing.Point(259, 4);
             this.Lab_SkillConst.Name = "Lab_SkillConst";
             this.Lab_SkillConst.Size = new System.Drawing.Size(65, 17);
             this.Lab_SkillConst.TabIndex = 0;
@@ -76,7 +77,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(149, 21);
+            this.label2.Location = new System.Drawing.Point(368, 4);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(50, 17);
             this.label2.TabIndex = 0;
@@ -85,7 +86,7 @@
             // Lab_Cooltime
             // 
             this.Lab_Cooltime.AutoSize = true;
-            this.Lab_Cooltime.Location = new System.Drawing.Point(205, 21);
+            this.Lab_Cooltime.Location = new System.Drawing.Point(424, 4);
             this.Lab_Cooltime.Name = "Lab_Cooltime";
             this.Lab_Cooltime.Size = new System.Drawing.Size(60, 17);
             this.Lab_Cooltime.TabIndex = 0;
@@ -94,16 +95,25 @@
             // Lab_Description
             // 
             this.Lab_Description.Font = new System.Drawing.Font("맑은 고딕", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Lab_Description.Location = new System.Drawing.Point(3, 48);
+            this.Lab_Description.Location = new System.Drawing.Point(18, 25);
             this.Lab_Description.Name = "Lab_Description";
-            this.Lab_Description.Size = new System.Drawing.Size(299, 52);
+            this.Lab_Description.Size = new System.Drawing.Size(466, 35);
             this.Lab_Description.TabIndex = 0;
             this.Lab_Description.Text = "Description";
+            // 
+            // Panel_Selected
+            // 
+            this.Panel_Selected.Location = new System.Drawing.Point(0, 0);
+            this.Panel_Selected.Margin = new System.Windows.Forms.Padding(0);
+            this.Panel_Selected.Name = "Panel_Selected";
+            this.Panel_Selected.Size = new System.Drawing.Size(15, 100);
+            this.Panel_Selected.TabIndex = 1;
             // 
             // SkillItem
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.Panel_Selected);
             this.Controls.Add(this.Lab_Cooltime);
             this.Controls.Add(this.Lab_Description);
             this.Controls.Add(this.Lab_SkillConst);
@@ -114,7 +124,7 @@
             this.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "SkillItem";
-            this.Size = new System.Drawing.Size(305, 100);
+            this.Size = new System.Drawing.Size(490, 60);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -129,5 +139,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label Lab_Cooltime;
         private System.Windows.Forms.Label Lab_Description;
+        private System.Windows.Forms.Panel Panel_Selected;
     }
 }

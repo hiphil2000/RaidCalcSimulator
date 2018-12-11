@@ -17,5 +17,15 @@ namespace RaidCalc.Controllers
             MainFrame = mainFrame;
             View = view;
         }
+
+        public bool NextPage()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void InitData()
+        {
+            View.DrawData(new object[] { MainFrame.GetPlayerList() });
+        }
     }
 }

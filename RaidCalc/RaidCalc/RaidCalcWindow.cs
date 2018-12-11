@@ -82,10 +82,24 @@ namespace RaidCalc
         {
             ViewController vc = Dic_ViewController[viewName];
             (vc.View as Control).Location = new Point(0, 0);
-            Panel_MainFrame.Controls.Clear();
-            Panel_MainFrame.Controls.Add(vc.View as Control);
-            Lab_Title.Text = vc.View.ViewName;
-            Panel_MainFrame.Size = (vc.View as Control).Size;
+            if (Panel_MainFrame.Controls.Count > 0)
+            {
+                if (Dic_ViewController[Lab_Title.Text].Controller.NextPage())
+                {
+                    Panel_MainFrame.Controls.Clear();
+                    Panel_MainFrame.Controls.Add(vc.View as Control);
+                    Lab_Title.Text = vc.View.ViewName;
+                    Panel_MainFrame.Size = (vc.View as Control).Size;
+                    vc.Controller.InitData();
+                }
+            } else
+            {
+                Panel_MainFrame.Controls.Clear();
+                Panel_MainFrame.Controls.Add(vc.View as Control);
+                Lab_Title.Text = vc.View.ViewName;
+                Panel_MainFrame.Size = (vc.View as Control).Size;
+
+            }
         }
 
         public List<ISkillBase> GetSkillList()
@@ -130,6 +144,16 @@ namespace RaidCalc
                 Panel_MainFrame.Location.Y + Panel_MainFrame.Height + 6);
             Height = Panel_MainFrame.Height + 155;
             Width = Panel_MainFrame.Width + 40;
+        }
+
+        public void SetPlayerList(List<Player> players)
+        {
+            Game.SetPlayerList(players);
+        }
+
+        public List<Player> GetPlayerList()
+        {
+            return Game.GetPlayerList();
         }
     }
 }

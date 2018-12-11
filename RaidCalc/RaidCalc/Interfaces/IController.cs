@@ -10,5 +10,7 @@ namespace RaidCalc.Interfaces
     {
         IView View { get; set; }
         RaidCalcWindow MainFrame { get; set; }
+        bool NextPage();
+        void InitData();
     }
 }

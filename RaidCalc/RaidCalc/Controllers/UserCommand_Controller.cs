@@ -39,5 +39,17 @@ namespace RaidCalc.Controllers
         {
             (View as UserCommand_View).DrawData(new object[] { MainFrame.GetSkillList() });
         }
+
+        bool IController.NextPage()
+        {
+            PlayerList = (View as UserCommand_View).GetPlayerData();
+            MainFrame.SetPlayerList(PlayerList);
+            return true;
+        }
+
+        public void InitData()
+        {
+            
+        }
     }
 }
