@@ -20,7 +20,7 @@ namespace RaidCalc.Controllers
 
         public bool NextPage()
         {
-            throw new NotImplementedException();
+            return true;
         }
 
         public void InitData()

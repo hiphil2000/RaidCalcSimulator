@@ -52,6 +52,8 @@
             this.Text_Name.Name = "Text_Name";
             this.Text_Name.Size = new System.Drawing.Size(168, 25);
             this.Text_Name.TabIndex = 0;
+            this.Text_Name.TextChanged += new System.EventHandler(this.Text_Name_TextChanged);
+            this.Text_Name.Leave += new System.EventHandler(this.Text_Name_Leave);
             // 
             // Text_Stat1
             // 
@@ -61,6 +63,7 @@
             this.Text_Stat1.Name = "Text_Stat1";
             this.Text_Stat1.Size = new System.Drawing.Size(22, 25);
             this.Text_Stat1.TabIndex = 0;
+            this.Text_Stat1.TextChanged += new System.EventHandler(this.Text_Stat1_TextChanged);
             // 
             // label1
             // 
@@ -80,6 +83,7 @@
             this.Text_Stat2.Name = "Text_Stat2";
             this.Text_Stat2.Size = new System.Drawing.Size(22, 25);
             this.Text_Stat2.TabIndex = 0;
+            this.Text_Stat2.TextChanged += new System.EventHandler(this.Text_Stat2_TextChanged);
             // 
             // Text_Stat3
             // 
@@ -89,6 +93,7 @@
             this.Text_Stat3.Name = "Text_Stat3";
             this.Text_Stat3.Size = new System.Drawing.Size(22, 25);
             this.Text_Stat3.TabIndex = 0;
+            this.Text_Stat3.TextChanged += new System.EventHandler(this.Text_Stat3_TextChanged);
             // 
             // label2
             // 
@@ -127,9 +132,9 @@
             // 
             // Panel_Health
             // 
-            this.Panel_Health.Controls.Add(this.Text_MaxHealth);
-            this.Panel_Health.Controls.Add(this.label3);
             this.Panel_Health.Controls.Add(this.Text_CurrentHealth);
+            this.Panel_Health.Controls.Add(this.label3);
+            this.Panel_Health.Controls.Add(this.Text_MaxHealth);
             this.Panel_Health.Location = new System.Drawing.Point(278, 3);
             this.Panel_Health.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.Panel_Health.Name = "Panel_Health";
@@ -138,11 +143,12 @@
             // 
             // Text_MaxHealth
             // 
-            this.Text_MaxHealth.Location = new System.Drawing.Point(0, 0);
+            this.Text_MaxHealth.Location = new System.Drawing.Point(164, 0);
             this.Text_MaxHealth.Margin = new System.Windows.Forms.Padding(0);
             this.Text_MaxHealth.Name = "Text_MaxHealth";
             this.Text_MaxHealth.Size = new System.Drawing.Size(145, 25);
             this.Text_MaxHealth.TabIndex = 2;
+            this.Text_MaxHealth.TextChanged += new System.EventHandler(this.Text_MaxHealth_TextChanged);
             // 
             // label3
             // 
@@ -155,11 +161,12 @@
             // 
             // Text_CurrentHealth
             // 
-            this.Text_CurrentHealth.Location = new System.Drawing.Point(164, 0);
+            this.Text_CurrentHealth.Location = new System.Drawing.Point(0, 0);
             this.Text_CurrentHealth.Margin = new System.Windows.Forms.Padding(0);
             this.Text_CurrentHealth.Name = "Text_CurrentHealth";
             this.Text_CurrentHealth.Size = new System.Drawing.Size(145, 25);
             this.Text_CurrentHealth.TabIndex = 3;
+            this.Text_CurrentHealth.TextChanged += new System.EventHandler(this.Text_CurrentHealth_TextChanged);
             // 
             // PlayerItem
             // 

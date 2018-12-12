@@ -76,6 +76,7 @@
             this.Button_Previous.TabIndex = 2;
             this.Button_Previous.Text = "Previous";
             this.Button_Previous.UseVisualStyleBackColor = true;
+            this.Button_Previous.Click += new System.EventHandler(this.Button_Previous_Click);
             // 
             // Flow_ButtonBox
             // 

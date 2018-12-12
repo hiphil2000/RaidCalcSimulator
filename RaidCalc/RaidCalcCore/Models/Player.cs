@@ -38,7 +38,7 @@ namespace RaidCalcCore.Models
             CommonSkills = new List<ISkillBase>();
         }
 
-        public Player(string name, Stats stat, double maxHp, double currentHp, double harmConst, int posX, int posY)
+        public Player(string name, Stats stat, double maxHp, double currentHp, double harmConst, int posX, int posY) : this()
         {
             Name = name;
             Stat = stat;

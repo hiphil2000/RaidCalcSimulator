@@ -66,6 +66,7 @@ namespace RaidCalc.Views
                 SetVisibleMode();
             }
         }
+        private bool _isBoss;
 
         private void SetVisibleMode()
         {
@@ -79,9 +80,13 @@ namespace RaidCalc.Views
                 
         }
 
-        private bool _isBoss;
 
         public string Player_Name { get { return Text_Name.Text; } set { Text_Name.Text = value; } }
+        public int Player_Stat1 { get { return int.Parse(Text_Stat1.Text); } set { Text_Stat1.Text = value.ToString(); } }
+        public int Player_Stat2 { get { return int.Parse(Text_Stat2.Text); } set { Text_Stat2.Text = value.ToString(); } }
+        public int Player_Stat3 { get { return int.Parse(Text_Stat3.Text); } set { Text_Stat3.Text = value.ToString(); } }
+        public double Player_CurrentHealth { get { return double.Parse(Text_CurrentHealth.Text); } set { Text_CurrentHealth.Text = value.ToString(); } }
+        public double Player_MaxHealth { get { return double.Parse(Text_MaxHealth.Text); } set { Text_MaxHealth.Text = value.ToString(); } }
 
         public List<ISkillBase> CommonSkills;
         public ISkillBase UltimateSkill;
@@ -175,6 +180,42 @@ namespace RaidCalc.Views
                 -1,
                 -1)
             { CommonSkills = CommonSkills, UltimateSkill = UltimateSkill };
+        }
+
+        private void Text_Name_Leave(object sender, EventArgs e)
+        {
+            Name = Text_Name.Name;
+
+        }
+
+        private void Text_Name_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Text_Stat1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Text_Stat2_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Text_Stat3_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Text_MaxHealth_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Text_CurrentHealth_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

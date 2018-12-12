@@ -30,6 +30,11 @@ namespace RaidCalcCore.Game
             Turn++;
         }
 
+        private void PreviousTurn()
+        {
+            Turn--;
+        }
+
         public void SetPlayerList(List<Player> players)
         {
             PlayerList = players;
@@ -60,7 +65,13 @@ namespace RaidCalcCore.Game
         public string NextPhase()
         {
             NextTurn();
-            return ((GameFlow)Turn).ToString().Replace("2", "");
+            var pageName = ((GameFlow)Turn).ToString();
+            if (pageName.Equals("PlayerAction"))
+                return "BossCommand";
+            else if (pageName.Equals("PlayerAction2"))
+                return "BossAction";
+            else
+                return pageName.Replace("2", "");
         }
 
         public void InitializeSkillset()
@@ -126,6 +137,11 @@ namespace RaidCalcCore.Game
             });
             SkillList.Add(bs);
             #endregion // ------------------BasicSkills--------------------
+        }
+
+        public string PreviousPhase()
+        {
+            throw new NotImplementedException();
         }
 
         public List<ISkillBase> GetSkills()
