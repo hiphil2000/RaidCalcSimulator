@@ -33,7 +33,10 @@
             this.Button_Next = new System.Windows.Forms.Button();
             this.Button_Previous = new System.Windows.Forms.Button();
             this.Flow_ButtonBox = new System.Windows.Forms.FlowLayoutPanel();
+            this.Flow_ToolBox = new System.Windows.Forms.FlowLayoutPanel();
+            this.Button_Log = new System.Windows.Forms.Button();
             this.Flow_ButtonBox.SuspendLayout();
+            this.Flow_ToolBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // Lab_Title
@@ -69,6 +72,7 @@
             // 
             // Button_Previous
             // 
+            this.Button_Previous.Enabled = false;
             this.Button_Previous.Location = new System.Drawing.Point(4, 4);
             this.Button_Previous.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Button_Previous.Name = "Button_Previous";
@@ -88,11 +92,31 @@
             this.Flow_ButtonBox.Size = new System.Drawing.Size(163, 41);
             this.Flow_ButtonBox.TabIndex = 3;
             // 
+            // Flow_ToolBox
+            // 
+            this.Flow_ToolBox.Controls.Add(this.Button_Log);
+            this.Flow_ToolBox.Location = new System.Drawing.Point(12, 448);
+            this.Flow_ToolBox.Name = "Flow_ToolBox";
+            this.Flow_ToolBox.Size = new System.Drawing.Size(203, 41);
+            this.Flow_ToolBox.TabIndex = 4;
+            // 
+            // Button_Log
+            // 
+            this.Button_Log.Location = new System.Drawing.Point(3, 4);
+            this.Button_Log.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.Button_Log.Name = "Button_Log";
+            this.Button_Log.Size = new System.Drawing.Size(96, 33);
+            this.Button_Log.TabIndex = 2;
+            this.Button_Log.Text = "Show Logs";
+            this.Button_Log.UseVisualStyleBackColor = true;
+            this.Button_Log.Click += new System.EventHandler(this.Button_Log_Click);
+            // 
             // RaidCalcWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(633, 495);
+            this.Controls.Add(this.Flow_ToolBox);
             this.Controls.Add(this.Flow_ButtonBox);
             this.Controls.Add(this.Panel_MainFrame);
             this.Controls.Add(this.Lab_Title);
@@ -104,6 +128,7 @@
             this.Text = "RaidCalc";
             this.Load += new System.EventHandler(this.RaidCalc_Load);
             this.Flow_ButtonBox.ResumeLayout(false);
+            this.Flow_ToolBox.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -116,6 +141,8 @@
         private System.Windows.Forms.Button Button_Next;
         private System.Windows.Forms.Button Button_Previous;
         private System.Windows.Forms.FlowLayoutPanel Flow_ButtonBox;
+        private System.Windows.Forms.FlowLayoutPanel Flow_ToolBox;
+        private System.Windows.Forms.Button Button_Log;
     }
 }
 

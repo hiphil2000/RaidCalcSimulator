@@ -13,6 +13,8 @@ namespace RaidCalc.Views
     public partial class GridMap : UserControl
     {
         public Dictionary<string, Point> points = new Dictionary<string, Point>();
+        private Point HighlightPoint;
+
         Graphics graphics;
         Pen pen;
 
@@ -26,6 +28,7 @@ namespace RaidCalc.Views
 
         private void GridMap_Resize(object sender, EventArgs e)
         {
+            graphics = this.CreateGraphics();
             Height = Width;
             DrawGrid();
         }
@@ -33,6 +36,8 @@ namespace RaidCalc.Views
         public void DrawGrid()
         {
             DrawBackground();
+            DrawPoints();
+            DrawHighlights();
         }
         
         private void DrawBackground()
@@ -52,6 +57,36 @@ namespace RaidCalc.Views
             }
         }
 
+        private void DrawPoints()
+        {
+            if (graphics != null)
+            {
+                float gap = (float)this.Width / 21 - 0.04F;
+                foreach (var keyValuePair in points)
+                {
+                    var name = keyValuePair.Key;
+                    Point p = keyValuePair.Value;
+                    var posX = p.X;
+                    var posY = p.Y;
+                    graphics.DrawEllipse(pen, posX * gap, posY * gap, gap, gap);
+                    graphics.DrawString(name, new Font("맑은 고딕", 10), new SolidBrush(Color.Black),
+                        new PointF(posX * gap, posY * gap - 15 < 0 ? posY * gap + 15 : posY * gap - 15));
+                }
+            }
+        }
+
+        private void DrawHighlights()
+        {
+            Console.WriteLine(HighlightPoint.ToString());
+            if (graphics != null && (HighlightPoint.X > -1 && HighlightPoint.Y > -1))
+            {
+                float gap = (float)this.Width / 21 - 0.04F;
+                var posX = HighlightPoint.X;
+                var posY = HighlightPoint.Y;
+                graphics.FillRectangle(new SolidBrush(Color.FromArgb(180,Color.Yellow)), posX * gap, posY * gap, gap, gap);
+            }
+        }
+
         public void AddPoint(string name, Point p)
         {
             float gap = (float)this.Width / 21 - 0.04F;
@@ -67,6 +102,40 @@ namespace RaidCalc.Views
                 graphics.DrawEllipse(pen, posX * gap, posY * gap , gap, gap);
                 graphics.DrawString(name, new Font("맑은 고딕", 10), new SolidBrush(Color.Black),
                     new PointF(posX * gap, posY * gap - 15 < 0 ? posY * gap + 15 : posY * gap - 15));
+            }
+        }
+        
+        public void RemovePoint(string name)
+        {
+            points.Remove(name);
+        }
+
+        public Point ToGridLocation(Point p)
+        {
+            float gap = (float)this.Width / 21 - 0.04F;
+            int posX = (int)(p.X / gap);
+            int posY = (int)(p.Y / gap);
+            return new Point(posX, posY);
+        }
+
+        public void SetHighlight(Point p)
+        {
+            if (p.X < 0 || p.Y < 0)
+            {
+                if (HighlightPoint.Equals(new Point(-1, -1)) == false)
+                {
+                    HighlightPoint = new Point(-1, -1);
+                    DrawGrid();
+                }
+            }
+            else
+            {
+                var gridlocation = ToGridLocation(p);
+                if (HighlightPoint.Equals(gridlocation) == false)
+                {
+                    HighlightPoint = gridlocation;
+                    DrawGrid();
+                }
             }
         }
 

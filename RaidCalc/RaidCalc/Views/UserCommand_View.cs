@@ -40,14 +40,21 @@ namespace RaidCalc.Views
         #endregion
 
         #region Membmer Accessor
+        /// <summary>
+        /// 스킬셋 콤보박스에 접근하는 접근자입니다.
+        /// </summary>
         public string SkillsetName { get { return Combo_Skillset.SelectedItem.ToString(); } }
 
+        /// <summary>
+        /// 플레이어 선택(삭제/스킬확정)에 관련된 접근자입니다.
+        /// </summary>
         public bool IsPlayerEditing
         {
             set
             {
                 _IsPlayerEditing = value;
                 Button_PlayerAdd.Enabled = !_IsPlayerEditing;
+                // PlayerCounter 접근자에 접근해 PlayerAdd 버튼의 활성화 상태를 변경합니다.
                 if (value == false)
                     PlayerCounter = PlayerCounter;
                 Button_SetSkill.Enabled = !_IsPlayerEditing;
@@ -55,17 +62,25 @@ namespace RaidCalc.Views
                 {
                     pitem.IsSelected = false;
                     pitem.SelectiveMode = _IsPlayerEditing;
+                    if (_IsPlayerEditing == true)
+                        BindEventsAllChildren(pitem, PlayerSelected);
+                    else
+                        UnBindEventsAllChildren(pitem, PlayerSelected);
                 }
             }
         }
         private bool _IsPlayerEditing;
 
+        /// <summary>
+        /// 스킬 확정에 관련된 접근자입니다.
+        /// </summary>
         public bool IsSkillEditing
         {
             set
             {
                 _IsSkillEditing = value;
                 Button_PlayerAdd.Enabled = !_IsSkillEditing;
+                // PlayerCounter 접근자에 접근해 PlayerAdd 버튼의 활성화 상태를 변경합니다.
                 if (value == false)
                     PlayerCounter = PlayerCounter;
                 Button_PlayerDel.Enabled = !_IsSkillEditing;
@@ -73,7 +88,7 @@ namespace RaidCalc.Views
                 {
                     pitem.IsSelected = false;
                     pitem.SelectiveMode = _IsSkillEditing;
-                    if (_IsPlayerEditing == false)
+                    if (_IsSkillEditing == true)
                         BindEventsAllChildren(pitem, PlayerSelected);
                     else
                         UnBindEventsAllChildren(pitem, PlayerSelected);
@@ -87,6 +102,9 @@ namespace RaidCalc.Views
         }
         private bool _IsSkillEditing;
 
+        /// <summary>
+        /// 플레이어 카운터에 접근하는 접근자입니다.
+        /// </summary>
         public int PlayerCounter {
             get
             {
@@ -102,6 +120,9 @@ namespace RaidCalc.Views
             }
         }
 
+        /// <summary>
+        /// 현재 PlayerItem의 List를 구하는 접근자입니다.
+        /// </summary>
         public List<PlayerItem> PlayerItems
         {
             get
@@ -118,7 +139,7 @@ namespace RaidCalc.Views
         {
             List_SkillsetList.Controls.Clear();
             List_SkillsetList.Controls.AddRange(skills
-                .Select(x => new SkillItem(x.Type, x.Name, x.ForceConst, x.Cooltime, x.Description) { SelectiveMode = _IsSkillEditing })
+                .Select(x => new SkillItem(x.Type, x.Name, x.ForceConst, x.Cooltime, x.Description, x.SkillFunction) { SelectiveMode = _IsSkillEditing})
                 .ToArray<Control>());
         }
 
@@ -126,6 +147,7 @@ namespace RaidCalc.Views
         {
             PlayerItem pitem = new PlayerItem(player);
             pitem.Name = player.Name;
+            pitem.Width = Flow_PlayerList.Width - 6;
             Flow_PlayerList.Controls.Add(pitem);
         }
 

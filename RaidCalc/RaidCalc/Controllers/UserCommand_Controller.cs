@@ -59,31 +59,74 @@ namespace RaidCalc.Controllers
             UserCommand_View view = View as UserCommand_View;
             if (IsDeleting == true)
             {
-                view.DeletePlayers(_SelectedPlayers);
+                var names = " ";
+                List<Player> players = new List<Player>();
+                foreach (string name in _SelectedPlayers)
+                {
+                    players.Add(_PlayerList.First(x => x.Name.Equals(name)));
+                    names += name + ", ";
+                }
+                names = names.Equals(" ") ? "선택 없음" : names;
+                if (MessageBox.Show($"선택한 플레이어들을 삭제하시겠습니까?\r\n[{names}]","삭제", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    view.DeletePlayers(_SelectedPlayers);
+                    foreach (Player p in players)
+                    {
+                        _PlayerList.Remove(p);
+                    }
+
+                }
             }
             IsDeleting = !IsDeleting;
             view.IsPlayerEditing = IsDeleting;
+            view.PlayerCounter = _PlayerList.Count;
+            _SelectedPlayers.Clear();
         }
 
         public void PlayerClicked(string name)
         {
             UserCommand_View view = View as UserCommand_View;
-            if (IsSkillSelecting)
+            if (IsSkillSelecting == true)
             {
-                SetPlayerSkill(view.GetSelectedSkills());
-                view.ClearSkillSelection();
-                view.ClearPlayerSelection(name);
-                _SelectedPlayers.Clear();
-            }
-            if (_SelectedPlayers.Contains(name) == true)
-            {
-                _SelectedPlayers.Remove(name);
-            }
-            else
-            {
-                _SelectedPlayers.Add(name);
+                if (_SelectedPlayers.Count < 1)
+                {
+                    _SelectedPlayers.Add(name);
+                }
+                else
+                {
+                    var skillList = view.GetSelectedSkills();
+                    string skills = " ";
+                    foreach (ISkillBase sname in skillList)
+                    {
+                        skills += sname.Name + ", ";
+                    }
+                    if (MessageBox.Show($"{_SelectedPlayers[0]}의 스킬을 확정하시겠습니까?\r\n[{skills}]",
+                        "확정", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    {
+                        SetPlayerSkill(view.GetSelectedSkills());
+                        view.ClearSkillSelection();
+                        if (_SelectedPlayers.Contains(name) == true)
+                        {
+                            view.ClearPlayerSelection("");
+                            _SelectedPlayers.Clear();
+                        }
+                        else
+                        {
+                            view.ClearPlayerSelection(name);
+                            _SelectedPlayers.Clear();
+                            _SelectedPlayers.Add(name);
+                        }
+                    }
+                }
                 if (_SelectedPlayers.Count > 0)
                     HighlightSkills();
+            }
+            else if (IsDeleting == true)
+            {
+                if (_SelectedPlayers.Contains(name) == false)
+                {
+                    _SelectedPlayers.Add(name);
+                }
             }
         }
 
@@ -99,10 +142,20 @@ namespace RaidCalc.Controllers
             UserCommand_View view = View as UserCommand_View;
             if (IsSkillSelecting == true)
             {
-                SetPlayerSkill(view.GetSelectedSkills());
+                var skillList = view.GetSelectedSkills();
+                string skills = " ";
+                foreach (ISkillBase sname in skillList)
+                {
+                    skills += sname.Name + ", ";
+                }
+                if (_SelectedPlayers.Count > 0)
+                if (MessageBox.Show($"{_SelectedPlayers[0]}의 스킬을 확정하시겠습니까?\r\n[{skills}]",
+                        "확정", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    SetPlayerSkill(view.GetSelectedSkills());
             }
             IsSkillSelecting = !IsSkillSelecting;
             view.IsSkillEditing = IsSkillSelecting;
+            _SelectedPlayers.Clear();
         }
 
         private void SetPlayerSkill(List<ISkillBase> skills)

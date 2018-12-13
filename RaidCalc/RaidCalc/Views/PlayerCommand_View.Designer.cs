@@ -29,53 +29,22 @@
         private void InitializeComponent()
         {
             this.Lab_GridMap = new System.Windows.Forms.Label();
-            this.Grid_GridMap = new RaidCalc.Views.GridMap();
-            this.Button_PlayerDel = new System.Windows.Forms.Button();
-            this.Button_PlayerAdd = new System.Windows.Forms.Button();
             this.Lab_PlayerCounter = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.Flow_PlayerList = new System.Windows.Forms.FlowLayoutPanel();
+            this.Grid_GridMap = new RaidCalc.Views.GridMap();
             this.SuspendLayout();
             // 
             // Lab_GridMap
             // 
             this.Lab_GridMap.AutoSize = true;
-            this.Lab_GridMap.Location = new System.Drawing.Point(895, 89);
+            this.Lab_GridMap.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Lab_GridMap.Location = new System.Drawing.Point(1089, 91);
             this.Lab_GridMap.Name = "Lab_GridMap";
-            this.Lab_GridMap.Size = new System.Drawing.Size(65, 17);
+            this.Lab_GridMap.Size = new System.Drawing.Size(80, 21);
             this.Lab_GridMap.TabIndex = 101;
             this.Lab_GridMap.Text = "상황 입력";
-            // 
-            // Grid_GridMap
-            // 
-            this.Grid_GridMap.BackColor = System.Drawing.Color.Gray;
-            this.Grid_GridMap.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.Grid_GridMap.Location = new System.Drawing.Point(653, 116);
-            this.Grid_GridMap.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.Grid_GridMap.Name = "Grid_GridMap";
-            this.Grid_GridMap.Size = new System.Drawing.Size(510, 510);
-            this.Grid_GridMap.TabIndex = 103;
-            this.Grid_GridMap.Click += new System.EventHandler(this.Grid_GridMap_Click);
-            this.Grid_GridMap.Paint += new System.Windows.Forms.PaintEventHandler(this.gridMap1_Load);
-            this.Grid_GridMap.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Grid_GridMap_MouseClick);
-            // 
-            // Button_PlayerDel
-            // 
-            this.Button_PlayerDel.Location = new System.Drawing.Point(426, 89);
-            this.Button_PlayerDel.Name = "Button_PlayerDel";
-            this.Button_PlayerDel.Size = new System.Drawing.Size(102, 23);
-            this.Button_PlayerDel.TabIndex = 107;
-            this.Button_PlayerDel.Text = "플레이어 제거";
-            this.Button_PlayerDel.UseVisualStyleBackColor = true;
-            // 
-            // Button_PlayerAdd
-            // 
-            this.Button_PlayerAdd.Location = new System.Drawing.Point(534, 90);
-            this.Button_PlayerAdd.Name = "Button_PlayerAdd";
-            this.Button_PlayerAdd.Size = new System.Drawing.Size(102, 23);
-            this.Button_PlayerAdd.TabIndex = 108;
-            this.Button_PlayerAdd.Text = "플레이어 추가";
-            this.Button_PlayerAdd.UseVisualStyleBackColor = true;
+            this.Lab_GridMap.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // Lab_PlayerCounter
             // 
@@ -102,16 +71,28 @@
             this.Flow_PlayerList.AutoScroll = true;
             this.Flow_PlayerList.Location = new System.Drawing.Point(3, 116);
             this.Flow_PlayerList.Name = "Flow_PlayerList";
-            this.Flow_PlayerList.Size = new System.Drawing.Size(644, 510);
+            this.Flow_PlayerList.Size = new System.Drawing.Size(778, 653);
             this.Flow_PlayerList.TabIndex = 104;
+            // 
+            // Grid_GridMap
+            // 
+            this.Grid_GridMap.BackColor = System.Drawing.Color.Gray;
+            this.Grid_GridMap.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.Grid_GridMap.Location = new System.Drawing.Point(787, 116);
+            this.Grid_GridMap.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.Grid_GridMap.Name = "Grid_GridMap";
+            this.Grid_GridMap.Size = new System.Drawing.Size(653, 653);
+            this.Grid_GridMap.TabIndex = 103;
+            this.Grid_GridMap.Paint += new System.Windows.Forms.PaintEventHandler(this.Grid_GridMap_Paint);
+            this.Grid_GridMap.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Grid_GridMap_MouseClick);
+            this.Grid_GridMap.MouseLeave += new System.EventHandler(this.Grid_GridMap_MouseLeave);
+            this.Grid_GridMap.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Grid_GridMap_MouseMove_1);
             // 
             // PlayerCommand_View
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.Controls.Add(this.Button_PlayerDel);
-            this.Controls.Add(this.Button_PlayerAdd);
             this.Controls.Add(this.Lab_PlayerCounter);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.Flow_PlayerList);
@@ -120,8 +101,9 @@
             this.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "PlayerCommand_View";
-            this.Size = new System.Drawing.Size(1166, 633);
+            this.Size = new System.Drawing.Size(1443, 774);
             this.Load += new System.EventHandler(this.PlayerCommand_View_Load);
+            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.PlayerCommand_View_MouseMove);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -130,8 +112,6 @@
         #endregion
         private System.Windows.Forms.Label Lab_GridMap;
         private GridMap Grid_GridMap;
-        private System.Windows.Forms.Button Button_PlayerDel;
-        private System.Windows.Forms.Button Button_PlayerAdd;
         private System.Windows.Forms.Label Lab_PlayerCounter;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.FlowLayoutPanel Flow_PlayerList;

@@ -8,6 +8,7 @@ namespace RaidCalcCore.Models
     {
         Player SourcePlayer { get; set; }
         Player DestinationPlayer { get; set; }
+        object SkillObject { get; set; }
         ISkillBase UsedSkill { get; set; }
     }
 }

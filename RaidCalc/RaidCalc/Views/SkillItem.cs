@@ -43,9 +43,9 @@ namespace RaidCalc.Views
                 Panel_Selected.BackColor = Color.Transparent;
         }
 
-        public SkillItem(SkillType type, string name, double skillConst, int cooltime, string description) : this()
+        public SkillItem(SkillType type, string name, double skillConst, int cooltime, string description, Func<IPlayer, IPlayer, object, bool> skillFunction) : this()
         {
-            Skill = new BasicSkill() { Type = type, Name = name, ForceConst = skillConst, Cooltime = cooltime, Description = description };
+            Skill = new BasicSkill() { Type = type, Name = name, ForceConst = skillConst, Cooltime = cooltime, Description = description, SkillFunction = skillFunction };
 
             Lab_Description.Text = Skill.Description;
             string result = Skill.Cooltime < 0 ? "패시브" : Skill.Cooltime.ToString() + "턴";

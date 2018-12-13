@@ -54,6 +54,17 @@ namespace RaidCalc.Views
             Text_MaxHealth.Enabled = _readonly;
         }
 
+        public bool SkillsVisible
+        {
+            get { return _SkillsVisible; }
+            set
+            {
+                _SkillsVisible = value;
+                Combo_Skills.Visible = _SkillsVisible;
+            }
+        }
+        private bool _SkillsVisible;
+
         public bool IsBoss
         {
             get
@@ -80,13 +91,13 @@ namespace RaidCalc.Views
                 
         }
 
-
         public string Player_Name { get { return Text_Name.Text; } set { Text_Name.Text = value; } }
         public int Player_Stat1 { get { return int.Parse(Text_Stat1.Text); } set { Text_Stat1.Text = value.ToString(); } }
         public int Player_Stat2 { get { return int.Parse(Text_Stat2.Text); } set { Text_Stat2.Text = value.ToString(); } }
         public int Player_Stat3 { get { return int.Parse(Text_Stat3.Text); } set { Text_Stat3.Text = value.ToString(); } }
         public double Player_CurrentHealth { get { return double.Parse(Text_CurrentHealth.Text); } set { Text_CurrentHealth.Text = value.ToString(); } }
         public double Player_MaxHealth { get { return double.Parse(Text_MaxHealth.Text); } set { Text_MaxHealth.Text = value.ToString(); } }
+        public ComboBox Player_Skills { get { return Combo_Skills; } }
 
         public List<ISkillBase> CommonSkills;
         public ISkillBase UltimateSkill;
@@ -99,7 +110,7 @@ namespace RaidCalc.Views
             Text_Stat3.Click += PlayerItem_Click;
             Text_CurrentHealth.Click += PlayerItem_Click;
             Text_MaxHealth.Click += PlayerItem_Click;
-
+            SkillsVisible = false;
             CommonSkills = new List<ISkillBase>();
         }
 
@@ -111,6 +122,8 @@ namespace RaidCalc.Views
             Text_Stat3.Text = player.Stat.Stat3.ToString();
             Text_CurrentHealth.Text = player.CurrentHp.ToString();
             Text_MaxHealth.Text = player.MaxHp.ToString();
+            Combo_Skills.Items.AddRange(player.CommonSkills.Select(x => x.Name).ToArray());
+            //Combo_Skills.Items.Add(player.UltimateSkill.Name);
         }
 
         public void SetSelectiveMode()
@@ -184,8 +197,7 @@ namespace RaidCalc.Views
 
         private void Text_Name_Leave(object sender, EventArgs e)
         {
-            Name = Text_Name.Name;
-
+            Name = Text_Name.Text;
         }
 
         private void Text_Name_TextChanged(object sender, EventArgs e)

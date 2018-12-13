@@ -8,19 +8,48 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using RaidCalc.Interfaces;
+using RaidCalcCore.Models;
 
 namespace RaidCalc.Views
 {
     public partial class BossCommand_View : UserControl, IView
     {
+        #region Class Members
         public IController Controller { get; set; }
         public string ViewName { get; set; }
+        #endregion
 
+        #region Constructor
         public BossCommand_View()
         {
             InitializeComponent();
             ViewName = "BossCommand";
         }
+        #endregion
+
+        #region Member Accessor
+        public int PlayerCounter
+        {
+            get
+            {
+                return int.Parse(Lab_PlayerCounter.Text.Substring(1, 2));
+            }
+            set
+            {
+                Lab_PlayerCounter.Text = $"({value.ToString("00")}/24)";
+            }
+        }
+
+        public GridMap GridItem
+        {
+            get
+            {
+                return Grid_GridMap;
+            }
+        }
+        #endregion
+
+        #region ClassMethods
         public void SetController(IController controller)
         {
             Controller = controller;
@@ -31,24 +60,82 @@ namespace RaidCalc.Views
             throw new NotImplementedException();
         }
 
-        private void gridMap1_Load(object sender, PaintEventArgs e)
+        public void AddPlayer(Player player)
+        {
+            PlayerItem pitem = new PlayerItem(player);
+            pitem.Name = player.Name;
+            pitem.SelectiveMode = true;
+            pitem.SkillsVisible = false;
+            pitem.Width = Flow_PlayerList.Width - 6;
+            Flow_PlayerList.Controls.Add(pitem);
+            // BindEventsAllChildren(pitem, PlayerSelected);
+        }
+        #endregion
+
+        #region Event Handlers
+
+        private void Grid_GridMap_MouseMove(object sender, MouseEventArgs e)
+        {
+            Grid_GridMap.SetHighlight(e.Location);
+        }
+
+        private void Grid_GridMap_MouseLeave(object sender, EventArgs e)
+        {
+            Grid_GridMap.SetHighlight(new Point(-1, -1));
+        }
+        private void Grid_GridMap_Paint(object sender, PaintEventArgs e)
         {
             Grid_GridMap.DrawGrid();
-            Dictionary<string, Point> dic = new Dictionary<string, Point>();
-            dic.Add("n1", new Point(1, 2));
-            dic.Add("n2", new Point(1, 3));
-            Grid_GridMap.AddPoints(dic);
-
         }
+        #endregion
 
-        private void Grid_GridMap_Click(object sender, EventArgs e)
+        private PlayerItem GetParentPlayerItem(Control contrl)
         {
+            if ((contrl.Parent as PlayerItem) == null)
+            {
+                return GetParentPlayerItem(contrl.Parent);
+            }
+            else
+            {
+                return contrl.Parent as PlayerItem;
+            }
         }
 
-        private void Grid_GridMap_MouseClick(object sender, MouseEventArgs e)
+        private Control BindEventsAllChildren(Control control, EventHandler e)
         {
-            Grid_GridMap.AddPoint(new Random().NextDouble().ToString(), e.Location);
-            Console.WriteLine(e.Location);
+            if (control != null)
+            {
+                foreach (Control child in control.Controls)
+                {
+                    if (child.Name.Equals("Combo_Skills") == false)
+                        child.Click += e;
+                    BindEventsAllChildren(child, e);
+                }
+                return null;
+            }
+            else
+            {
+                return null;
+            }
         }
+
+        private Control UnBindEventsAllChildren(Control control, EventHandler e)
+        {
+            if (control != null)
+            {
+                control.Click -= e;
+                foreach (Control child in control.Controls)
+                {
+                    child.Click -= e;
+                    UnBindEventsAllChildren(child, e);
+                }
+                return null;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
     }
 }

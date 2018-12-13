@@ -37,9 +37,10 @@
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.Panel_Stat = new System.Windows.Forms.Panel();
             this.Panel_Health = new System.Windows.Forms.FlowLayoutPanel();
-            this.Text_MaxHealth = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
             this.Text_CurrentHealth = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.Text_MaxHealth = new System.Windows.Forms.TextBox();
+            this.Combo_Skills = new System.Windows.Forms.ComboBox();
             this.flowLayoutPanel1.SuspendLayout();
             this.Panel_Stat.SuspendLayout();
             this.Panel_Health.SuspendLayout();
@@ -62,7 +63,7 @@
             this.Text_Stat1.MaxLength = 1;
             this.Text_Stat1.Name = "Text_Stat1";
             this.Text_Stat1.Size = new System.Drawing.Size(22, 25);
-            this.Text_Stat1.TabIndex = 0;
+            this.Text_Stat1.TabIndex = 1;
             this.Text_Stat1.TextChanged += new System.EventHandler(this.Text_Stat1_TextChanged);
             // 
             // label1
@@ -82,7 +83,7 @@
             this.Text_Stat2.MaxLength = 1;
             this.Text_Stat2.Name = "Text_Stat2";
             this.Text_Stat2.Size = new System.Drawing.Size(22, 25);
-            this.Text_Stat2.TabIndex = 0;
+            this.Text_Stat2.TabIndex = 2;
             this.Text_Stat2.TextChanged += new System.EventHandler(this.Text_Stat2_TextChanged);
             // 
             // Text_Stat3
@@ -92,7 +93,7 @@
             this.Text_Stat3.MaxLength = 1;
             this.Text_Stat3.Name = "Text_Stat3";
             this.Text_Stat3.Size = new System.Drawing.Size(22, 25);
-            this.Text_Stat3.TabIndex = 0;
+            this.Text_Stat3.TabIndex = 3;
             this.Text_Stat3.TextChanged += new System.EventHandler(this.Text_Stat3_TextChanged);
             // 
             // label2
@@ -110,11 +111,12 @@
             this.flowLayoutPanel1.Controls.Add(this.Text_Name);
             this.flowLayoutPanel1.Controls.Add(this.Panel_Stat);
             this.flowLayoutPanel1.Controls.Add(this.Panel_Health);
+            this.flowLayoutPanel1.Controls.Add(this.Combo_Skills);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Padding = new System.Windows.Forms.Padding(3);
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(594, 31);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(761, 31);
             this.flowLayoutPanel1.TabIndex = 2;
             // 
             // Panel_Stat
@@ -141,14 +143,14 @@
             this.Panel_Health.Size = new System.Drawing.Size(309, 25);
             this.Panel_Health.TabIndex = 4;
             // 
-            // Text_MaxHealth
+            // Text_CurrentHealth
             // 
-            this.Text_MaxHealth.Location = new System.Drawing.Point(164, 0);
-            this.Text_MaxHealth.Margin = new System.Windows.Forms.Padding(0);
-            this.Text_MaxHealth.Name = "Text_MaxHealth";
-            this.Text_MaxHealth.Size = new System.Drawing.Size(145, 25);
-            this.Text_MaxHealth.TabIndex = 2;
-            this.Text_MaxHealth.TextChanged += new System.EventHandler(this.Text_MaxHealth_TextChanged);
+            this.Text_CurrentHealth.Location = new System.Drawing.Point(0, 0);
+            this.Text_CurrentHealth.Margin = new System.Windows.Forms.Padding(0);
+            this.Text_CurrentHealth.Name = "Text_CurrentHealth";
+            this.Text_CurrentHealth.Size = new System.Drawing.Size(145, 25);
+            this.Text_CurrentHealth.TabIndex = 4;
+            this.Text_CurrentHealth.TextChanged += new System.EventHandler(this.Text_CurrentHealth_TextChanged);
             // 
             // label3
             // 
@@ -159,14 +161,24 @@
             this.label3.Text = "/";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // Text_CurrentHealth
+            // Text_MaxHealth
             // 
-            this.Text_CurrentHealth.Location = new System.Drawing.Point(0, 0);
-            this.Text_CurrentHealth.Margin = new System.Windows.Forms.Padding(0);
-            this.Text_CurrentHealth.Name = "Text_CurrentHealth";
-            this.Text_CurrentHealth.Size = new System.Drawing.Size(145, 25);
-            this.Text_CurrentHealth.TabIndex = 3;
-            this.Text_CurrentHealth.TextChanged += new System.EventHandler(this.Text_CurrentHealth_TextChanged);
+            this.Text_MaxHealth.Location = new System.Drawing.Point(164, 0);
+            this.Text_MaxHealth.Margin = new System.Windows.Forms.Padding(0);
+            this.Text_MaxHealth.Name = "Text_MaxHealth";
+            this.Text_MaxHealth.Size = new System.Drawing.Size(145, 25);
+            this.Text_MaxHealth.TabIndex = 5;
+            this.Text_MaxHealth.TextChanged += new System.EventHandler(this.Text_MaxHealth_TextChanged);
+            // 
+            // Combo_Skills
+            // 
+            this.Combo_Skills.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.Combo_Skills.FormattingEnabled = true;
+            this.Combo_Skills.Location = new System.Drawing.Point(590, 3);
+            this.Combo_Skills.Margin = new System.Windows.Forms.Padding(0);
+            this.Combo_Skills.Name = "Combo_Skills";
+            this.Combo_Skills.Size = new System.Drawing.Size(165, 25);
+            this.Combo_Skills.TabIndex = 6;
             // 
             // PlayerItem
             // 
@@ -177,7 +189,7 @@
             this.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "PlayerItem";
-            this.Size = new System.Drawing.Size(594, 31);
+            this.Size = new System.Drawing.Size(761, 31);
             this.Click += new System.EventHandler(this.PlayerItem_Click);
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel1.PerformLayout();
@@ -203,5 +215,6 @@
         private System.Windows.Forms.TextBox Text_MaxHealth;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox Text_CurrentHealth;
+        private System.Windows.Forms.ComboBox Combo_Skills;
     }
 }

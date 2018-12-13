@@ -31,7 +31,7 @@ namespace RaidCalc
     {
         Dictionary<string, ViewController> Dic_ViewController;  // View와 Controller의 목록을 정의한 Dictionary
         Game Game;
-        private List<ISkillBase> _SkillList;
+        private Dictionary<string, ISkillBase> _SkillList;
 
         private ViewController _CurrentPage;
 
@@ -101,15 +101,23 @@ namespace RaidCalc
 
         public List<ISkillBase> GetSkillList()
         {
-            return _SkillList;
+            List<ISkillBase> skills = new List<ISkillBase>();
+            foreach (var item in _SkillList.Values)
+            {
+                skills.Add(item);
+            }
+            return skills;
+        }
+
+        public ISkillBase GetSkillByName(string name)
+        {
+            return _SkillList[name];
         }
 
         private void RaidCalc_Load(object sender, EventArgs e)
         {
 
         }
-
-        
 
         public void StartGame()
         {
@@ -124,15 +132,6 @@ namespace RaidCalc
             }
         }
 
-        public void Exit()
-        {
-            if (MessageBox.Show("정말 종료하시겠습니까?", "종료", MessageBoxButtons.YesNo) == DialogResult.Yes)
-            {
-                Application.Exit();
-            }
-        }
-
-
         public void SetPlayerList(List<Player> players)
         {
             Game.SetPlayerList(players);
@@ -141,6 +140,34 @@ namespace RaidCalc
         public List<Player> GetPlayerList()
         {
             return Game.GetPlayerList();
+        }
+
+        public void ExecuteQueue(List<ICommands> commands)
+        {
+            foreach (ICommands item in commands)
+            {
+                var sourcePlayer = item.SourcePlayer.Name;
+                var destPlayer = item.DestinationPlayer == null ? "자신 혹은 대상 없음" : item.DestinationPlayer.Name;
+                var skillName = item.UsedSkill.Name;
+                string message = $"[{DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss")}][Turn {Game.Turn}] [{sourcePlayer}] (이)가 [{destPlayer}] 에게 [{skillName}] (을)를 사용.";
+                Command com = item as Command;
+                com.Execute();
+                Console.WriteLine(message);
+                Game.WriteLog(message);
+            }
+        }
+
+        public void Exit()
+        {
+            if (MessageBox.Show("정말 종료하시겠습니까?", "종료", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                Application.Exit();
+            }
+        }
+
+        public string PrintLog()
+        {
+            return Game.PrintLog();
         }
 
         #region Event Handlers
@@ -163,7 +190,15 @@ namespace RaidCalc
                 Panel_MainFrame.Location.Y + Panel_MainFrame.Height + 6);
             Height = Panel_MainFrame.Height + 155;
             Width = Panel_MainFrame.Width + 40;
+            Flow_ToolBox.Location = new Point(Flow_ToolBox.Location.X, Flow_ButtonBox.Location.Y);
+        }
+
+        private void Button_Log_Click(object sender, EventArgs e)
+        {
+            var LogWindow = new RaidCalcLogWindow(this);
+            LogWindow.ShowDialog();
         }
         #endregion
+
     }
 }

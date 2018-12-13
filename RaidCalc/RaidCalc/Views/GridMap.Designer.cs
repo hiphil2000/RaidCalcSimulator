@@ -40,7 +40,7 @@
             this.Size = new System.Drawing.Size(441, 434);
             this.Resize += new System.EventHandler(this.GridMap_Resize);
             this.ResumeLayout(false);
-
+            this.DoubleBuffered = true;
         }
 
         #endregion
