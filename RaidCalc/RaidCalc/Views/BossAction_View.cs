@@ -50,5 +50,10 @@ namespace RaidCalc.Views
             Grid_GridMap.AddPoint(new Random().NextDouble().ToString(), e.Location);
             Console.WriteLine(e.Location);
         }
+
+        public void Clear()
+        {
+            Flow_PlayerList.Controls.Clear();
+        }
     }
 }

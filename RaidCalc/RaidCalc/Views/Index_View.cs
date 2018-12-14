@@ -41,5 +41,10 @@ namespace RaidCalc.Views
         {
             (Controller as Index_Controller).TryStartGame();
         }
+
+        public void Clear()
+        {
+            
+        }
     }
 }

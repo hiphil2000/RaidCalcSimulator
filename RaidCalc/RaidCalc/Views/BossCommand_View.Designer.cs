@@ -31,8 +31,10 @@
             this.Lab_PlayerCounter = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.Flow_PlayerList = new System.Windows.Forms.FlowLayoutPanel();
-            this.Grid_GridMap = new RaidCalc.Views.GridMap();
             this.Lab_GridMap = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.Grid_GridMap = new RaidCalc.Views.GridMap();
+            this.BossItem = new RaidCalc.Views.PlayerItem();
             this.SuspendLayout();
             // 
             // Lab_PlayerCounter
@@ -63,6 +65,25 @@
             this.Flow_PlayerList.Size = new System.Drawing.Size(644, 510);
             this.Flow_PlayerList.TabIndex = 109;
             // 
+            // Lab_GridMap
+            // 
+            this.Lab_GridMap.AutoSize = true;
+            this.Lab_GridMap.Location = new System.Drawing.Point(898, 90);
+            this.Lab_GridMap.Name = "Lab_GridMap";
+            this.Lab_GridMap.Size = new System.Drawing.Size(65, 17);
+            this.Lab_GridMap.TabIndex = 107;
+            this.Lab_GridMap.Text = "상황 입력";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label2.Location = new System.Drawing.Point(3, 11);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(39, 20);
+            this.label2.TabIndex = 113;
+            this.label2.Text = "보스";
+            // 
             // Grid_GridMap
             // 
             this.Grid_GridMap.BackColor = System.Drawing.Color.Gray;
@@ -73,23 +94,37 @@
             this.Grid_GridMap.Size = new System.Drawing.Size(507, 507);
             this.Grid_GridMap.TabIndex = 108;
             this.Grid_GridMap.Paint += new System.Windows.Forms.PaintEventHandler(this.Grid_GridMap_Paint);
+            this.Grid_GridMap.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Grid_GridMap_MouseClick);
             this.Grid_GridMap.MouseLeave += new System.EventHandler(this.Grid_GridMap_MouseLeave);
             this.Grid_GridMap.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Grid_GridMap_MouseMove);
             // 
-            // Lab_GridMap
+            // BossItem
             // 
-            this.Lab_GridMap.AutoSize = true;
-            this.Lab_GridMap.Location = new System.Drawing.Point(898, 90);
-            this.Lab_GridMap.Name = "Lab_GridMap";
-            this.Lab_GridMap.Size = new System.Drawing.Size(65, 17);
-            this.Lab_GridMap.TabIndex = 107;
-            this.Lab_GridMap.Text = "상황 입력";
+            this.BossItem.BackColor = System.Drawing.Color.White;
+            this.BossItem.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BossItem.IsBoss = false;
+            this.BossItem.IsSelected = false;
+            this.BossItem.Location = new System.Drawing.Point(6, 47);
+            this.BossItem.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.BossItem.Name = "BossItem";
+            this.BossItem.Player_CurrentHealth = 0D;
+            this.BossItem.Player_MaxHealth = 0D;
+            this.BossItem.Player_Name = "";
+            this.BossItem.Player_Stat1 = 0;
+            this.BossItem.Player_Stat2 = 0;
+            this.BossItem.Player_Stat3 = 0;
+            this.BossItem.Readonly = false;
+            this.BossItem.SelectiveMode = false;
+            this.BossItem.Size = new System.Drawing.Size(761, 31);
+            this.BossItem.SkillsVisible = false;
+            this.BossItem.TabIndex = 112;
             // 
             // BossCommand_View
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.Lab_PlayerCounter);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.Flow_PlayerList);
@@ -111,5 +146,7 @@
         private System.Windows.Forms.FlowLayoutPanel Flow_PlayerList;
         private GridMap Grid_GridMap;
         private System.Windows.Forms.Label Lab_GridMap;
+        private PlayerItem BossItem;
+        private System.Windows.Forms.Label label2;
     }
 }

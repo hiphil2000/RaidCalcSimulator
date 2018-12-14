@@ -38,7 +38,7 @@
             this.Button_SetSkill = new System.Windows.Forms.Button();
             this.Lab_PlayerCounter = new System.Windows.Forms.Label();
             this.List_SkillsetList = new System.Windows.Forms.FlowLayoutPanel();
-            this.playerItem1 = new RaidCalc.Views.PlayerItem();
+            this.BossItem = new RaidCalc.Views.PlayerItem();
             this.SuspendLayout();
             // 
             // Flow_PlayerList
@@ -143,19 +143,26 @@
             this.List_SkillsetList.TabIndex = 102;
             this.List_SkillsetList.WrapContents = false;
             // 
-            // playerItem1
+            // BossItem
             // 
-            this.playerItem1.BackColor = System.Drawing.Color.White;
-            this.playerItem1.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.playerItem1.IsBoss = true;
-            this.playerItem1.IsSelected = false;
-            this.playerItem1.Location = new System.Drawing.Point(7, 33);
-            this.playerItem1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.playerItem1.Name = "playerItem1";
-            this.playerItem1.Player_Name = "";
-            this.playerItem1.SelectiveMode = false;
-            this.playerItem1.Size = new System.Drawing.Size(594, 31);
-            this.playerItem1.TabIndex = 103;
+            this.BossItem.BackColor = System.Drawing.Color.White;
+            this.BossItem.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.BossItem.IsBoss = true;
+            this.BossItem.IsSelected = false;
+            this.BossItem.Location = new System.Drawing.Point(7, 33);
+            this.BossItem.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.BossItem.Name = "BossItem";
+            this.BossItem.Player_CurrentHealth = 0D;
+            this.BossItem.Player_MaxHealth = 0D;
+            this.BossItem.Player_Name = "";
+            this.BossItem.Player_Stat1 = 0;
+            this.BossItem.Player_Stat2 = 0;
+            this.BossItem.Player_Stat3 = 0;
+            this.BossItem.Readonly = false;
+            this.BossItem.SelectiveMode = false;
+            this.BossItem.Size = new System.Drawing.Size(594, 31);
+            this.BossItem.SkillsVisible = false;
+            this.BossItem.TabIndex = 103;
             // 
             // UserCommand_View
             // 
@@ -163,7 +170,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.White;
-            this.Controls.Add(this.playerItem1);
+            this.Controls.Add(this.BossItem);
             this.Controls.Add(this.List_SkillsetList);
             this.Controls.Add(this.Combo_Skillset);
             this.Controls.Add(this.Button_PlayerDel);
@@ -195,6 +202,6 @@
         private System.Windows.Forms.Button Button_SetSkill;
         private System.Windows.Forms.Label Lab_PlayerCounter;
         private System.Windows.Forms.FlowLayoutPanel List_SkillsetList;
-        private PlayerItem playerItem1;
+        private PlayerItem BossItem;
     }
 }

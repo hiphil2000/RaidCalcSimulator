@@ -29,5 +29,7 @@ namespace RaidCalc.Interfaces
         /// </summary>
         /// <param name="data">데이터 배열</param>
         void DrawData(object[] data);
+
+        void Clear();
     }
 }

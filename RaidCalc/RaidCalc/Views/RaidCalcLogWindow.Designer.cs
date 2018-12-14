@@ -74,10 +74,10 @@
             this.Button_Save.TabIndex = 2;
             this.Button_Save.Text = "Save As...";
             this.Button_Save.UseVisualStyleBackColor = true;
+            this.Button_Save.Click += new System.EventHandler(this.Button_Save_Click);
             // 
             // Button_Copy
             // 
-            this.Button_Copy.Enabled = false;
             this.Button_Copy.Location = new System.Drawing.Point(4, 4);
             this.Button_Copy.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Button_Copy.Name = "Button_Copy";
@@ -85,6 +85,7 @@
             this.Button_Copy.TabIndex = 2;
             this.Button_Copy.Text = "Copy";
             this.Button_Copy.UseVisualStyleBackColor = true;
+            this.Button_Copy.Click += new System.EventHandler(this.Button_Copy_Click);
             // 
             // RaidCalcLogWindow
             // 

@@ -46,12 +46,12 @@ namespace RaidCalc.Views
 
         private void SetReadonly()
         {
-            Text_Name.Enabled = _readonly;
-            Text_Stat1.Enabled = _readonly;
-            Text_Stat2.Enabled = _readonly;
-            Text_Stat3.Enabled = _readonly;
-            Text_CurrentHealth.Enabled = _readonly;
-            Text_MaxHealth.Enabled = _readonly;
+            Text_Name.Enabled = !_readonly;
+            Text_Stat1.Enabled = !_readonly;
+            Text_Stat2.Enabled = !_readonly;
+            Text_Stat3.Enabled = !_readonly;
+            Text_CurrentHealth.Enabled = !_readonly;
+            Text_MaxHealth.Enabled = !_readonly;
         }
 
         public bool SkillsVisible
@@ -79,6 +79,19 @@ namespace RaidCalc.Views
         }
         private bool _isBoss;
 
+        public object SelectedSkillName
+        {
+            get
+            {
+                return Combo_Skills.SelectedItem;
+            }
+        }
+
+        private void SetBackground(Color color)
+        {
+            this.BackColor = color;
+        }
+
         private void SetVisibleMode()
         {
             if (_isBoss)
@@ -91,12 +104,34 @@ namespace RaidCalc.Views
                 
         }
 
+        private int ParseInt(string text)
+        {
+            var temp = text;
+            if (string.IsNullOrEmpty(temp))
+            {
+                temp = "0";
+            }
+
+            return int.Parse(temp);
+        }
+
+        private double ParseDouble(string text)
+        {
+            var temp = text;
+            if (string.IsNullOrEmpty(temp))
+            {
+                temp = "0";
+            }
+
+            return double.Parse(temp);
+        }
+
         public string Player_Name { get { return Text_Name.Text; } set { Text_Name.Text = value; } }
-        public int Player_Stat1 { get { return int.Parse(Text_Stat1.Text); } set { Text_Stat1.Text = value.ToString(); } }
-        public int Player_Stat2 { get { return int.Parse(Text_Stat2.Text); } set { Text_Stat2.Text = value.ToString(); } }
-        public int Player_Stat3 { get { return int.Parse(Text_Stat3.Text); } set { Text_Stat3.Text = value.ToString(); } }
-        public double Player_CurrentHealth { get { return double.Parse(Text_CurrentHealth.Text); } set { Text_CurrentHealth.Text = value.ToString(); } }
-        public double Player_MaxHealth { get { return double.Parse(Text_MaxHealth.Text); } set { Text_MaxHealth.Text = value.ToString(); } }
+        public int Player_Stat1 { get { return ParseInt(Text_Stat1.Text); } set { Text_Stat1.Text = value.ToString(); } }
+        public int Player_Stat2 { get { return ParseInt(Text_Stat2.Text); } set { Text_Stat2.Text = value.ToString(); } }
+        public int Player_Stat3 { get { return ParseInt(Text_Stat3.Text); } set { Text_Stat3.Text = value.ToString(); } }
+        public double Player_CurrentHealth { get { return ParseDouble(Text_CurrentHealth.Text); } set { Text_CurrentHealth.Text = value.ToString(); } }
+        public double Player_MaxHealth { get { return ParseDouble(Text_MaxHealth.Text); } set { Text_MaxHealth.Text = value.ToString(); } }
         public ComboBox Player_Skills { get { return Combo_Skills; } }
 
         public List<ISkillBase> CommonSkills;
@@ -184,20 +219,15 @@ namespace RaidCalc.Views
             return new Player(
                 Text_Name.Text,
                 new Stats(
-                    double.Parse(Text_Stat1.Text),
-                    double.Parse(Text_Stat2.Text),
-                    double.Parse(Text_Stat3.Text)),
-                double.Parse(Text_MaxHealth.Text),
-                double.Parse(Text_CurrentHealth.Text),
+                    ParseDouble(Text_Stat1.Text),
+                    ParseDouble(Text_Stat2.Text),
+                    ParseDouble(Text_Stat3.Text)),
+                ParseDouble(Text_MaxHealth.Text),
+                ParseDouble(Text_CurrentHealth.Text),
                 1,
                 -1,
                 -1)
             { CommonSkills = CommonSkills, UltimateSkill = UltimateSkill };
-        }
-
-        private void Text_Name_Leave(object sender, EventArgs e)
-        {
-            Name = Text_Name.Text;
         }
 
         private void Text_Name_TextChanged(object sender, EventArgs e)

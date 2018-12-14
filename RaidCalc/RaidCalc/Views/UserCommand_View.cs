@@ -236,6 +236,11 @@ namespace RaidCalc.Views
         {
             (Controller as UserCommand_Controller).PlayerClicked(GetParentPlayerItem(sender as Control).Name);
         }
+
+        private void NameChanged(object sender, EventArgs e)
+        {
+
+        }
         #endregion
         
         private PlayerItem GetParentPlayerItem(Control contrl)
@@ -282,6 +287,11 @@ namespace RaidCalc.Views
             {
                 return null;
             }
+        }
+
+        public void Clear()
+        {
+            Flow_PlayerList.Controls.Clear();
         }
     }
 }

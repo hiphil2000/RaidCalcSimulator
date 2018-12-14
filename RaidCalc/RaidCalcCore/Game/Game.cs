@@ -8,7 +8,7 @@ namespace RaidCalcCore.Game
 {
     public enum GameFlow
     {
-        PlayerCommand = 1,
+        PlayerCommand = 0,
         PlayerAction,
         BossCommand,
         PlayerCommand2,
@@ -22,44 +22,30 @@ namespace RaidCalcCore.Game
         public bool IsGameStart { get; set; }
 
         private Queue<ICommands> CommandQueue = new Queue<ICommands>();
+        private Queue<ICommands> BossCommandQueue = new Queue<ICommands>();
         private List<Player> PlayerList = new List<Player>();
         private Dictionary<string, ISkillBase> SkillList;
+        private Dictionary<string, ISkillBase> BossSkillList;
         private Player Boss;
 
         private StringBuilder LogBuilder;
 
-        private void NextTurn()
-        {
-            Turn++;
-        }
-
-        private void PreviousTurn()
-        {
-            Turn--;
-        }
-
+        #region Initialization
         public void SetPlayerList(List<Player> players)
         {
             PlayerList = players;
         }
 
-        public List<Player> GetPlayerList()
-        {
-            return PlayerList;
-        }
+        #endregion
 
-        public void SetCommands()
-        {
-            throw new NotImplementedException();
-        }
-
+        #region Game Flow Control
         public void StartGame()
         {
             IsGameStart = true;
             PlayerList.Clear();
             CommandQueue.Clear();
             Boss = null;
-            Turn = -1;
+            Turn = -2;
             SkillList = new Dictionary<string, ISkillBase>();
             LogBuilder = new StringBuilder($"[{DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss")}] 게임 시작.");
             LogBuilder.AppendLine();
@@ -67,17 +53,125 @@ namespace RaidCalcCore.Game
             NextTurn();
         }
 
+        public void SetCommandQueue(List<ICommands> commands)
+        {
+            foreach (var item in commands)
+            {
+                CommandQueue.Enqueue(item);
+            }
+        }
+        public void SetBossCommandQueue(List<ICommands> commands)
+        {
+            foreach (var item in commands)
+            {
+                CommandQueue.Enqueue(item);
+            }
+        }
+
+        public void ExecuteCommandQueue()
+        {
+            while (CommandQueue.Count > 0)
+            {
+                var command = CommandQueue.Dequeue();
+
+                var sourcePlayer = command.SourcePlayer.Name;
+                var destPlayer = command.DestinationPlayer == null ? "자신 혹은 대상 없음" : command.DestinationPlayer.Name;
+                var skillName = command.UsedSkill.Name;
+                string message = $"[{sourcePlayer}] (이)가 [{destPlayer}] 에게 [{skillName}] (을)를 사용.";
+                Command com = command as Command;
+                com.Execute();
+                Console.WriteLine(message);
+                WriteLog(message);
+            }
+        }
+
+        public void ExecuteBossCommandQueue()
+        {
+            while (CommandQueue.Count > 0)
+            {
+                var command = CommandQueue.Dequeue();
+
+                var sourcePlayer = command.SourcePlayer.Name;
+                var destPlayer = command.DestinationPlayer == null ? "자신 혹은 대상 없음" : command.DestinationPlayer.Name;
+                var skillName = command.UsedSkill.Name;
+                string message = $"[{sourcePlayer}] (이)가 [{destPlayer}] 에게 [{skillName}] (을)를 사용.";
+                Command com = command as Command;
+                com.Execute();
+                Console.WriteLine(message);
+                WriteLog(message);
+            }
+        }
+
+        public void StartGame(object Args)
+        {
+            throw new NotImplementedException();
+        }
+        private void NextTurn()
+        {
+            Turn++;
+        }
+        private void PreviousTurn()
+        {
+            Turn--;
+        }
         public string NextPhase()
         {
             NextTurn();
-            var pageName = ((GameFlow)Turn).ToString();
-            if (pageName.Equals("PlayerAction"))
-                return "BossCommand";
-            else if (pageName.Equals("PlayerAction2"))
-                return "BossAction";
-            else
-                return pageName.Replace("2", "");
+            var pageName = ((GameFlow)(Turn % 6)).ToString();
+            return pageName.Replace("2", "");
         }
+        public string PreviousPhase()
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+
+        #region getter setter
+        public List<Player> GetPlayerList()
+        {
+            return PlayerList;
+        }
+        public Dictionary<string, ISkillBase> GetSkills()
+        {
+            return SkillList;
+        }
+
+        public Dictionary<string, ISkillBase> BossGetSkills()
+        {
+            return BossSkillList;
+        }
+
+        public void SetBoss(Player boss)
+        {
+            Boss = boss;
+        }
+        public Player GetBoss()
+        {
+            return Boss;
+        }
+        #endregion
+
+        #region Utils
+        #region Logs
+        public string PrintLog()
+        {
+            return LogBuilder.ToString();
+        }
+        public void WriteLog(string message)
+        {
+            LogBuilder.AppendLine($"[{DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss")}][Turn {Turn}] " + message);
+        }
+            #endregion
+
+        #endregion
+
+        public void SetCommands()
+        {
+            throw new NotImplementedException();
+        }
+
+
 
         public void InitializeSkillset()
         {
@@ -142,31 +236,16 @@ namespace RaidCalcCore.Game
             });
             SkillList.Add(bs.Name, bs);
             #endregion // ------------------BasicSkills--------------------
+            #region ------------------Boss Skills--------------------
+                #region 승리
+            
+                #endregion
+            #endregion
         }
 
-        public void WriteLog(string message)
-        {
-            LogBuilder.AppendLine(message);
-        }
 
-        public string PrintLog()
-        {
-            return LogBuilder.ToString();
-        }
 
-        public string PreviousPhase()
-        {
-            throw new NotImplementedException();
-        }
 
-        public Dictionary<string, ISkillBase> GetSkills()
-        {
-            return SkillList;
-        }
-        public void StartGame(object Args)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
 

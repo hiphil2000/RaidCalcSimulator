@@ -84,6 +84,7 @@ namespace RaidCalc
         {
             // 현재 페이지 변경
             _CurrentPage = Dic_ViewController[viewName];
+            _CurrentPage.View.Clear();
 
             // 메인프레임 비우고 현재 페이지로 교체
             Panel_MainFrame.Controls.Clear();
@@ -127,6 +128,7 @@ namespace RaidCalc
             {
                 MessageBox.Show("게임을 시작합니다.", "알림");
                 Game.StartGame();
+                Button_Log.Enabled = true;
                 _SkillList = Game.GetSkills();
                 ChangeView("UserCommand");
             }
@@ -135,6 +137,35 @@ namespace RaidCalc
         public void SetPlayerList(List<Player> players)
         {
             Game.SetPlayerList(players);
+            foreach (Player p in players)
+            {
+                string msg = $"플레이어 {p.Name}(이)가 로드됨. {{\"Name\": \"{p.Name}\", \"Stat\": \"{p.Stat.ToString()}\", \"HP\": \"{p.CurrentHp}/{p.MaxHp}\", \"CommonSkills\": [";
+                foreach (ISkillBase skill in p.CommonSkills)
+                {
+                    msg += $"\"{skill.Name}\", ";
+                }
+                msg = msg.Substring(0, msg.Length - 2);
+                msg += "]}";
+                Game.WriteLog(msg);
+            }
+        }
+
+        public void SetBoss(Player boss)
+        {
+            Game.SetBoss(boss);
+            string msg = $"보스 {boss.Name}(이)가 로드됨. {{\"Name\": \"{boss.Name}\", \"HP\": \"{boss.CurrentHp}/{boss.MaxHp}\", \"CommonSkills\": [";
+            foreach (ISkillBase skill in boss.CommonSkills)
+            {
+                msg += $"\"{skill.Name}\", ";
+            }
+            msg = msg.Substring(0, msg.Length - 2);
+            msg += "]}";
+            Game.WriteLog(msg);
+        }
+
+        public Player GetBoss()
+        {
+            return Game.GetBoss();
         }
 
         public List<Player> GetPlayerList()
@@ -142,19 +173,23 @@ namespace RaidCalc
             return Game.GetPlayerList();
         }
 
-        public void ExecuteQueue(List<ICommands> commands)
+        public void SetQueue(List<ICommands> commands)
         {
-            foreach (ICommands item in commands)
-            {
-                var sourcePlayer = item.SourcePlayer.Name;
-                var destPlayer = item.DestinationPlayer == null ? "자신 혹은 대상 없음" : item.DestinationPlayer.Name;
-                var skillName = item.UsedSkill.Name;
-                string message = $"[{DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss")}][Turn {Game.Turn}] [{sourcePlayer}] (이)가 [{destPlayer}] 에게 [{skillName}] (을)를 사용.";
-                Command com = item as Command;
-                com.Execute();
-                Console.WriteLine(message);
-                Game.WriteLog(message);
-            }
+            Game.SetCommandQueue(commands);
+        }
+
+        private void ExecuteQueue()
+        {
+            Game.ExecuteCommandQueue();
+        }
+        public void SetBossQueue(List<ICommands> commands)
+        {
+            Game.SetBossCommandQueue(commands);
+        }
+
+        private void ExecuteBossQueue()
+        {
+            Game.ExecuteBossCommandQueue();
         }
 
         public void Exit()
@@ -175,7 +210,21 @@ namespace RaidCalc
         {
             if (_CurrentPage.Controller.NextPage())
             {
-                ChangeView(Game.NextPhase());
+                var phaseText = Game.NextPhase();
+                if (phaseText.Equals("PlayerAction"))
+                {
+                    ExecuteQueue();
+                    ChangeView(Game.NextPhase());
+                }
+                else if(phaseText.Equals("BossAction"))
+                {
+                    ExecuteBossQueue();
+                    ChangeView(Game.NextPhase());
+                }
+                else
+                {
+                    ChangeView(phaseText);
+                }
             }
         }
 

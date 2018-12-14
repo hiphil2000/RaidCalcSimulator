@@ -100,6 +100,11 @@ namespace RaidCalc.Views
         {
             (Controller as PlayerCommand_Controller).PlayerClicked(GetParentPlayerItem(sender as Control).Name);
         }
+
+        public PlayerItem FindPlayerItemByName(string name)
+        {
+            return Flow_PlayerList.Controls.Cast<PlayerItem>().FirstOrDefault(x => x.Player_Name.Equals(name));
+        }
         #endregion
 
         #region Event Handlers
@@ -196,6 +201,11 @@ namespace RaidCalc.Views
             {
                 return null;
             }
+        }
+
+        public void Clear()
+        {
+            Flow_PlayerList.Controls.Clear();
         }
     }
 }

@@ -16,6 +16,7 @@ namespace RaidCalc.Controllers
         public IView View { get; set; }
         public RaidCalcWindow MainFrame { get; set; }
 
+        private Player _Boss;
         private List<Player> _PlayerList;
         private string _SelectedPlayerName;
 
@@ -63,6 +64,9 @@ namespace RaidCalc.Controllers
             if (p.PosX < 0 || p.PosY < 0)
             {
                 var moveSkill = p.CommonSkills.FirstOrDefault(x => x.Name.Equals("이동"));
+                if (moveSkill == null) {
+                    moveSkill = MainFrame.GetSkillByName("이동");
+                }
                 var gridPoint = view.GridItem.ToGridLocation(location);
                 if (_CommandQueue.FirstOrDefault(x => x.SourcePlayer.Name.Equals(p.Name)) != null)
                 {
@@ -86,11 +90,53 @@ namespace RaidCalc.Controllers
                 }
                 view.GridItem.DrawGrid();
             }
+            else
+            {
+                var pitem = view.FindPlayerItemByName(p.Name);
+                if (pitem.SelectedSkillName == null)
+                {
+                    MessageBox.Show($"{p.Name}의 스킬을 먼저 선택하십시오.", "실패");
+                    return;
+                }
+                var skill = MainFrame.GetSkillByName(pitem.SelectedSkillName.ToString());
+                var gridPoint = view.GridItem.ToGridLocation(location);
+                if (MessageBox.Show($"[{skill}](을)를 [{gridPoint.ToString()}]에 사용합니까?", "확인") == DialogResult.Yes)
+                {
+                    string message = "";
+                    DialogResult messageResult = DialogResult.No;
+                    try { var destination = view.GridItem.GetPlayerNameByPoint(gridPoint); }
+                    catch (Exception ex)
+                    {
+                        message += ex.Message;
+                    }
+                    if (message.Length > 0)
+                    {
+                        messageResult = MessageBox.Show($"{message} 그래도 진행합니까?", "경고");
+                    }
+                    if (message.Length <= 0 || messageResult == DialogResult.Yes)
+                    {
+                        Command command = new Command(p, null, view.GridItem.ToGridLocation(location), skill);
+                        _CommandQueue.Add(command);
+                        view.GridItem.AddPoint(_SelectedPlayerName, location);
+                    }
+                }
+            }
         }
 
         public void InitData()
         {
             AddPlayers(MainFrame.GetPlayerList());
+            SetBoss(MainFrame.GetBoss());
+        }
+
+        private void SetBoss(Player player)
+        {
+            PlayerCommand_View view = View as PlayerCommand_View;
+            _Boss = player;
+            PlayerItem pitem = view.Controls["BossItem"] as PlayerItem;
+            pitem.Player_Name = _Boss.Name;
+            pitem.Player_CurrentHealth = _Boss.CurrentHp;
+            pitem.Player_MaxHealth = _Boss.MaxHp;
         }
 
         public void AddPlayers(List<Player> players)
@@ -108,7 +154,7 @@ namespace RaidCalc.Controllers
         {
             if (Validation())
             {
-                MainFrame.ExecuteQueue(_CommandQueue);
+                MainFrame.SetQueue(_CommandQueue);
             }
             return true;
         }

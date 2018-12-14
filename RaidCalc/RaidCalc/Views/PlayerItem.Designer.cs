@@ -53,8 +53,6 @@
             this.Text_Name.Name = "Text_Name";
             this.Text_Name.Size = new System.Drawing.Size(168, 25);
             this.Text_Name.TabIndex = 0;
-            this.Text_Name.TextChanged += new System.EventHandler(this.Text_Name_TextChanged);
-            this.Text_Name.Leave += new System.EventHandler(this.Text_Name_Leave);
             // 
             // Text_Stat1
             // 

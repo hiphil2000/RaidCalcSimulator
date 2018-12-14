@@ -102,6 +102,7 @@
             // 
             // Button_Log
             // 
+            this.Button_Log.Enabled = false;
             this.Button_Log.Location = new System.Drawing.Point(3, 4);
             this.Button_Log.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Button_Log.Name = "Button_Log";

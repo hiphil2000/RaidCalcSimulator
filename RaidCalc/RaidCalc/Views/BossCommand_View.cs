@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using RaidCalc.Interfaces;
 using RaidCalcCore.Models;
+using RaidCalc.Controllers;
 
 namespace RaidCalc.Views
 {
@@ -28,6 +29,9 @@ namespace RaidCalc.Views
         #endregion
 
         #region Member Accessor
+        public Player Boss { get { return bitem.ToPlayer(); } }
+        public string SelectedBossSkill { get { return bitem.SelectedSkillName.ToString(); } }
+        private PlayerItem bitem;
         public int PlayerCounter
         {
             get
@@ -64,12 +68,40 @@ namespace RaidCalc.Views
         {
             PlayerItem pitem = new PlayerItem(player);
             pitem.Name = player.Name;
-            pitem.SelectiveMode = true;
+            pitem.SelectiveMode = false;
             pitem.SkillsVisible = false;
             pitem.Width = Flow_PlayerList.Width - 6;
             Flow_PlayerList.Controls.Add(pitem);
-            // BindEventsAllChildren(pitem, PlayerSelected);
         }
+
+        public void SetBoss(Player player)
+        {
+            bitem = new PlayerItem();
+            bitem.Name = "BossItem";
+            Controls.Add(bitem);
+            bitem.IsBoss = true;
+            bitem.SkillsVisible = true;
+            bitem.Readonly = true;
+            bitem.Location = new Point(3, 35);
+            bitem.Player_Name = player.Name;
+            bitem.Player_CurrentHealth = player.CurrentHp;
+            bitem.Player_MaxHealth = player.MaxHp;
+
+            if (player.PosX < 0 || player.PosY < 0)
+            {
+                if (player.CommonSkills.FirstOrDefault(x => x.Name.Equals("이동")) != null)
+                {
+                    bitem.Player_Skills.SelectedItem = "이동";
+                }
+                else
+                {
+                    bitem.Player_Skills.Items.Add("최초 좌표 설정");
+                    bitem.Player_Skills.SelectedItem = "최초 좌표 설정";
+                }
+                bitem.Player_Skills.Enabled = false;
+            }
+        }
+
         #endregion
 
         #region Event Handlers
@@ -86,6 +118,11 @@ namespace RaidCalc.Views
         private void Grid_GridMap_Paint(object sender, PaintEventArgs e)
         {
             Grid_GridMap.DrawGrid();
+        }
+
+        private void Grid_GridMap_MouseClick(object sender, MouseEventArgs e)
+        {
+            (Controller as BossCommand_Controller).GridClicked(e.Location);
         }
         #endregion
 
@@ -137,5 +174,12 @@ namespace RaidCalc.Views
             }
         }
 
+        public void Clear()
+        {
+            if (Flow_PlayerList != null || Flow_PlayerList.Controls.Count > 0)
+                Flow_PlayerList.Controls.Clear();
+            if (bitem != null)
+                bitem.Dispose();
+        }
     }
 }

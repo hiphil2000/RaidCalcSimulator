@@ -18,6 +18,7 @@ namespace RaidCalc.Controllers
         private bool IsSkillSelecting;
 
         private List<Player> _PlayerList;
+        private Player _Boss;
         private List<string> _SelectedPlayers;
         private int _PlayerNameCounter;
 
@@ -187,6 +188,7 @@ namespace RaidCalc.Controllers
             if (Validation())
             {
                 MainFrame.SetPlayerList(_PlayerList);
+                MainFrame.SetBoss(_Boss);
                 return true;
             }
             else
@@ -201,12 +203,6 @@ namespace RaidCalc.Controllers
             SyncronizeData();
             foreach (Player player in _PlayerList)
             {
-                // 플레이어 이름 중복 체크
-                if (_PlayerList.Where(x => x.Name.Equals(player.Name)).Count() > 1)
-                {
-                    MessageBox.Show($"플레이어 {player.Name}의 이름이 겹칩니다.");
-                    return false;
-                }
                 if (player.MaxHp < player.CurrentHp)
                 {
                     MessageBox.Show($"올바르지 않은 HP값입니다. ({player.Name})");
@@ -245,6 +241,14 @@ namespace RaidCalc.Controllers
                 player.CurrentHp = pitem.Player_CurrentHealth;
                 player.Stat = new Stats(pitem.Player_Stat1, pitem.Player_Stat2, pitem.Player_Stat3);
             }
+            PlayerItem bossItem = (PlayerItem)view.Controls["BossItem"];
+            _Boss = new Player();
+            _Boss.Name = bossItem.Player_Name;
+            _Boss.CurrentHp = bossItem.Player_CurrentHealth;
+            _Boss.MaxHp = bossItem.Player_MaxHealth;
+            _Boss.PosX = -1;
+            _Boss.PosY = -1;
+
         }
 
         public void InitData()

@@ -18,5 +18,10 @@ namespace RaidCalcCore.Models
             this.Stat2 = Stat2;
             this.Stat3 = Stat3;
         }
+
+        public override string ToString()
+        {
+            return $"{Stat1}/{Stat2}/{Stat3}";
+        }
     }
 }
