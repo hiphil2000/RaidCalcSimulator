@@ -76,7 +76,7 @@ namespace RaidCalc.Controllers
                         _CommandQueue.Remove(_CommandQueue.First(x => x.SourcePlayer.Equals(p)));
                         _CommandQueue.Add(command);
                         view.GridItem.RemovePoint(_SelectedPlayerName);
-                        view.GridItem.AddPoint(_SelectedPlayerName, location);
+                        view.GridItem.AddRealPoint(_SelectedPlayerName, gridPoint);
                     }
                 }
                 else
@@ -85,10 +85,9 @@ namespace RaidCalc.Controllers
                     {
                         Command command = new Command(p, null, view.GridItem.ToGridLocation(location), moveSkill);
                         _CommandQueue.Add(command);
-                        view.GridItem.AddPoint(_SelectedPlayerName, location);
+                        view.GridItem.AddRealPoint(_SelectedPlayerName, gridPoint);
                     }
                 }
-                view.GridItem.DrawGrid();
             }
             else
             {
@@ -98,28 +97,47 @@ namespace RaidCalc.Controllers
                     MessageBox.Show($"{p.Name}의 스킬을 먼저 선택하십시오.", "실패");
                     return;
                 }
+                ICommands com = null;
+                if ((com = _CommandQueue.FirstOrDefault(x => x.SourcePlayer.Name.Equals(_SelectedPlayerName))) != null)
+                {
+                    var result = MessageBox.Show($"{_SelectedPlayerName}(은)는 이미 {com.UsedSkill.Name}(을)를 {com.DestinationPlayer}에 사용할 것 입니다. 입력을 초기화합니까?", "경고", MessageBoxButtons.YesNo);
+                    if (result == DialogResult.No)
+                        return;
+                    else
+                    {
+                        _CommandQueue.Remove(_CommandQueue.FirstOrDefault(x => x.SourcePlayer.Name.Equals(_SelectedPlayerName)));
+                        var original = MainFrame.GetPlayerList().FirstOrDefault(x => x.Name.Equals(_SelectedPlayerName));
+                        view.GridItem.RemovePoint(_SelectedPlayerName);
+                        view.GridItem.AddRealPoint(_SelectedPlayerName, new Point(original.PosX, original.PosY));
+                        view.GridItem.DrawGrid();
+                    }
+                }
                 var skill = MainFrame.GetSkillByName(pitem.SelectedSkillName.ToString());
                 var gridPoint = view.GridItem.ToGridLocation(location);
-                if (MessageBox.Show($"[{skill}](을)를 [{gridPoint.ToString()}]에 사용합니까?", "확인") == DialogResult.Yes)
+                if (MessageBox.Show($"[{_SelectedPlayerName}]의 스킬 [{skill.Name}](을)를 [{gridPoint.ToString()}]에 사용합니까?", "확인", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
                     string message = "";
                     DialogResult messageResult = DialogResult.No;
-                    try { var destination = view.GridItem.GetPlayerNameByPoint(gridPoint); }
-                    catch (Exception ex)
+                    if (!view.GridItem.DuplicateCheck(gridPoint))
                     {
-                        message += ex.Message;
+                        message += "해당 위치에 플레이어/엔티티가 없습니다.";
                     }
-                    if (message.Length > 0)
+                    if (message.Length > 0) 
                     {
-                        messageResult = MessageBox.Show($"{message} 그래도 진행합니까?", "경고");
+                        messageResult = MessageBox.Show($"{message} 그래도 진행합니까?", "경고", MessageBoxButtons.YesNo);
                     }
                     if (message.Length <= 0 || messageResult == DialogResult.Yes)
                     {
                         Command command = new Command(p, null, view.GridItem.ToGridLocation(location), skill);
                         _CommandQueue.Add(command);
-                        view.GridItem.AddPoint(_SelectedPlayerName, location);
+                    }
+                    if (skill.Name.Equals("이동"))
+                    {
+                        view.GridItem.RemovePoint(_SelectedPlayerName);
+                        view.GridItem.AddRealPoint(_SelectedPlayerName, view.GridItem.ToGridLocation(location));
                     }
                 }
+                view.GridItem.DrawGrid();
             }
         }
 
@@ -137,6 +155,8 @@ namespace RaidCalc.Controllers
             pitem.Player_Name = _Boss.Name;
             pitem.Player_CurrentHealth = _Boss.CurrentHp;
             pitem.Player_MaxHealth = _Boss.MaxHp;
+            if (_Boss.PosX > -1 && _Boss.PosY > -1)
+                view.GridItem.AddRealPoint(_Boss.Name, new Point(_Boss.PosX, _Boss.PosY));
         }
 
         public void AddPlayers(List<Player> players)
@@ -152,12 +172,20 @@ namespace RaidCalc.Controllers
 
         public bool NextPage()
         {
-            if (Validation())
+            bool result = Validation();
+            if (result)
             {
                 MainFrame.SetQueue(_CommandQueue);
+                _CommandQueue.Clear();
             }
-            return true;
+            return result;
         }
+
+        public Player GetBoss()
+        {
+            return _Boss;
+        }
+
         private bool Validation()
         {
             bool isValidated = false;

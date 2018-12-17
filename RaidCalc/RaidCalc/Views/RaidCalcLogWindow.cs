@@ -48,12 +48,14 @@ namespace RaidCalc.Views
                     writer = new StreamWriter(fileName);
                     writer.WriteLine(Text_Logs.Text);
                     MessageBox.Show($"로그파일이 저장됐습니다. 경로:\r\n[{fileName}", "성공");
-                    Console.WriteLine($"Log saved => {fileName}");
+                    string msg = $"로그파일이 저장됐습니다. => {fileName}";
+                    Console.WriteLine(msg);
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show("오류가 발생했습니다.\r\n" + ex.ToString(), "실패");
-                    Console.WriteLine($"Save error => {ex.ToString()}");
+                    string msg = $"로그 저장에 실패했습니다.\n{ex.ToString()}";
+                    Console.WriteLine(msg);
                 }
                 finally
                 {

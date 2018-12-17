@@ -63,5 +63,16 @@ namespace RaidCalcCore.Models
                 _CommonSkills.Add(s);
             }
         }
+
+        public void Copy(Player source)
+        {
+            Name = source.Name;
+            Stat = source.Stat;
+            MaxHp = source.MaxHp;
+            CurrentHp = source.CurrentHp;
+            HarmConst = source.HarmConst;
+            PosX = source.PosX;
+            PosY = source.PosY;
+        }
     }
 }

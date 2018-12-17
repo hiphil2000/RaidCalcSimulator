@@ -30,6 +30,7 @@ namespace RaidCalc.Views
 
         #region Member Accessor
         public Player Boss { get { return bitem.ToPlayer(); } }
+        public PlayerItem GetBossitem { get { return bitem; } }
         public string SelectedBossSkill { get { return bitem.SelectedSkillName.ToString(); } }
         private PlayerItem bitem;
         public int PlayerCounter
@@ -70,6 +71,7 @@ namespace RaidCalc.Views
             pitem.Name = player.Name;
             pitem.SelectiveMode = false;
             pitem.SkillsVisible = false;
+            pitem.Readonly = true;
             pitem.Width = Flow_PlayerList.Width - 6;
             Flow_PlayerList.Controls.Add(pitem);
         }

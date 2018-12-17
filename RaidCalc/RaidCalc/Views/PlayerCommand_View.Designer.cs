@@ -138,7 +138,6 @@
             this.Name = "PlayerCommand_View";
             this.Size = new System.Drawing.Size(1443, 774);
             this.Load += new System.EventHandler(this.PlayerCommand_View_Load);
-            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.PlayerCommand_View_MouseMove);
             this.ResumeLayout(false);
             this.PerformLayout();
 

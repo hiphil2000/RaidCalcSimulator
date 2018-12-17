@@ -133,18 +133,7 @@ namespace RaidCalc.Views
 
         private void PlayerCommand_View_MouseMove(object sender, MouseEventArgs e)
         {
-            var mpos = e.Location;
-            var gpos = Grid_GridMap.Location;
-            if ((mpos.X >= gpos.X && mpos.X <= (gpos.X + Grid_GridMap.Width)) &&
-                (mpos.Y >= gpos.Y && mpos.Y <= gpos.Y + Grid_GridMap.Height))
-            {
-                Grid_GridMap.SetHighlight(e.Location);
-            }
-            else
-            {
-                Grid_GridMap.SetHighlight(new Point(-1,-1));
-            }
-            Grid_GridMap.DrawGrid();
+
         }
         #endregion
 

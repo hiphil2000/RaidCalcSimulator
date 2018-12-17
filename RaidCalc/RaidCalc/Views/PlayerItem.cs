@@ -169,6 +169,7 @@ namespace RaidCalc.Views
             Text_Stat3.ReadOnly = _selectiveMode;
             Text_CurrentHealth.ReadOnly = _selectiveMode;
             Text_MaxHealth.ReadOnly = _selectiveMode;
+            Combo_Skills.Enabled = _selectiveMode;
         }
 
         public void SetSelected()

@@ -62,13 +62,13 @@
             this.Flow_PlayerList.AutoScroll = true;
             this.Flow_PlayerList.Location = new System.Drawing.Point(6, 117);
             this.Flow_PlayerList.Name = "Flow_PlayerList";
-            this.Flow_PlayerList.Size = new System.Drawing.Size(644, 510);
+            this.Flow_PlayerList.Size = new System.Drawing.Size(774, 651);
             this.Flow_PlayerList.TabIndex = 109;
             // 
             // Lab_GridMap
             // 
             this.Lab_GridMap.AutoSize = true;
-            this.Lab_GridMap.Location = new System.Drawing.Point(898, 90);
+            this.Lab_GridMap.Location = new System.Drawing.Point(1058, 91);
             this.Lab_GridMap.Name = "Lab_GridMap";
             this.Lab_GridMap.Size = new System.Drawing.Size(65, 17);
             this.Lab_GridMap.TabIndex = 107;
@@ -88,10 +88,10 @@
             // 
             this.Grid_GridMap.BackColor = System.Drawing.Color.Gray;
             this.Grid_GridMap.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.Grid_GridMap.Location = new System.Drawing.Point(656, 117);
+            this.Grid_GridMap.Location = new System.Drawing.Point(786, 114);
             this.Grid_GridMap.Margin = new System.Windows.Forms.Padding(3, 6, 3, 6);
             this.Grid_GridMap.Name = "Grid_GridMap";
-            this.Grid_GridMap.Size = new System.Drawing.Size(507, 507);
+            this.Grid_GridMap.Size = new System.Drawing.Size(654, 654);
             this.Grid_GridMap.TabIndex = 108;
             this.Grid_GridMap.Paint += new System.Windows.Forms.PaintEventHandler(this.Grid_GridMap_Paint);
             this.Grid_GridMap.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Grid_GridMap_MouseClick);
@@ -133,7 +133,7 @@
             this.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "BossCommand_View";
-            this.Size = new System.Drawing.Size(1166, 633);
+            this.Size = new System.Drawing.Size(1443, 774);
             this.ResumeLayout(false);
             this.PerformLayout();
 

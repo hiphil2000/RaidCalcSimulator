@@ -139,12 +139,12 @@ namespace RaidCalc
             Game.SetPlayerList(players);
             foreach (Player p in players)
             {
-                string msg = $"플레이어 {p.Name}(이)가 로드됨. {{\"Name\": \"{p.Name}\", \"Stat\": \"{p.Stat.ToString()}\", \"HP\": \"{p.CurrentHp}/{p.MaxHp}\", \"CommonSkills\": [";
+                string msg = $"[{p.Name}](이)가 로드됨. {{\"Name\": \"{p.Name}\", \"Stat\": \"{p.Stat.ToString()}\", \"HP\": \"{p.CurrentHp}/{p.MaxHp}\", \"CommonSkills\": [";
                 foreach (ISkillBase skill in p.CommonSkills)
                 {
                     msg += $"\"{skill.Name}\", ";
                 }
-                msg = msg.Substring(0, msg.Length - 2);
+                msg = msg.Substring(0, msg.Length - 1);
                 msg += "]}";
                 Game.WriteLog(msg);
             }
@@ -153,7 +153,7 @@ namespace RaidCalc
         public void SetBoss(Player boss)
         {
             Game.SetBoss(boss);
-            string msg = $"보스 {boss.Name}(이)가 로드됨. {{\"Name\": \"{boss.Name}\", \"HP\": \"{boss.CurrentHp}/{boss.MaxHp}\", \"CommonSkills\": [";
+            string msg = $"[<Boss>{boss.Name}](이)가 로드됨. {{\"Name\": \"{boss.Name}\", \"HP\": \"{boss.CurrentHp}/{boss.MaxHp}\", \"CommonSkills\": [";
             foreach (ISkillBase skill in boss.CommonSkills)
             {
                 msg += $"\"{skill.Name}\", ";
@@ -200,6 +200,11 @@ namespace RaidCalc
             }
         }
 
+        public void WriteLog(string msg)
+        {
+            Game.WriteLog(msg);
+        }
+
         public string PrintLog()
         {
             return Game.PrintLog();
@@ -210,6 +215,10 @@ namespace RaidCalc
         {
             if (_CurrentPage.Controller.NextPage())
             {
+                if (Game.Turn == 2)
+                {
+                    ExecuteBossQueue();
+                }
                 var phaseText = Game.NextPhase();
                 if (phaseText.Equals("PlayerAction"))
                 {

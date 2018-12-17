@@ -77,7 +77,6 @@ namespace RaidCalc.Views
 
         private void DrawHighlights()
         {
-            Console.WriteLine(HighlightPoint.ToString());
             if (graphics != null && (HighlightPoint.X > -1 && HighlightPoint.Y > -1))
             {
                 float gap = (float)this.Width / 21 - 0.04F;
@@ -92,6 +91,24 @@ namespace RaidCalc.Views
             float gap = (float)this.Width / 21 - 0.04F;
             int posX = (int)(p.X / gap);
             int posY = (int)(p.Y / gap);
+            if (DuplicateCheck(new Point(posX, posY)))
+                return;
+
+            points.Add(name, new Point(posX, posY));
+
+            if (graphics != null)
+            {
+                graphics.DrawEllipse(pen, posX * gap, posY * gap, gap, gap);
+                graphics.DrawString(name, new Font("맑은 고딕", 10), new SolidBrush(Color.Black),
+                    new PointF(posX * gap, posY * gap - 15 < 0 ? posY * gap + 15 : posY * gap - 15));
+            }
+        }
+
+        public void AddRealPoint(string name, Point p)
+        {
+            float gap = (float)this.Width / 21 - 0.04F;
+            int posX = p.X;
+            int posY = p.Y;
             if (DuplicateCheck(new Point(posX, posY)))
                 return;
 

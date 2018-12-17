@@ -19,6 +19,7 @@ namespace RaidCalcCore.Game
     public class Game : IGame
     {
         public int Turn { get; set; }
+        public int ExacTurn { get; set; }
         public bool IsGameStart { get; set; }
 
         private Queue<ICommands> CommandQueue = new Queue<ICommands>();
@@ -46,6 +47,7 @@ namespace RaidCalcCore.Game
             CommandQueue.Clear();
             Boss = null;
             Turn = -2;
+            ExacTurn = -1;
             SkillList = new Dictionary<string, ISkillBase>();
             LogBuilder = new StringBuilder($"[{DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss")}] 게임 시작.");
             LogBuilder.AppendLine();
@@ -64,7 +66,7 @@ namespace RaidCalcCore.Game
         {
             foreach (var item in commands)
             {
-                CommandQueue.Enqueue(item);
+                BossCommandQueue.Enqueue(item);
             }
         }
 
@@ -87,16 +89,17 @@ namespace RaidCalcCore.Game
 
         public void ExecuteBossCommandQueue()
         {
-            while (CommandQueue.Count > 0)
+            while (BossCommandQueue.Count > 0)
             {
-                var command = CommandQueue.Dequeue();
+                var command = BossCommandQueue.Dequeue();
 
                 var sourcePlayer = command.SourcePlayer.Name;
                 var destPlayer = command.DestinationPlayer == null ? "자신 혹은 대상 없음" : command.DestinationPlayer.Name;
                 var skillName = command.UsedSkill.Name;
-                string message = $"[{sourcePlayer}] (이)가 [{destPlayer}] 에게 [{skillName}] (을)를 사용.";
+                string message = $"[<Boss>{sourcePlayer}] (이)가 [{destPlayer}] 에게 [{skillName}] (을)를 사용.";
                 Command com = command as Command;
                 com.Execute();
+                Boss.Copy(command.SourcePlayer);
                 Console.WriteLine(message);
                 WriteLog(message);
             }
@@ -109,6 +112,7 @@ namespace RaidCalcCore.Game
         private void NextTurn()
         {
             Turn++;
+            ExacTurn++;
         }
         private void PreviousTurn()
         {
@@ -160,7 +164,8 @@ namespace RaidCalcCore.Game
         }
         public void WriteLog(string message)
         {
-            LogBuilder.AppendLine($"[{DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss")}][Turn {Turn}] " + message);
+            LogBuilder.AppendLine($"[{DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss")}][Turn {ExacTurn}] " + message);
+            Console.WriteLine($"[{DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss")}][Turn {ExacTurn}] " + message);
         }
             #endregion
 
@@ -189,7 +194,9 @@ namespace RaidCalcCore.Game
             // 자가회복
             bs = new BasicSkill() { Name = "자가회복", Cooltime = 6, ForceConst = 0.2, Type = SkillType.Basic | SkillType.Heal, UsedTurn = -999, Description= "자신의 최대 체력의 20%만큼을 즉시 회복합니다." };
             bs.SetFunction((user, victim, obj) => {
-                double amountOfHeal = user.MaxHp * bs.ForceConst;
+                var inner = SkillList["자가회복"];
+                double amountOfHeal = user.MaxHp * inner.ForceConst;
+                user.CurrentHp = user.CurrentHp + amountOfHeal >= user.MaxHp ? user.MaxHp : user.CurrentHp + amountOfHeal;
                 return true;
             });
             SkillList.Add(bs.Name, bs);
