@@ -27,6 +27,7 @@ namespace RaidCalc.Controllers
             MainFrame = mainFrame;
             View = view;
             _CommandQueue = new List<ICommands>();
+            view.Clear();
         }
 
         public void PlayerClicked(string name)
@@ -54,6 +55,7 @@ namespace RaidCalc.Controllers
         public void GridClicked(Point location)
         {
             PlayerCommand_View view = View as PlayerCommand_View;
+            
             Player p = _PlayerList.FirstOrDefault(x => x.Name.Equals(_SelectedPlayerName));
             if (p == null)
             {
@@ -85,6 +87,7 @@ namespace RaidCalc.Controllers
                     {
                         Command command = new Command(p, null, view.GridItem.ToGridLocation(location), moveSkill);
                         _CommandQueue.Add(command);
+                        view.GridItem.RemovePoint(_SelectedPlayerName);
                         view.GridItem.AddRealPoint(_SelectedPlayerName, gridPoint);
                     }
                 }
@@ -143,6 +146,8 @@ namespace RaidCalc.Controllers
 
         public void InitData()
         {
+            PlayerCommand_View view = View as PlayerCommand_View;
+            view.GridItem.points.Clear();
             AddPlayers(MainFrame.GetPlayerList());
             SetBoss(MainFrame.GetBoss());
         }
@@ -181,6 +186,14 @@ namespace RaidCalc.Controllers
             return result;
         }
 
+        public List<ISkillBase> GetSkillList(string playerName)
+        {
+            var player = _PlayerList.FirstOrDefault(x => x.Name.Equals(playerName));
+            var turn = MainFrame.GetExacTurn(); 
+            var list = player.CommonSkills.Where(x => (x.UsedTurn > 0 && turn - x.Cooltime >= x.UsedTurn) || (x.UsedTurn <= 0)).ToList();
+            return list;
+        }
+
         public Player GetBoss()
         {
             return _Boss;
@@ -190,12 +203,12 @@ namespace RaidCalc.Controllers
         {
             bool isValidated = false;
             PlayerCommand_View view = View as PlayerCommand_View;
-            StringBuilder errorMsg = new StringBuilder();
+            string errorMsg = "";
             foreach (var item in _PlayerList)
             {
                 if (view.GridItem.points.ContainsKey(item.Name) == false)
                 {
-                    errorMsg.AppendLine($"{item.Name}의 위치가 정해지지 않았습니다.");
+                    errorMsg += $"{item.Name}의 위치가 정해지지 않았습니다.";
                 }
             }
             if (errorMsg.Length <= 0 )

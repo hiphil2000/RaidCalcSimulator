@@ -93,6 +93,14 @@ namespace RaidCalc
             // 메인 타이틀 변경
             Lab_Title.Text = _CurrentPage.View.ViewName;
 
+            // 턴 라벨 변경
+            if (_CurrentPage.View.ViewName.Equals("Index"))
+                Lab_ExacTurn.Text = "";
+            else if (Game.IsGameStart == true)
+                Lab_ExacTurn.Text = $"Turn : {Game.ExacTurn.ToString()}";
+
+            Lab_ExacTurn.Left = Lab_Title.Right + 6;
+
             // 현재 윈도우의 크기를 페이지 크기에 맞게 변경
             Panel_MainFrame.Size = (_CurrentPage.View as Control).Size;
 
@@ -132,6 +140,7 @@ namespace RaidCalc
                 _SkillList = Game.GetSkills();
                 ChangeView("UserCommand");
             }
+            CenterToScreen();
         }
 
         public void SetPlayerList(List<Player> players)
@@ -178,13 +187,24 @@ namespace RaidCalc
             Game.SetCommandQueue(commands);
         }
 
-        private void ExecuteQueue()
-        {
-            Game.ExecuteCommandQueue();
-        }
         public void SetBossQueue(List<ICommands> commands)
         {
             Game.SetBossCommandQueue(commands);
+        }
+
+        public int GetTurn()
+        {
+            return Game.Turn;
+        }
+
+        public int GetExacTurn()
+        {
+            return Game.ExacTurn;
+        }
+
+        private void ExecuteQueue()
+        {
+            Game.ExecuteCommandQueue();
         }
 
         private void ExecuteBossQueue()
@@ -213,6 +233,11 @@ namespace RaidCalc
         #region Event Handlers
         private void Button_Next_Click(object sender, EventArgs e)
         {
+            if (Game.IsGameStart == false)
+            {
+                MessageBox.Show("게임이 시작되지 않았습니다.", "실패");
+                CenterToScreen();
+            }
             if (_CurrentPage.Controller.NextPage())
             {
                 if (Game.Turn == 2)
@@ -222,7 +247,9 @@ namespace RaidCalc
                 var phaseText = Game.NextPhase();
                 if (phaseText.Equals("PlayerAction"))
                 {
+                    Game.ExacTurn--;
                     ExecuteQueue();
+                    Game.ExacTurn--;
                     ChangeView(Game.NextPhase());
                 }
                 else if(phaseText.Equals("BossAction"))
@@ -234,6 +261,9 @@ namespace RaidCalc
                 {
                     ChangeView(phaseText);
                 }
+                Text_NowLog.Text = Game.PrintLogBuffer();
+                Game.FlushLog();
+                CenterToScreen();
             }
         }
 
@@ -246,9 +276,11 @@ namespace RaidCalc
         {
             Flow_ButtonBox.Location = new Point(Panel_MainFrame.Width + 12 - Flow_ButtonBox.Width,
                 Panel_MainFrame.Location.Y + Panel_MainFrame.Height + 6);
-            Height = Panel_MainFrame.Height + 155;
+            Height = Panel_MainFrame.Height + 155 + 100;
             Width = Panel_MainFrame.Width + 40;
             Flow_ToolBox.Location = new Point(Flow_ToolBox.Location.X, Flow_ButtonBox.Location.Y);
+            Text_NowLog.Width = Panel_MainFrame.Width;
+            Text_NowLog.Location = new Point(Panel_MainFrame.Left, Flow_ButtonBox.Bottom + 7);
         }
 
         private void Button_Log_Click(object sender, EventArgs e)
@@ -258,5 +290,9 @@ namespace RaidCalc
         }
         #endregion
 
+        private void RaidCalcWindow_Resize(object sender, EventArgs e)
+        {
+
+        }
     }
 }

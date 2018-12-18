@@ -63,6 +63,7 @@ namespace RaidCalc.Views
 
         public void AddPlayer(Player player)
         {
+            PlayerCommand_Controller controller = Controller as PlayerCommand_Controller;
             PlayerItem pitem = new PlayerItem(player);
             pitem.Name = player.Name;
             pitem.SelectiveMode = true;
@@ -80,6 +81,12 @@ namespace RaidCalc.Views
                 }
                 pitem.Player_Skills.Enabled = false;
             }
+            else
+            {
+                pitem.Player_Skills.Items.Clear();
+                pitem.Player_Skills.Items.AddRange(controller.GetSkillList(pitem.Name).Select(x => x.Name).ToArray());
+            }
+            Grid_GridMap.AddRealPoint(player.Name, new Point(player.PosX, player.PosY));
             Flow_PlayerList.Controls.Add(pitem);
             BindEventsAllChildren(pitem, PlayerSelected);
         }
@@ -195,6 +202,7 @@ namespace RaidCalc.Views
         public void Clear()
         {
             Flow_PlayerList.Controls.Clear();
+            Grid_GridMap.points.Clear();
         }
     }
 }

@@ -8,6 +8,7 @@ namespace RaidCalcCore.Game
 {
     public enum GameFlow
     {
+        UserCommand = -1,
         PlayerCommand = 0,
         PlayerAction,
         BossCommand,
@@ -29,7 +30,8 @@ namespace RaidCalcCore.Game
         private Dictionary<string, ISkillBase> BossSkillList;
         private Player Boss;
 
-        private StringBuilder LogBuilder;
+        private string LogBase;
+        private string LogBuffer;
 
         #region Initialization
         public void SetPlayerList(List<Player> players)
@@ -49,8 +51,7 @@ namespace RaidCalcCore.Game
             Turn = -2;
             ExacTurn = -1;
             SkillList = new Dictionary<string, ISkillBase>();
-            LogBuilder = new StringBuilder($"[{DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss")}] 게임 시작.");
-            LogBuilder.AppendLine();
+            LogBase = $"[{DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss")}] 게임 시작.\n";
             InitializeSkillset();
             NextTurn();
         }
@@ -81,7 +82,7 @@ namespace RaidCalcCore.Game
                 var skillName = command.UsedSkill.Name;
                 string message = $"[{sourcePlayer}] (이)가 [{destPlayer}] 에게 [{skillName}] (을)를 사용.";
                 Command com = command as Command;
-                com.Execute();
+                com.Execute(ExacTurn);
                 Console.WriteLine(message);
                 WriteLog(message);
             }
@@ -98,7 +99,7 @@ namespace RaidCalcCore.Game
                 var skillName = command.UsedSkill.Name;
                 string message = $"[<Boss>{sourcePlayer}] (이)가 [{destPlayer}] 에게 [{skillName}] (을)를 사용.";
                 Command com = command as Command;
-                com.Execute();
+                com.Execute(ExacTurn);
                 Boss.Copy(command.SourcePlayer);
                 Console.WriteLine(message);
                 WriteLog(message);
@@ -160,12 +161,26 @@ namespace RaidCalcCore.Game
         #region Logs
         public string PrintLog()
         {
-            return LogBuilder.ToString();
+            FlushLog();
+            return LogBase.ToString();
         }
+
+        public string PrintLogBuffer()
+        {
+            return LogBuffer;
+        }
+
         public void WriteLog(string message)
         {
-            LogBuilder.AppendLine($"[{DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss")}][Turn {ExacTurn}] " + message);
-            Console.WriteLine($"[{DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss")}][Turn {ExacTurn}] " + message);
+            string log = $"[{DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss")}][Turn {ExacTurn} : {((GameFlow)(Turn % 6)).ToString().Replace("2", "")}] " + message;
+            LogBuffer += log + Environment.NewLine;
+            Console.WriteLine(log);
+        }
+        
+        public void FlushLog()
+        {
+            LogBase += LogBuffer;
+            LogBuffer = "";
         }
             #endregion
 

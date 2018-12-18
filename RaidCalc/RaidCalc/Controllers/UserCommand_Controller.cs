@@ -33,6 +33,8 @@ namespace RaidCalc.Controllers
             _PlayerList = new List<Player>();
             _SelectedPlayers = new List<string>();
             _PlayerNameCounter = 0;
+
+            view.Clear();
         }
 
         public void AddPlayer()

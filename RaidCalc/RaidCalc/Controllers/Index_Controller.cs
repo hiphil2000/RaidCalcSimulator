@@ -16,6 +16,7 @@ namespace RaidCalc.Controllers
         {
             MainFrame = mainFrame;
             View = view;
+            view.Clear();
         }
 
         public void TryExit()

@@ -35,6 +35,8 @@
             this.Flow_ButtonBox = new System.Windows.Forms.FlowLayoutPanel();
             this.Flow_ToolBox = new System.Windows.Forms.FlowLayoutPanel();
             this.Button_Log = new System.Windows.Forms.Button();
+            this.Text_NowLog = new System.Windows.Forms.TextBox();
+            this.Lab_ExacTurn = new System.Windows.Forms.Label();
             this.Flow_ButtonBox.SuspendLayout();
             this.Flow_ToolBox.SuspendLayout();
             this.SuspendLayout();
@@ -112,22 +114,46 @@
             this.Button_Log.UseVisualStyleBackColor = true;
             this.Button_Log.Click += new System.EventHandler(this.Button_Log_Click);
             // 
+            // Text_NowLog
+            // 
+            this.Text_NowLog.Location = new System.Drawing.Point(12, 496);
+            this.Text_NowLog.Multiline = true;
+            this.Text_NowLog.Name = "Text_NowLog";
+            this.Text_NowLog.ReadOnly = true;
+            this.Text_NowLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.Text_NowLog.Size = new System.Drawing.Size(609, 87);
+            this.Text_NowLog.TabIndex = 999;
+            // 
+            // Lab_ExacTurn
+            // 
+            this.Lab_ExacTurn.AutoSize = true;
+            this.Lab_ExacTurn.Font = new System.Drawing.Font("맑은 고딕", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Lab_ExacTurn.Location = new System.Drawing.Point(119, 28);
+            this.Lab_ExacTurn.Name = "Lab_ExacTurn";
+            this.Lab_ExacTurn.Size = new System.Drawing.Size(146, 30);
+            this.Lab_ExacTurn.TabIndex = 0;
+            this.Lab_ExacTurn.Text = "Lab_ExacTurn";
+            // 
             // RaidCalcWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(633, 495);
+            this.ClientSize = new System.Drawing.Size(633, 595);
+            this.Controls.Add(this.Text_NowLog);
             this.Controls.Add(this.Flow_ToolBox);
             this.Controls.Add(this.Flow_ButtonBox);
             this.Controls.Add(this.Panel_MainFrame);
+            this.Controls.Add(this.Lab_ExacTurn);
             this.Controls.Add(this.Lab_Title);
             this.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.MaximizeBox = false;
             this.Name = "RaidCalcWindow";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "RaidCalc";
             this.Load += new System.EventHandler(this.RaidCalc_Load);
+            this.Resize += new System.EventHandler(this.RaidCalcWindow_Resize);
             this.Flow_ButtonBox.ResumeLayout(false);
             this.Flow_ToolBox.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -144,6 +170,8 @@
         private System.Windows.Forms.FlowLayoutPanel Flow_ButtonBox;
         private System.Windows.Forms.FlowLayoutPanel Flow_ToolBox;
         private System.Windows.Forms.Button Button_Log;
+        private System.Windows.Forms.TextBox Text_NowLog;
+        private System.Windows.Forms.Label Lab_ExacTurn;
     }
 }
 

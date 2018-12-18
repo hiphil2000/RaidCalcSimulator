@@ -21,9 +21,12 @@ namespace RaidCalcCore.Models
             UsedSkill = usedSkill;
         }
 
-        public void Execute()
+        public void Execute(int turn)
         {
             UsedSkill.SkillFunction(SourcePlayer, DestinationPlayer, SkillObject);
+            var srcUsed = SourcePlayer.CommonSkills.Find(x => x.Name.Equals(UsedSkill.Name));
+            if (srcUsed != null)
+                SourcePlayer.CommonSkills.Find(x => x.Name.Equals(UsedSkill.Name)).UsedTurn = turn;
         }
     }
 }

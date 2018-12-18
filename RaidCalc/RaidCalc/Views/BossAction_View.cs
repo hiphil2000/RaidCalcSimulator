@@ -167,6 +167,7 @@ namespace RaidCalc.Views
         public void Clear()
         {
             Flow_PlayerList.Controls.Clear();
+            Grid_GridMap.points.Clear();
         }
 
     }

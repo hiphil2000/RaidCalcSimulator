@@ -21,11 +21,12 @@ namespace RaidCalc.Controllers
         {
             MainFrame = mainFrame;
             View = view;
+            view.Clear();
         }
         public void InitData()
         {
-
             BossAction_View view = View as BossAction_View;
+            view.GridItem.points.Clear();
             AddPlayers(MainFrame.GetPlayerList());
             foreach (var item in _PlayerList)
             {

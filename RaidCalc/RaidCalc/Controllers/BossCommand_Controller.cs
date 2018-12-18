@@ -27,6 +27,7 @@ namespace RaidCalc.Controllers
             MainFrame = mainFrame;
             View = view;
             _CommandQueue = new List<ICommands>();
+            view.Clear();
         }
 
         public void InitData()

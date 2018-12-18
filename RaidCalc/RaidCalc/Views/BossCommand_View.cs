@@ -182,6 +182,7 @@ namespace RaidCalc.Views
                 Flow_PlayerList.Controls.Clear();
             if (bitem != null)
                 bitem.Dispose();
+            Grid_GridMap.points.Clear();
         }
     }
 }
