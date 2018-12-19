@@ -31,6 +31,11 @@ namespace RaidCalcCore.Models
         private List<ISkillBase> _CommonSkills;
 
         public ISkillBase UltimateSkill { get { return _UltimateSkill; } set { _UltimateSkill = value; } }
+
+        public double GiveConst { get; set; }
+        public double HealHarmConst { get; set; }
+        public List<ISkillBase> Buffs { get; set; }
+
         private ISkillBase _UltimateSkill;
 
         public Player()

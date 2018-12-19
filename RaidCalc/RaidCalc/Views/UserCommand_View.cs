@@ -135,7 +135,7 @@ namespace RaidCalc.Views
         #endregion
 
         #region ClassMethods
-        public void DrawSkillset(List<ISkillBase> skills)
+        public void InitSkillset(List<ISkillBase> skills)
         {
             List_SkillsetList.Controls.Clear();
             List_SkillsetList.Controls.AddRange(skills
@@ -224,7 +224,40 @@ namespace RaidCalc.Views
 
         private void Combo_Skillset_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            (Controller as UserCommand_Controller).LoadSkillList();
+            var combo = sender as ComboBox;
+            int width = 0;
+            var items = List_SkillsetList.Controls;
+            SkillType option = (SkillType)Enum.Parse(typeof(SkillType), SkillsetName);
+            int count = 0;
+
+            foreach (SkillItem item in items)
+            {
+                item.Margin = new Padding(0, 0, 0, 5);
+                if (item.Skill.Type.HasFlag(option))
+                {
+                    count++;
+                    if (item.Height != 0)
+                        continue;
+                    item.Width = width;
+                    item.Height = 60;
+                }
+                else
+                {
+                    if (item.Height != 60)
+                        continue;
+                    item.Width = 0;
+                    item.Height = 0;
+                    item.Margin = new Padding(0);
+                }
+            }
+            if (count * 60 < List_SkillsetList.Height)
+                width = List_SkillsetList.Width - 6;
+            else
+                width = List_SkillsetList.Width - 26;
+            foreach (SkillItem item in items)
+            {
+                item.Width = width;
+            }
         }
 
         private void Button_SetSkill_Click(object sender, EventArgs e)
@@ -235,11 +268,6 @@ namespace RaidCalc.Views
         private void PlayerSelected(object sender, EventArgs e)
         {
             (Controller as UserCommand_Controller).PlayerClicked(GetParentPlayerItem(sender as Control).Name);
-        }
-
-        private void NameChanged(object sender, EventArgs e)
-        {
-
         }
         #endregion
         

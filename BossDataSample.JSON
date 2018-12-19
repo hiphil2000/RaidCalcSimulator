@@ -1,0 +1,287 @@
+JSON 기본 구조 대충 잘 정리된 곳
+-> http://tcpschool.com/json/intro 
+
+문서 설명
+ValueType은 위 링크의 <3.타입> 참조
+Name                    ValueType       Description
+"Boss"                  Array           보스 정보가 들어가는 배열
+"Type"                  String          보스 타입같은데 뭔지 몰라서 이렇게함. (번영같은거)
+"Name"                  String          보스 이름
+"Description"           Array           보스 정보에 뜰 설명글 (Excel에 3개 있어서 배열로 함.)
+"MaxHP"                 int             보스 최대 체력
+"MobHP"                 int             Mob 최대 체력
+"SkillUpgradeKeyword"   String          업그레이드된 스킬의 prefix가 들어가는 자리. prefix가 붙는 스킬은 귀찮아도 Original prefix가 붙는걸 하나씩 기입.
+"Skills"                Array           보스가 갖는 스킬 정보가 들어가는 배열
+"SkillName"             String          스킬 이름
+"SkillConst"            String          스킬 상수
+"SkillType"             String          스킬 타입
+"SkillRangeType"        String          스킬 범위 타입
+"SkillRangeConst"       String          스킬 범위 상수
+"SkillDescription"      String          스킬 설명글
+"SkillScript"           String          스킬 사용 시 대사같은거 있길래 썼음.
+"TimeLine"              Array           보스가 턴마다 사용할 스킬 정보가 들어가는 배열
+"Command"               String          보스가 BossCommand 페이즈에 사용할 스킬 이름.
+"Action"                String          보스가 BossAction 페이지에 사용할 스킬 이름. 전조에 쓴걸 Action에서 발동시키려면 <Default> 키워드 기입.
+
+키워드 종류
+    스킬 상수
+        틱 기술(~-Tick): 스킬상수-<지속 턴>으로 기입함.
+        MobCnt(MobCouNT): 존재하는 Mob의 수
+
+    스킬 타입
+        Attack: 대상(범위 구분 없음)을 공격함.
+        Attack-Tick: 턴마다 데미지를 넣음. (재사용시 지속시간 갱신)
+        Heal: 대상(범위 구분 없음)을 회복함.
+        Defence: 자신의 받는 피해치를 <받는 피해 * 스킬상수>로 만듬.
+        Immutable: 자신을 무적 상태로 만듬.
+        Deflect: 자신을 무적 상태로 만들고 <받은 피해 * 스킬 상수>만큼 반사시킴.
+        MobAdd: Mob을 추가, 해당 스킬의 상수만큼 추가함.
+        Upgrade: 스킬을 강화함.
+
+    범위 타입
+        Ellipsis: 대상 주변의 원, RangeCosnt만큼의 반지름을 갖음.
+        Ellipsis-Self: 자신 주변의 원, RangeConst만큼의 반지름을 갖음.
+        Rectangle: 대상 주변의 사각형, RangeConst를 Width,Height:Center-X,Center-Y 형식으로 기입.
+        Rectangle-Self: 자신 주변의 사각형, RangeConst를 Width,Height:Center-X,CenterY 형식으로 기입.
+        Point: 대상 Point, RangeConst를 null로 주면 됨.
+        Player: 대상 Player, RangeConst를 null로 주면 됨.
+        Filter-All: 전체 대상
+        Filter-Dps: 전체 딜러 대상
+        Filter-Tank: 전체 탱커 대상
+        Filter-Heal: 전체 힐러 대상
+        Filter-<필터>-n: 전체 <필터>중 n명 랜덤 대상
+        Filter-Top-MostDamage: 한 턴에서 가장 높은 데이지를 넣은 사람 대상
+
+    TimeLine
+        Default: Command에 기입한 스킬을 그대로 사용함.
+        Infinite: 바로 전 턴의 패턴을 무한반복함.
+
+SkillConst - 스킬 상수
+일반 상수값: 숫자
+함수 결과값: 숫자, 키워드 사용
+
+예1) 스킬 상수 400 -> "SkillConst": "400"
+예2) 스킬 상수 100 * 남은 Mob 수 -> "SkillConst": "100 * (MobCnt + 4)"
+예3) Mob 3 추가 -> "SkillType": "MobAdd", "SkillConst": "3",
+예4) 범위 대상 사각형 4x3, 중심점: 1,2 -> "RangeType": "Rectangle", "RangeConst": "4,3:1,2"
+1234
+■■■■
+■□■■    □: 중심점
+■■■■
+
+절대 줄넘김 기호/줄넘김 하지 말것. (자동 줄넘김 사용할 것임.)
+
+{
+    "Boss": [
+        {
+            "Type": "번영",
+            "Name": "주노",
+            "Description": [
+                "개안 시 스킬의 성격이 바뀔 수 있습니다.",
+                "완전히 눈을 뜬 주노의 위엄은 어떤 필멸자도 맨 눈으로 바라보기 어렵습니다.",
+                "가장 베이직한 공격패턴으로, 전체 레이드의 튜토리얼에 해당합니다."
+            ],
+            "MaxHp": 330000,
+            "MobHp": 10400,
+            "SkillUpgradeKeyword": "Open",
+            "Skills": [
+                {
+                    "SkillName": "여왕의 격:Original",
+                    "SkillConst": "400",
+                    "SkillType": "Attack",
+                    "SkillRangeType": "Filter-All",
+                    "SkillRangeConst": null,
+                    "SkillDescription": "마스 전체에 데미지를 입힌다. ( 개안 시 데미지 2배 )",
+                    "SkillScript": "무한함 속에서도 굶주리는 가엾은 필멸자로구나."
+                },
+                {
+                    "SkillName": "여왕의 격:Open",
+                    "SkillConst": "800",
+                    "SkillType": "Attack",
+                    "SkillRangeType": "Filter-All",
+                    "SkillRangeConst": null,
+                    "SkillDescription": "마스 전체에 데미지를 입힌다. ( 개안 시 데미지 2배 )",
+                    "SkillScript": "격식의 차이를 느껴라!"
+                },
+                {
+                    "SkillName": "여왕의 춤:Original",
+                    "SkillConst": "5000",
+                    "SkillType": "Attack",
+                    "SkillRangeType": "Ellipsis",
+                    "SkillRangeConst": "3",
+                    "SkillDescription": "어글자에게 강한 공격을 가한다. ( 개안 시 어글자 기준 3*3 마스의 범위에 강한 공격을 가한다. )",
+                    "SkillScript": "네가 나를 대적하는구나."
+                },
+                {
+                    "SkillName": "여왕의 춤:Open",
+                    "SkillConst": "5000",
+                    "SkillType": "Attack",
+                    "SkillRangeType": "Ellipsis",
+                    "SkillRangeConst": "3",
+                    "SkillDescription": "어글자에게 강한 공격을 가한다. ( 개안 시 어글자 기준 3*3 마스의 범위에 강한 공격을 가한다. )",
+                    "SkillScript": "이곳에서 꺾이리라!"
+                },
+                {
+                    "SkillName": "개안",
+                    "SkillConst": null,
+                    "SkillType": "Upgrade",
+                    "SkillRangeType": null,
+                    "SkillRangeConst": null,
+                    "SkillDescription": "번영의 깃에 있는 눈들이 천천히 열리며, 번영의 공격력이 변화한다.",
+                    "SkillScript": "백 개의 눈이 시선할 때, 모든 이가 고개를 숙이리라."
+                },
+                {
+                    "SkillName": "여왕의 정원:Original",
+                    "SkillConst": "500",
+                    "SkillType": "Attack",
+                    "SkillRangeType": "Filter-Dps-3",
+                    "SkillRangeConst": "500",
+                    "SkillDescription": "딜러 중 랜덤 대상자 3명의 발밑에 3*3 마스 크기의 장판을 형성한다. (개안 시 6명으로 늘어남)",
+                    "SkillScript": ""
+                },
+                {
+                    "SkillName": "여왕의 정원:Open",
+                    "SkillConst": "500",
+                    "SkillType": "Attack",
+                    "SkillRangeType": "Filter-Dps-6",
+                    "SkillRangeConst": "500",
+                    "SkillDescription": "딜러 중 랜덤 대상자 3명의 발밑에 3*3 마스 크기의 장판을 형성한다. (개안 시 6명으로 늘어남)",
+                    "SkillScript": ""
+                },
+                {
+                    "SkillName": "번영",
+                    "SkillConst": "6",
+                    "SkillType": "MobAdd",
+                    "SkillRangeType": null,
+                    "SkillRangeConst": null,
+                    "SkillDescription": "마스 내 랜덤으로 쫄 6마리가 팝업된다. 쫄이 팝업된 동안 보스는 타겟팅이 불가능해지며, 보스 또한 공격하지 않는다. 쫄은 3턴 이내에 잡지 못할 경우 해당 위치에 5*5 마스만큼의 장판과 함께 폭발하며, (잡지 못한 쫄의 수)*1배만큼 광역기가 강해진다.",
+                    "SkillScript": "나와 모든 신의 이름 아래, 복종하고 번성하라."
+                },
+                {
+                    "SkillName": "광휘의 범람",
+                    "SkillConst": "100 * (MobCnt + 4)",
+                    "SkillType": "Attack",
+                    "SkillRangeType": "Filter-All",
+                    "SkillRangeConst": null,
+                    "SkillDescription": "쫄페 이후에 오는 광역으로, 계수는 잡지 못한 쫄에 비례한다.",
+                    "SkillScript": "범람하는 번영의 빛은 너희의 눈을 가릴지니!"
+                },
+                {
+                    "SkillName": "우아한 깃",
+                    "SkillConst": "0.5",
+                    "SkillType": "Deflect",
+                    "SkillRangeType": "Filter-All",
+                    "SkillRangeConst": null,
+                    "SkillDescription": "자신에게 온 데미지를 무효화하며, 1/2만큼 반사시킨다.",
+                    "SkillScript": ""
+                },
+                {
+                    "SkillName": "품위있는 어전:Original",
+                    "SkillConst": "700",
+                    "SkillType": "Attack",
+                    "SkillRangeType": "Ellipsis-Self",
+                    "SkillRangeConst": "2",
+                    "SkillDescription": "번영의 주변에 마스 2칸 범위의 장판을 생성한다. 범위 내에 있을 경우 피격당한다. (개안 시 데미지 2배)",
+                    "SkillScript": ""
+                },
+                {
+                    "SkillName": "품위있는 어전:Open",
+                    "SkillConst": "1400",
+                    "SkillType": "Attack",
+                    "SkillRangeType": "Ellipsis-Self",
+                    "SkillRangeConst": "2",
+                    "SkillDescription": "번영의 주변에 마스 2칸 범위의 장판을 생성한다. 범위 내에 있을 경우 피격당한다. (개안 시 데미지 2배)",
+                    "SkillScript": ""
+                },
+                {
+                    "SkillName": "반역자의 최후",
+                    "SkillConst": "100-3",
+                    "SkillType": "Attack-Tick",
+                    "SkillRangeType": "Filter-Top-MostDamage",
+                    "SkillRangeConst": null,
+                    "SkillDescription": "해당 전조 턴에서 자신에게 가장 강한 공격을 가한 사람에게 3턴간 지속되는 DoT 피해를 입힌다.",
+                    "SkillScript": ""
+                },
+                {
+                    "SkillName": "생의 시선",
+                    "SkillConst": "2400 / PointPlayerCnt",
+                    "SkillType": "Attack",
+                    "SkillRangeType": "Point",
+                    "SkillRangeConst": null,
+                    "SkillDescription": "번영의 눈이 한 사람을 응시한다. 가해지는 데미지는 쉐어 데미지로 최소 3인 이상이 함께 맞아야 일격에 죽지 않는다.",
+                    "SkillScript": "너희의 불경함이 이를 데 없구나."
+                }
+            ],
+            "TimeLine": [
+                {
+                    "Command": "여왕의 격:Original",
+                    "Action": "Default"
+                },
+                {
+                    "Command": "여왕의 춤:Original",
+                    "Action": "Default"
+                },
+                {
+                    "Command": "여왕의 정원:Original",
+                    "Action": "Default"
+                },
+                {
+                    "Command": "개안",
+                    "Action": "Default"
+                },
+                {
+                    "Command": "여왕의 정원:Open",
+                    "Action": "Default"
+                },
+                {
+                    "Command": "품위있는 어전:Open",
+                    "Action": "Default"
+                },
+                {
+                    "Command": "번영",
+                    "Action": "Default"
+                },
+                {
+                    "Command": "MobPhase(이거는 좀 생각좀)",
+                    "Action": "Default"
+                },
+                {
+                    "Command": "MobPhase(이거는 좀 생각좀)",
+                    "Action": "Default"
+                },
+                {
+                    "Command": "MobPhase(이거는 좀 생각좀)",
+                    "Action": "Default"
+                },
+                {
+                    "Command": "광휘의 범람",
+                    "Action": "Default"
+                },
+                {
+                    "Command": "생의 시선",
+                    "Action": "Default"
+                },
+                {
+                    "Command": "우아한 깃",
+                    "Action": "Default"
+                },
+                {
+                    "Command": "반역자의 최후",
+                    "Action": "Default"
+                },
+                {
+                    "Command": "개안",
+                    "Action": "Default"
+                },
+                {
+                    "Command": "여왕의 춤(범위 증가):Open",
+                    "Action": "Default"
+                },
+                {
+                    "Command": "Infinite",
+                    "Action": "Infinite"
+                }
+            ]
+        }
+    ]
+}

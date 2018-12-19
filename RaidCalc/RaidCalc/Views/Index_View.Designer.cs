@@ -30,7 +30,7 @@
         {
             this.Button_Start = new System.Windows.Forms.Button();
             this.Button_Exit = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
+            this.Button_Options = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // Button_Start
@@ -55,22 +55,23 @@
             this.Button_Exit.UseVisualStyleBackColor = true;
             this.Button_Exit.Click += new System.EventHandler(this.Button_Exit_Click);
             // 
-            // button3
+            // Button_Options
             // 
-            this.button3.Location = new System.Drawing.Point(23, 205);
-            this.button3.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 33);
-            this.button3.TabIndex = 0;
-            this.button3.Text = "button1";
-            this.button3.UseVisualStyleBackColor = true;
+            this.Button_Options.Location = new System.Drawing.Point(23, 205);
+            this.Button_Options.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.Button_Options.Name = "Button_Options";
+            this.Button_Options.Size = new System.Drawing.Size(75, 33);
+            this.Button_Options.TabIndex = 0;
+            this.Button_Options.Text = "Options";
+            this.Button_Options.UseVisualStyleBackColor = true;
+            this.Button_Options.Click += new System.EventHandler(this.button3_Click);
             // 
             // Index_View
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.Controls.Add(this.button3);
+            this.Controls.Add(this.Button_Options);
             this.Controls.Add(this.Button_Exit);
             this.Controls.Add(this.Button_Start);
             this.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -85,6 +86,6 @@
 
         private System.Windows.Forms.Button Button_Start;
         private System.Windows.Forms.Button Button_Exit;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button Button_Options;
     }
 }

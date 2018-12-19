@@ -33,6 +33,7 @@
             this.Flow_ButtonBox = new System.Windows.Forms.FlowLayoutPanel();
             this.Button_Save = new System.Windows.Forms.Button();
             this.Button_Copy = new System.Windows.Forms.Button();
+            this.Button_SaveDefault = new System.Windows.Forms.Button();
             this.Flow_ButtonBox.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -58,16 +59,17 @@
             // Flow_ButtonBox
             // 
             this.Flow_ButtonBox.Controls.Add(this.Button_Save);
+            this.Flow_ButtonBox.Controls.Add(this.Button_SaveDefault);
             this.Flow_ButtonBox.Controls.Add(this.Button_Copy);
             this.Flow_ButtonBox.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-            this.Flow_ButtonBox.Location = new System.Drawing.Point(345, 18);
+            this.Flow_ButtonBox.Location = new System.Drawing.Point(254, 18);
             this.Flow_ButtonBox.Name = "Flow_ButtonBox";
-            this.Flow_ButtonBox.Size = new System.Drawing.Size(163, 41);
+            this.Flow_ButtonBox.Size = new System.Drawing.Size(254, 41);
             this.Flow_ButtonBox.TabIndex = 4;
             // 
             // Button_Save
             // 
-            this.Button_Save.Location = new System.Drawing.Point(85, 4);
+            this.Button_Save.Location = new System.Drawing.Point(176, 4);
             this.Button_Save.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Button_Save.Name = "Button_Save";
             this.Button_Save.Size = new System.Drawing.Size(75, 33);
@@ -87,6 +89,17 @@
             this.Button_Copy.UseVisualStyleBackColor = true;
             this.Button_Copy.Click += new System.EventHandler(this.Button_Copy_Click);
             // 
+            // Button_SaveDefault
+            // 
+            this.Button_SaveDefault.Location = new System.Drawing.Point(85, 4);
+            this.Button_SaveDefault.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.Button_SaveDefault.Name = "Button_SaveDefault";
+            this.Button_SaveDefault.Size = new System.Drawing.Size(85, 33);
+            this.Button_SaveDefault.TabIndex = 3;
+            this.Button_SaveDefault.Text = "SaveDefault";
+            this.Button_SaveDefault.UseVisualStyleBackColor = true;
+            this.Button_SaveDefault.Click += new System.EventHandler(this.Button_SaveDefault_Click);
+            // 
             // RaidCalcLogWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
@@ -98,7 +111,7 @@
             this.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "RaidCalcLogWindow";
-            this.Text = "RaidCalcLogWindow";
+            this.Text = "RaidCalc - Log";
             this.Resize += new System.EventHandler(this.RaidCalcLogWindow_Resize);
             this.Flow_ButtonBox.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -113,5 +126,6 @@
         private System.Windows.Forms.FlowLayoutPanel Flow_ButtonBox;
         private System.Windows.Forms.Button Button_Save;
         private System.Windows.Forms.Button Button_Copy;
+        private System.Windows.Forms.Button Button_SaveDefault;
     }
 }

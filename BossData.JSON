@@ -1,0 +1,31 @@
+{
+    "Boss": [
+        {
+            "Type": "",
+            "Name": "",
+            "Description": [
+                ""
+            ],
+            "MaxHp": ,
+            "MobHp": ,
+            "SkillUpgradeKeyword": "",
+            "Skills": [
+                {
+                    "SkillName": "",
+                    "SkillConst": "",
+                    "SkillType": "",
+                    "SkillRangeType": "",
+                    "SkillRangeConst": "",
+                    "SkillDescription": "",
+                    "SkillScript": ""
+                }
+            ],
+            "TimeLine": [
+                {
+                    "Command": "",
+                    "Action": ""
+                }
+            ]
+        }
+    ]
+}

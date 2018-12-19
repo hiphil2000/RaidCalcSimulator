@@ -18,7 +18,7 @@ namespace RaidCalc.Controllers
         private bool IsSkillSelecting;
 
         private List<Player> _PlayerList;
-        private Player _Boss;
+        private Boss _Boss;
         private List<string> _SelectedPlayers;
         private int _PlayerNameCounter;
 
@@ -180,9 +180,8 @@ namespace RaidCalc.Controllers
         public void LoadSkillList()
         {
             UserCommand_View view = View as UserCommand_View;
-            SkillType type = (SkillType)Enum.Parse(typeof(SkillType), view.SkillsetName);
-            var skillList = MainFrame.GetSkillList().Where(x => x.Type.HasFlag(type)).ToList<ISkillBase>();
-            view.DrawSkillset(skillList);
+            var skillList = MainFrame.GetSkillList();
+            view.InitSkillset(skillList);
         }
 
         public bool NextPage()
@@ -244,7 +243,7 @@ namespace RaidCalc.Controllers
                 player.Stat = new Stats(pitem.Player_Stat1, pitem.Player_Stat2, pitem.Player_Stat3);
             }
             PlayerItem bossItem = (PlayerItem)view.Controls["BossItem"];
-            _Boss = new Player();
+            _Boss = new Boss();
             _Boss.Name = bossItem.Player_Name;
             _Boss.CurrentHp = bossItem.Player_CurrentHealth;
             _Boss.MaxHp = bossItem.Player_MaxHealth;
@@ -256,6 +255,7 @@ namespace RaidCalc.Controllers
         public void InitData()
         {
             AddPlayers(MainFrame.GetPlayerList());
+            LoadSkillList();
         }
     }
 }

@@ -46,5 +46,10 @@ namespace RaidCalc.Views
         {
             
         }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            (Controller as Index_Controller).OpenOptionWindow();
+        }
     }
 }

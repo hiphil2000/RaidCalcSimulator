@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,9 +30,12 @@ namespace RaidCalc
 
     public partial class RaidCalcWindow : Form
     {
-        Dictionary<string, ViewController> Dic_ViewController;  // View와 Controller의 목록을 정의한 Dictionary
-        Game Game;
+        private Dictionary<string, ViewController> Dic_ViewController;  // View와 Controller의 목록을 정의한 Dictionary
+        private Game Game;
         private Dictionary<string, ISkillBase> _SkillList;
+
+        private string LogStartPath;
+        private string GameDataPath;
 
         private ViewController _CurrentPage;
 
@@ -108,6 +112,21 @@ namespace RaidCalc
             _CurrentPage.Controller.InitData();
         }
 
+        public void SetDatas(string gameData, string logFolder)
+        {
+            GameDataPath = gameData;
+            LogStartPath = logFolder;
+
+            string GameData = "";
+            using (StreamReader sr = new StreamReader(gameData))
+            {
+                GameData = sr.ReadToEnd();
+            }
+            Game.SetDatas(GameData);
+            Game.WriteSystemLog($"현재 지정된 기본 로그 저장 경로: [{LogStartPath}]");
+            Text_NowLog.Text = Game.PrintLogBuffer();
+        }
+
         public List<ISkillBase> GetSkillList()
         {
             List<ISkillBase> skills = new List<ISkillBase>();
@@ -134,6 +153,11 @@ namespace RaidCalc
                 MessageBox.Show("이미 실행중입니다.", "에러");
             else
             {
+                if (Game.GetBossDict().Count < 1)
+                {
+                    MessageBox.Show("보스 정보가 로드되지 않았습니다. Options에서 로드하십시오.", "실패");
+                    return;
+                }
                 MessageBox.Show("게임을 시작합니다.", "알림");
                 Game.StartGame();
                 Button_Log.Enabled = true;
@@ -159,16 +183,16 @@ namespace RaidCalc
             }
         }
 
-        public void SetBoss(Player boss)
+        public void SetBoss(Boss boss)
         {
             Game.SetBoss(boss);
-            string msg = $"[<Boss>{boss.Name}](이)가 로드됨. {{\"Name\": \"{boss.Name}\", \"HP\": \"{boss.CurrentHp}/{boss.MaxHp}\", \"CommonSkills\": [";
+            string msg = $"[<Boss>{boss.Name}](이)가 로드됨. {{\"Name\": \"{boss.Name}\", \"HP\": \"{boss.CurrentHp}/{boss.MaxHp}\", \"CommonSkills\": [ ";
             foreach (ISkillBase skill in boss.CommonSkills)
             {
                 msg += $"\"{skill.Name}\", ";
             }
             msg = msg.Substring(0, msg.Length - 2);
-            msg += "]}";
+            msg += " ]}";
             Game.WriteLog(msg);
         }
 
@@ -200,6 +224,16 @@ namespace RaidCalc
         public int GetExacTurn()
         {
             return Game.ExacTurn;
+        }
+
+        public string GetGameFilePath()
+        {
+            return GameDataPath;
+        }
+
+        public string GetLogStartPath()
+        {
+            return LogStartPath;
         }
 
         private void ExecuteQueue()
@@ -237,6 +271,7 @@ namespace RaidCalc
             {
                 MessageBox.Show("게임이 시작되지 않았습니다.", "실패");
                 CenterToScreen();
+                return;
             }
             if (_CurrentPage.Controller.NextPage())
             {
@@ -289,10 +324,6 @@ namespace RaidCalc
             LogWindow.ShowDialog();
         }
         #endregion
-
-        private void RaidCalcWindow_Resize(object sender, EventArgs e)
-        {
-
-        }
+        
     }
 }

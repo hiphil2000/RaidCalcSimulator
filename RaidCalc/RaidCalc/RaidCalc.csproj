@@ -10,7 +10,7 @@
     <AssemblyName>RaidCalc</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
@@ -87,6 +87,12 @@
     <Compile Include="Views\BossAction_View.Designer.cs">
       <DependentUpon>BossAction_View.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\RaidCalcOptionWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\RaidCalcOptionWindow.Designer.cs">
+      <DependentUpon>RaidCalcOptionWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\GridMap.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -149,6 +155,9 @@
     </Compile>
     <EmbeddedResource Include="Views\BossAction_View.resx">
       <DependentUpon>BossAction_View.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\RaidCalcOptionWindow.resx">
+      <DependentUpon>RaidCalcOptionWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\GridMap.resx">
       <DependentUpon>GridMap.cs</DependentUpon>

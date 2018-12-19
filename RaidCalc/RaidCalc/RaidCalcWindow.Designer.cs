@@ -153,7 +153,6 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "RaidCalc";
             this.Load += new System.EventHandler(this.RaidCalc_Load);
-            this.Resize += new System.EventHandler(this.RaidCalcWindow_Resize);
             this.Flow_ButtonBox.ResumeLayout(false);
             this.Flow_ToolBox.ResumeLayout(false);
             this.ResumeLayout(false);

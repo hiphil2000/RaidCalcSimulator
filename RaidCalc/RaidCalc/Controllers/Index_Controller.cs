@@ -28,6 +28,10 @@ namespace RaidCalc.Controllers
         {
             MainFrame.StartGame();
         }
+        public void OpenOptionWindow()
+        {
+            new Views.RaidCalcOptionWindow(MainFrame).ShowDialog();
+        }
 
         public bool NextPage()
         {
@@ -38,5 +42,6 @@ namespace RaidCalc.Controllers
         {
             
         }
+
     }
 }
