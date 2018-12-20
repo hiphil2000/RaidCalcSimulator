@@ -24,6 +24,8 @@ namespace RaidCalcCore.Models
         {
             this.Name = Name;
             this.Type = Type;
+            this.RangeType = RangeType;
+            this.RangeConst = RangeConst;
             this.Cooltime = Cooltime;
             this.SkillConst = SkillConst;
             this.Description = Description;

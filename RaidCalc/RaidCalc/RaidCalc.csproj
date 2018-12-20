@@ -87,6 +87,12 @@
     <Compile Include="Views\BossAction_View.Designer.cs">
       <DependentUpon>BossAction_View.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\RaidCalcInfoWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\RaidCalcInfoWindow.Designer.cs">
+      <DependentUpon>RaidCalcInfoWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\RaidCalcOptionWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -155,6 +161,9 @@
     </Compile>
     <EmbeddedResource Include="Views\BossAction_View.resx">
       <DependentUpon>BossAction_View.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\RaidCalcInfoWindow.resx">
+      <DependentUpon>RaidCalcInfoWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\RaidCalcOptionWindow.resx">
       <DependentUpon>RaidCalcOptionWindow.cs</DependentUpon>

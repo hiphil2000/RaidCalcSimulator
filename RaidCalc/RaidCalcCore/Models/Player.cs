@@ -34,7 +34,7 @@ namespace RaidCalcCore.Models
 
         public double GiveConst { get; set; }
         public double HealHarmConst { get; set; }
-        public List<ISkillBase> Buffs { get; set; }
+        public List<BuffBase> Buffs { get; set; }
 
         private ISkillBase _UltimateSkill;
 

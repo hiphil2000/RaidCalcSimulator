@@ -37,7 +37,7 @@ namespace RaidCalc.Views
 
         private void SetSelected()
         {
-            if (_isSelected && _selectiveMode)
+            if (_isSelected)
                 Panel_Selected.BackColor = Color.Yellow;
             else
                 Panel_Selected.BackColor = Color.Transparent;

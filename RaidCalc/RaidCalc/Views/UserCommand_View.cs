@@ -63,9 +63,15 @@ namespace RaidCalc.Views
                     pitem.IsSelected = false;
                     pitem.SelectiveMode = _IsPlayerEditing;
                     if (_IsPlayerEditing == true)
+                    {
                         BindEventsAllChildren(pitem, PlayerSelected);
+                        pitem.Click += PlayerSelected;
+                    }
                     else
+                    {
                         UnBindEventsAllChildren(pitem, PlayerSelected);
+                        pitem.Click -= PlayerSelected;
+                    }
                 }
             }
         }
@@ -89,14 +95,30 @@ namespace RaidCalc.Views
                     pitem.IsSelected = false;
                     pitem.SelectiveMode = _IsSkillEditing;
                     if (_IsSkillEditing == true)
+                    {
                         BindEventsAllChildren(pitem, PlayerSelected);
+                        pitem.Click += PlayerSelected;
+                    }
                     else
+                    {
                         UnBindEventsAllChildren(pitem, PlayerSelected);
+                        pitem.Click -= PlayerSelected;
+                    }
                 }
                 foreach (SkillItem sitem in List_SkillsetList.Controls)
                 {
                     sitem.IsSelected = false;
-                    sitem.SelectiveMode = _IsSkillEditing;
+                    sitem.SelectiveMode = false;
+                    if (_IsSkillEditing == true)
+                    {
+                        BindEventsAllChildren(sitem, SkillSelected);
+                        sitem.Click += SkillSelected;
+                    }
+                    else
+                    {
+                        UnBindEventsAllChildren(sitem, SkillSelected);
+                        sitem.Click -= SkillSelected;
+                    }
                 }
             }
         }
@@ -121,6 +143,23 @@ namespace RaidCalc.Views
         }
 
         /// <summary>
+        /// 스킬 코스트 카운터에 접근하는 접근자입니다.
+        /// </summary>
+        public int CostCounter
+        {
+            get
+            {
+                return int.Parse(Lab_CostCounter.Text.Substring(1, 2));
+            }
+            set
+            {
+                Lab_CostCounter.Text = $"({value.ToString("00")}/10)";
+                if (value >= 10)
+                    MessageBox.Show($"코스트 초과({value.ToString("00")}/10)","실패");
+            }
+        }
+
+        /// <summary>
         /// 현재 PlayerItem의 List를 구하는 접근자입니다.
         /// </summary>
         public List<PlayerItem> PlayerItems
@@ -132,6 +171,8 @@ namespace RaidCalc.Views
                 return playerList;
             }
         }
+
+        public PlayerItem GetBossItem { get { return BossItem; } }
         #endregion
 
         #region ClassMethods
@@ -195,7 +236,7 @@ namespace RaidCalc.Views
 
         public void HighlightSkills(List<ISkillBase> skills)
         {
-            var temp = skills;
+            List<ISkillBase> temp = new List<ISkillBase>(skills);
             foreach (SkillItem sitem in List_SkillsetList.Controls)
             {
                 foreach (ISkillBase item in temp)
@@ -269,16 +310,34 @@ namespace RaidCalc.Views
         {
             (Controller as UserCommand_Controller).PlayerClicked(GetParentPlayerItem(sender as Control).Name);
         }
+
+        private void SkillSelected(object sender, EventArgs e)
+        {
+            (Controller as UserCommand_Controller).SkillClicked(GetParentSkillItem(sender as Control));
+        }
         #endregion
-        
+
         private PlayerItem GetParentPlayerItem(Control contrl)
         {
             if ((contrl.Parent as PlayerItem) == null)
             {
                 return GetParentPlayerItem(contrl.Parent);
-            } else
+            }
+            else
             {
                 return contrl.Parent as PlayerItem;
+            }
+        }
+
+        private SkillItem GetParentSkillItem(Control contrl)
+        {
+            if ((contrl.Parent as SkillItem) == null)
+            {
+                return GetParentSkillItem(contrl.Parent);
+            }
+            else
+            {
+                return contrl.Parent as SkillItem;
             }
         }
 
@@ -303,7 +362,6 @@ namespace RaidCalc.Views
         {
             if (control != null)
             {
-                control.Click -= e;
                 foreach (Control child in control.Controls)
                 {
                     child.Click -= e;

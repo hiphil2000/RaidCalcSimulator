@@ -18,7 +18,7 @@ namespace RaidCalcCore.Models
         double HealHarmConst { get; set; }  // 받는 치유량 상수
         int PosX { get; set; }
         int PosY { get; set; }
-        List<ISkillBase> Buffs { get; set; }    // 버프 디버프 리스트
+        List<BuffBase> Buffs { get; set; }    // 버프 디버프 리스트
         List<ISkillBase> CommonSkills { get; set; }    // 일반 고유 스킬
         ISkillBase UltimateSkill { get; set; }  // 궁극기
     }

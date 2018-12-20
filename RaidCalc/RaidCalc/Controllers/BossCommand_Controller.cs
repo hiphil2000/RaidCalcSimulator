@@ -17,10 +17,9 @@ namespace RaidCalc.Controllers
         public RaidCalcWindow MainFrame { get; set; }
 
         private List<Player> _PlayerList;
-        private string _SelectedPlayerName;
 
         private List<ICommands> _CommandQueue;
-        private Player _Boss;
+        private Boss _Boss;
 
         public BossCommand_Controller(RaidCalcWindow mainFrame, IView view)
         {
@@ -56,7 +55,7 @@ namespace RaidCalc.Controllers
             view.PlayerCounter = _PlayerList.Count;
         }
 
-        public void SetBoss(Player player)
+        public void SetBoss(Boss player)
         {
             BossCommand_View view = View as BossCommand_View;
             _Boss = player;
@@ -66,7 +65,12 @@ namespace RaidCalc.Controllers
                 string msg = $" 보스 확인: name: {_Boss.Name}, position: {new Point(_Boss.PosX, _Boss.PosY)}";
                 MainFrame.WriteLog(msg);
             }
-            view.SetBoss(player);   
+            view.SetBoss(player);
+            view.GetBossitem.Button_Info.Click += (object sender, EventArgs e) =>
+            {
+                if (view.GetBossitem.Combo_BossList.Text.Length > 0)
+                    new RaidCalcInfoWindow(MainFrame.GetBossByName(view.GetBossitem.Combo_BossList.Text)).ShowDialog();
+            };
         }
 
         public Player GetBoss()
@@ -137,7 +141,7 @@ namespace RaidCalc.Controllers
         private bool Validation()
         {
             BossCommand_View view = View as BossCommand_View;
-            if (view.GridItem.points.ContainsKey(view.Boss.Name) == false)
+            if (view.GridItem.points.ContainsKey(_Boss.Name) == false)
             {
                 MessageBox.Show("보스의 위치가 정해지지 않았습니다.");
                 return false;

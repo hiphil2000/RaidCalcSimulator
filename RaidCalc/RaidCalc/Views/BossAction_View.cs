@@ -31,7 +31,9 @@ namespace RaidCalc.Views
         #region Member Accessor
         public Player Boss { get { return bitem.ToPlayer(); } }
         public string SelectedBossSkill { get { return bitem.SelectedSkillName.ToString(); } }
+        public PlayerItem GetBossItem { get { return bitem; } }
         private PlayerItem bitem;
+
         public int PlayerCounter
         {
             get
@@ -74,7 +76,7 @@ namespace RaidCalc.Views
             Flow_PlayerList.Controls.Add(pitem);
         }
 
-        public void SetBoss(Player player)
+        public void SetBoss(Boss boss)
         {
             bitem = new PlayerItem();
             bitem.Name = "BossItem";
@@ -83,9 +85,10 @@ namespace RaidCalc.Views
             bitem.SkillsVisible = false;
             bitem.Readonly = true;
             bitem.Location = new Point(3, 35);
-            bitem.Player_Name = player.Name;
-            bitem.Player_CurrentHealth = player.CurrentHp;
-            bitem.Player_MaxHealth = player.MaxHp;
+            bitem.Player_Name = boss.Name;
+            bitem.Player_CurrentHealth = boss.CurrentHp;
+            bitem.Player_MaxHealth = boss.MaxHp;
+            bitem.Width = 760;
         }
 
         #endregion

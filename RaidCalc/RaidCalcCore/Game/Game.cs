@@ -2,6 +2,7 @@
 using RaidCalcCore.Models;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Text;
@@ -32,6 +33,7 @@ namespace RaidCalcCore.Game
         private Dictionary<string, ISkillBase> SkillList;
         private Dictionary<string, ISkillBase> BossSkillList;
         private Boss Boss;
+        private List<Player> MobList;
 
         private string LogBase;
         private string LogBuffer;
@@ -44,6 +46,7 @@ namespace RaidCalcCore.Game
             PlayerList = new List<Player>();
             SkillList = new Dictionary<string, ISkillBase>();
             BossDictionary = new Dictionary<string, Boss>();
+            MobList = new List<Player>();
             BossSkillList = new Dictionary<string, ISkillBase>();
         }
         #endregion
@@ -160,7 +163,7 @@ namespace RaidCalcCore.Game
                     string SkillRangeConst = skill["SkillRangeConst"].ToString();
                     string SkillDescription = skill["SkillDescription"].ToString();
                     string SkillScript = skill["SkillScript"].ToString();
-                    skills.Add(new BossSkillBase(SkillName, SkillConst, (SkillType)Enum.Parse(typeof(SkillType), SkillType), SkillRangeType, SkillRangeConst, SkillDescription, SkillScript, 0));
+                    skills.Add(GenerateSkill(new BossSkillBase(SkillName, SkillConst, (SkillType)Enum.Parse(typeof(SkillType), SkillType), SkillRangeType, SkillRangeConst, SkillDescription, SkillScript, 0)));
                 }
 
                 foreach (var timeline in JArray.Parse(item["TimeLine"].ToString()))
@@ -176,6 +179,94 @@ namespace RaidCalcCore.Game
             msg = msg.Substring(0, msg.Length - 2) + " ]";
             WriteSystemLog(msg);
             return msg;
+        }
+
+        private BossSkillBase GenerateSkill(BossSkillBase skill)
+        {
+            string skillExp = skill.SkillConst;
+
+            if (skill.Type.HasFlag(SkillType.Offence))
+            {
+                skill.SkillFunction = (IPlayer boss, IPlayer player, object obj) =>
+                {
+                    Boss bs = boss as Boss;
+                    Player py = player as Player;
+                    double damage = ((double)ComputeSkillConst(skillExp, SkillType.Offence)) * py.HarmConst;
+                    py.CurrentHp = py.CurrentHp - damage <= 0 ? 0 : py.CurrentHp - damage;
+                    return true;
+                };
+            }
+            else if (skill.Type.HasFlag(SkillType.MobAdd))
+            {
+                skill.SkillFunction = (IPlayer boss, IPlayer player, object obj) =>
+                {
+                    Boss bs = boss as Boss;
+                    double MobHp = bs.MobHp;
+                    int count = int.Parse(skillExp);
+                    Random r = new Random();
+                    var MobSkill = new BasicSkill() { Name = "일반 공격", Cooltime = 0, ForceConst = 300, Type = SkillType.Offence, UsedTurn = -999, Description = "일반 공격" };
+                    MobSkill.SetFunction((user, victim, scobj) => {
+                        victim.CurrentHp = victim.CurrentHp - (300 * victim.HarmConst) <= 0 ? 0 : victim.CurrentHp - (300 * victim.HarmConst);
+                        return true;
+                    });
+                    for (int i = 0; i < count; i++)
+                    {
+                        var mob = new Player("Mob" + i, new Stats(), MobHp, MobHp, 1, r.Next(20), r.Next(20));
+                        mob.CommonSkills.Add(MobSkill);
+                        MobList.Add(mob);
+                    }
+                    return true;
+                };
+            }
+            else if (skill.Type.HasFlag(SkillType.Defence))
+            {
+                skill.SkillFunction = (IPlayer boss, IPlayer player, object obj) =>
+                {
+                    double skillConst = (double)ComputeSkillConst(skillExp, SkillType.Defence);
+                    boss.HarmConst = boss.HarmConst - (boss.HarmConst * skillConst) < 0 ? 0 : boss.HarmConst - (boss.HarmConst * skillConst);
+                    return true;
+                };
+            }
+            else if (skill.Type.HasFlag(SkillType.OffenceTick))
+            {
+                var consts = (ValueTuple<double, int>)ComputeSkillConst(skillExp, SkillType.OffenceTick);
+                double skillConst = consts.Item1;
+                int duration = consts.Item2;
+                skill.SkillFunction = (IPlayer boss, IPlayer player, object obj) =>
+                {
+                    Boss bs = boss as Boss;
+                    Player py = player as Player;
+                    BuffBase buffBase = new BuffBase(boss, duration, duration, skillConst);
+                    buffBase.SkillFunction = (Player source, Player dst) =>
+                    {
+                        dst.CurrentHp = dst.CurrentHp - (skillConst * dst.HarmConst) <= 0 ? 0 : dst.CurrentHp - (skillConst * dst.HarmConst);
+                        return true;
+                    };
+                    py.Buffs.Add(buffBase);
+                    return true;
+                };
+            }
+            return skill;
+        }
+
+        private object ComputeSkillConst(string exp, SkillType skillType)
+        {
+            int MobCnt = MobList.Count;
+            string expRep = exp.Replace("MobCnt", MobCnt.ToString());
+            object result;
+
+            if (skillType.ToString().Contains("Tick"))
+            {
+                var expSplit = exp.Split('-');
+                double sc = double.Parse(expSplit[0]);
+                int dur = int.Parse(expSplit[1]);
+                result = (sc, dur);
+            }
+            else
+            {
+                result = new DataTable().Compute(expRep, null);
+            }
+            return result;
         }
         #endregion
 
@@ -289,9 +380,15 @@ namespace RaidCalcCore.Game
         {
             Boss = boss;
         }
-        public Player GetBoss()
+
+        public Boss GetBoss()
         {
             return Boss;
+        }
+
+        public Boss GetBossByName(string name)
+        {
+            return BossDictionary[name];
         }
 
         public Dictionary<string, Boss> GetBossDict()

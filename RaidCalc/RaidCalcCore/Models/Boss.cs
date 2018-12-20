@@ -6,25 +6,36 @@ namespace RaidCalcCore.Models
 {
     public class Boss : Player
     {
-        private string type;
-        private string[] description;
-        private double mobHP;
-        private string skillUpgradeKeyword;
-        private List<BossSkillBase> skills;
-        private List<TimeLine> timeLines;
+        public string Type { get { return _type; } set { _type = value; } }
+        private string _type;
+
+        public string[] Description { get { return _description; } set { _description = value; } }
+        private string[] _description;
+
+        public double MobHp { get { return _mobHP; } set { _mobHP = value; } }
+        private double _mobHP;
+
+        public string SkillUpgradeKeyword { get { return _skillUpgradeKeyword; } set { _skillUpgradeKeyword = value; } }
+        private string _skillUpgradeKeyword;
+
+        public List<BossSkillBase> Skills { get { return _skills; } set { _skills = value; } }
+        private List<BossSkillBase> _skills;
+
+        public List<TimeLine> TimeLines { get { return _timeLines; } set { _timeLines = value; } }
+        private List<TimeLine> _timeLines;
 
         public Boss() { }
 
         public Boss(string name, string type, string[] description, double maxHP, double mobHP, string skillUpgradeKeyword, List<BossSkillBase> skills, List<TimeLine> timeLines) : this()
         {
             Name = name;
-            this.type = type;
-            this.description = description;
+            this._type = type;
+            this._description = description;
             MaxHp = maxHP;
-            this.mobHP = mobHP;
-            this.skillUpgradeKeyword = skillUpgradeKeyword;
-            this.skills = skills;
-            this.timeLines = timeLines;
+            this._mobHP = mobHP;
+            this._skillUpgradeKeyword = skillUpgradeKeyword;
+            this._skills = skills;
+            this._timeLines = timeLines;
         }
     }
 }

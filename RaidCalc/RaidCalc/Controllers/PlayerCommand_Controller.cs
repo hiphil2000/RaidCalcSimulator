@@ -152,16 +152,23 @@ namespace RaidCalc.Controllers
             SetBoss(MainFrame.GetBoss());
         }
 
-        private void SetBoss(Player player)
+        private void SetBoss(Boss boss)
         {
             PlayerCommand_View view = View as PlayerCommand_View;
-            _Boss = player;
-            PlayerItem pitem = view.Controls["BossItem"] as PlayerItem;
-            pitem.Player_Name = _Boss.Name;
-            pitem.Player_CurrentHealth = _Boss.CurrentHp;
-            pitem.Player_MaxHealth = _Boss.MaxHp;
+            _Boss = boss;
+            PlayerItem bitem = view.Controls["BossItem"] as PlayerItem;
+            bitem.Combo_BossList.DropDownStyle = ComboBoxStyle.Simple;
+            bitem.Combo_BossList.Text = _Boss.Name;
+            bitem.Combo_BossList.Enabled = false;
+            bitem.Player_CurrentHealth = _Boss.CurrentHp;
+            bitem.Player_MaxHealth = _Boss.MaxHp;
             if (_Boss.PosX > -1 && _Boss.PosY > -1)
                 view.GridItem.AddRealPoint(_Boss.Name, new Point(_Boss.PosX, _Boss.PosY));
+            bitem.Button_Info.Click += (object sender, EventArgs e) =>
+            {
+                if (bitem.Combo_BossList.Text.Length > 0)
+                    new RaidCalcInfoWindow(MainFrame.GetBossByName(bitem.Combo_BossList.Text)).ShowDialog();
+            };
         }
 
         public void AddPlayers(List<Player> players)

@@ -13,6 +13,8 @@ namespace RaidCalc.Views
 {
     public partial class PlayerItem : UserControl
     {
+        #region member
+
         public bool SelectiveMode
         {
             get
@@ -46,12 +48,23 @@ namespace RaidCalc.Views
 
         private void SetReadonly()
         {
+            if (Combo_BossList != null)
+            {
+                Combo_BossList.Enabled = !_readonly;
+                if (_readonly == true)
+                    Combo_BossList.DropDownStyle = ComboBoxStyle.Simple;
+                else
+                    Combo_BossList.DropDownStyle = ComboBoxStyle.DropDownList;
+            }
             Text_Name.Enabled = !_readonly;
             Text_Stat1.Enabled = !_readonly;
             Text_Stat2.Enabled = !_readonly;
             Text_Stat3.Enabled = !_readonly;
             Text_CurrentHealth.Enabled = !_readonly;
-            Text_MaxHealth.Enabled = !_readonly;
+            if (_isBoss)
+                Text_MaxHealth.Enabled = false;
+            else
+                Text_MaxHealth.Enabled = !_readonly;
         }
 
         public bool SkillsVisible
@@ -64,6 +77,7 @@ namespace RaidCalc.Views
             }
         }
         private bool _SkillsVisible;
+
 
         public bool IsBoss
         {
@@ -96,14 +110,39 @@ namespace RaidCalc.Views
         {
             if (_isBoss)
             {
+                _Combo_BossList = new ComboBox();
+                Combo_BossList.Size = new Size(140, 25);
+                Combo_BossList.Margin = new Padding(0, 0, 4, 0);
+                Combo_BossList.DropDownStyle = ComboBoxStyle.DropDownList;
+                _Button_Info = new Button();
+                _Button_Info.Size = new Size(94, 25);
+                _Button_Info.Margin = new Padding(0);
+                _Button_Info.Name = "BossInfoButton";
+                _Button_Info.Text = "Info";
+                flowLayoutPanel1.Controls.Add(Combo_BossList);
+                flowLayoutPanel1.Controls.Add(_Button_Info);
+                flowLayoutPanel1.Controls.SetChildIndex(Combo_BossList, 1);
+                flowLayoutPanel1.Controls.SetChildIndex(Picture_PlayerIcon, 0);
+                Text_Name.Visible = false;
                 Panel_Stat.Visible = false;
-            } else
+                Text_MaxHealth.Enabled = false;
+                Width = Picture_PlayerIcon.Width + Combo_BossList.Width + Combo_BossList.Margin.Right + Panel_Health.Width + Panel_Health.Margin.Left + Panel_Health.Margin.Right + _Button_Info.Width + 6;
+            }
+            else
             {
+                if (_Combo_BossList != null)
+                    Combo_BossList.Visible = false;
+                Text_Name.Visible = true;
                 Panel_Stat.Visible = true;
+                Text_MaxHealth.Enabled = true;
             }
                 
         }
+        #endregion
 
+        
+
+        #region util
         private int ParseInt(string text)
         {
             var temp = text;
@@ -125,7 +164,9 @@ namespace RaidCalc.Views
 
             return double.Parse(temp);
         }
+        #endregion
 
+        #region accessor
         public string Player_Name { get { return Text_Name.Text; } set { Text_Name.Text = value; } }
         public int Player_Stat1 { get { return ParseInt(Text_Stat1.Text); } set { Text_Stat1.Text = value.ToString(); } }
         public int Player_Stat2 { get { return ParseInt(Text_Stat2.Text); } set { Text_Stat2.Text = value.ToString(); } }
@@ -133,18 +174,17 @@ namespace RaidCalc.Views
         public double Player_CurrentHealth { get { return ParseDouble(Text_CurrentHealth.Text); } set { Text_CurrentHealth.Text = value.ToString(); } }
         public double Player_MaxHealth { get { return ParseDouble(Text_MaxHealth.Text); } set { Text_MaxHealth.Text = value.ToString(); } }
         public ComboBox Player_Skills { get { return Combo_Skills; } }
+        public ComboBox Combo_BossList { get { return _Combo_BossList; } }
+        private ComboBox _Combo_BossList;
+        public Button Button_Info { get { return _Button_Info; } }
+        private Button _Button_Info;
+        #endregion
 
         public List<ISkillBase> CommonSkills;
         public ISkillBase UltimateSkill;
         public PlayerItem()
         {
             InitializeComponent();
-            Text_Name.Click += PlayerItem_Click;
-            Text_Stat1.Click += PlayerItem_Click;
-            Text_Stat2.Click += PlayerItem_Click;
-            Text_Stat3.Click += PlayerItem_Click;
-            Text_CurrentHealth.Click += PlayerItem_Click;
-            Text_MaxHealth.Click += PlayerItem_Click;
             SkillsVisible = false;
             CommonSkills = new List<ISkillBase>();
         }

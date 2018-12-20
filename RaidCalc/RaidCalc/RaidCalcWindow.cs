@@ -187,7 +187,7 @@ namespace RaidCalc
         {
             Game.SetBoss(boss);
             string msg = $"[<Boss>{boss.Name}](이)가 로드됨. {{\"Name\": \"{boss.Name}\", \"HP\": \"{boss.CurrentHp}/{boss.MaxHp}\", \"CommonSkills\": [ ";
-            foreach (ISkillBase skill in boss.CommonSkills)
+            foreach (ISkillBase skill in boss.Skills)
             {
                 msg += $"\"{skill.Name}\", ";
             }
@@ -196,15 +196,26 @@ namespace RaidCalc
             Game.WriteLog(msg);
         }
 
-        public Player GetBoss()
+        public Boss GetBoss()
         {
             return Game.GetBoss();
+        }
+
+        public Boss GetBossByName(string name)
+        {
+            return Game.GetBossByName(name);
+        }
+
+        public List<Boss> GetBossList()
+        {
+            return Game.GetBossDict().Values.ToList();
         }
 
         public List<Player> GetPlayerList()
         {
             return Game.GetPlayerList();
         }
+
 
         public void SetQueue(List<ICommands> commands)
         {

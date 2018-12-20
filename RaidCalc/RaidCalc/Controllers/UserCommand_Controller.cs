@@ -20,6 +20,7 @@ namespace RaidCalc.Controllers
         private List<Player> _PlayerList;
         private Boss _Boss;
         private List<string> _SelectedPlayers;
+        private List<ISkillBase> _SelectedSkills;
         private int _PlayerNameCounter;
 
         public UserCommand_Controller(RaidCalcWindow mainFrame, IView view)
@@ -32,6 +33,7 @@ namespace RaidCalc.Controllers
 
             _PlayerList = new List<Player>();
             _SelectedPlayers = new List<string>();
+            _SelectedSkills = new List<ISkillBase>();
             _PlayerNameCounter = 0;
 
             view.Clear();
@@ -97,7 +99,7 @@ namespace RaidCalc.Controllers
                 }
                 else
                 {
-                    var skillList = view.GetSelectedSkills();
+                    var skillList = _SelectedSkills;
                     string skills = " ";
                     foreach (ISkillBase sname in skillList)
                     {
@@ -106,7 +108,7 @@ namespace RaidCalc.Controllers
                     if (MessageBox.Show($"{_SelectedPlayers[0]}의 스킬을 확정하시겠습니까?\r\n[{skills}]",
                         "확정", MessageBoxButtons.YesNo) == DialogResult.Yes)
                     {
-                        SetPlayerSkill(view.GetSelectedSkills());
+                        SetPlayerSkill(_SelectedSkills);
                         view.ClearSkillSelection();
                         if (_SelectedPlayers.Contains(name) == true)
                         {
@@ -130,6 +132,50 @@ namespace RaidCalc.Controllers
                 {
                     _SelectedPlayers.Add(name);
                 }
+                else
+                {
+                    _SelectedPlayers.Remove(name);
+                }
+            }
+        }
+
+        public void SkillClicked(SkillItem sitem)
+        {
+            UserCommand_View view = View as UserCommand_View;
+            if (_SelectedPlayers.Count <= 0)
+            {
+                MessageBox.Show("플레이어를 먼저 선택하세요.", "실패");
+                sitem.IsSelected = false;
+                return;
+            }
+            int cost = view.CostCounter;
+
+            int sitemCost;
+            if (sitem.Skill.Type.HasFlag(SkillType.Basic))
+                sitemCost = 1;
+            else if (sitem.Skill.Type.HasFlag(SkillType.Offence) || sitem.Skill.Type.HasFlag(SkillType.Defence) || sitem.Skill.Type.HasFlag(SkillType.Heal))
+                sitemCost = 2;
+            else
+                sitemCost = 3;
+            if (_SelectedSkills.Contains(sitem.Skill))
+            {
+                _SelectedSkills.Remove(sitem.Skill);
+                sitem.IsSelected = false;
+                view.CostCounter = cost - sitemCost;
+            }
+            else
+            {
+                if (cost + sitemCost > 10)
+                {
+                    MessageBox.Show($"코스트 초과함. ({cost + sitemCost}/10)");
+                    sitem.IsSelected = false;
+                }
+                else
+                {
+                    sitem.IsSelected = true;
+                    _SelectedSkills.Add(sitem.Skill);
+                    view.CostCounter = cost + sitemCost;
+                }
             }
         }
 
@@ -138,6 +184,27 @@ namespace RaidCalc.Controllers
             UserCommand_View view = View as UserCommand_View;
             Player player = _PlayerList.First(x => x.Name.Equals(_SelectedPlayers[0]));
             view.HighlightSkills(player.CommonSkills);
+            int cost = 0;
+            foreach (var item in player.CommonSkills)
+            {
+                if (_SelectedSkills.Contains(item) == false)
+                {
+                    _SelectedSkills.Add(item);
+                }
+                if (item.Type.HasFlag(SkillType.Basic))
+                {
+                    cost ++;
+                }
+                else if (item.Type.HasFlag(SkillType.Offence) || item.Type.HasFlag(SkillType.Defence) || item.Type.HasFlag(SkillType.Heal))
+                {
+                    cost += 2;
+                }
+                else
+                {
+                    cost += 3;
+                }
+            }
+            view.CostCounter = cost;
         }
 
         public void SetSkillList()
@@ -145,20 +212,21 @@ namespace RaidCalc.Controllers
             UserCommand_View view = View as UserCommand_View;
             if (IsSkillSelecting == true)
             {
-                var skillList = view.GetSelectedSkills();
                 string skills = " ";
-                foreach (ISkillBase sname in skillList)
+                foreach (ISkillBase sname in _SelectedSkills)
                 {
                     skills += sname.Name + ", ";
                 }
                 if (_SelectedPlayers.Count > 0)
                 if (MessageBox.Show($"{_SelectedPlayers[0]}의 스킬을 확정하시겠습니까?\r\n[{skills}]",
                         "확정", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                    SetPlayerSkill(view.GetSelectedSkills());
+                    SetPlayerSkill(_SelectedSkills);
             }
             IsSkillSelecting = !IsSkillSelecting;
             view.IsSkillEditing = IsSkillSelecting;
             _SelectedPlayers.Clear();
+            _SelectedSkills.Clear();
+            view.CostCounter = 0;
         }
 
         private void SetPlayerSkill(List<ISkillBase> skills)
@@ -243,8 +311,7 @@ namespace RaidCalc.Controllers
                 player.Stat = new Stats(pitem.Player_Stat1, pitem.Player_Stat2, pitem.Player_Stat3);
             }
             PlayerItem bossItem = (PlayerItem)view.Controls["BossItem"];
-            _Boss = new Boss();
-            _Boss.Name = bossItem.Player_Name;
+            _Boss = MainFrame.GetBossByName(view.GetBossItem.Combo_BossList.SelectedItem.ToString());
             _Boss.CurrentHp = bossItem.Player_CurrentHealth;
             _Boss.MaxHp = bossItem.Player_MaxHealth;
             _Boss.PosX = -1;
@@ -255,7 +322,33 @@ namespace RaidCalc.Controllers
         public void InitData()
         {
             AddPlayers(MainFrame.GetPlayerList());
+            SetBossData(MainFrame.GetBossList());
+
             LoadSkillList();
+        }
+
+        private void SetBossData(List<Boss> boss)
+        {
+            UserCommand_View view = View as UserCommand_View;
+            view.GetBossItem.Combo_BossList.Items.AddRange(boss.Select(x => x.Name).ToArray());
+            view.GetBossItem.Combo_BossList.SelectionChangeCommitted += LoadBossData;
+            view.GetBossItem.Button_Info.Click += (object sender, EventArgs e) =>
+            {
+                if (view.GetBossItem.Combo_BossList.Text.Length > 0)
+                    new RaidCalcInfoWindow(MainFrame.GetBossByName(view.GetBossItem.Combo_BossList.Text)).ShowDialog();
+            };
+        }
+
+        private void LoadBossData(object sender, EventArgs e)
+        {
+            UserCommand_View view = View as UserCommand_View;
+            if (view.GetBossItem.Combo_BossList.SelectedItem != null)
+            {
+                var bossName = view.GetBossItem.Combo_BossList.SelectedItem.ToString();
+                Boss boss = MainFrame.GetBossByName(bossName);
+                view.GetBossItem.Player_MaxHealth = boss.MaxHp;
+
+            }
         }
     }
 }

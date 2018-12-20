@@ -37,14 +37,19 @@ namespace RaidCalc.Controllers
             SetBoss(MainFrame.GetBoss());
         }
 
-        private void SetBoss(Player player)
+        private void SetBoss(Boss boss)
         {
             BossAction_View view = View as BossAction_View;
-            _Boss = player;
+            _Boss = boss;
             view.GridItem.AddRealPoint(_Boss.Name, new Point(_Boss.PosX, _Boss.PosY));
             string msg = $" 보스 확인: name: {_Boss.Name}, position: {new Point(_Boss.PosX, _Boss.PosY)}";
             MainFrame.WriteLog(msg);
-            view.SetBoss(player);
+            view.SetBoss(boss);
+            view.GetBossItem.Button_Info.Click += (object sender, EventArgs e) =>
+            {
+                if (view.GetBossItem.Combo_BossList.Text.Length > 0)
+                    new RaidCalcInfoWindow(MainFrame.GetBossByName(view.GetBossItem.Combo_BossList.Text)).ShowDialog();
+            };
         }
 
         public void AddPlayers(List<Player> players)

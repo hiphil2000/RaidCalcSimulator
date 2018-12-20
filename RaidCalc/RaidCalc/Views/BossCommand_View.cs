@@ -85,9 +85,10 @@ namespace RaidCalc.Views
             bitem.SkillsVisible = true;
             bitem.Readonly = true;
             bitem.Location = new Point(3, 35);
-            bitem.Player_Name = player.Name;
+            bitem.Combo_BossList.Text = player.Name;
             bitem.Player_CurrentHealth = player.CurrentHp;
             bitem.Player_MaxHealth = player.MaxHp;
+            bitem.Width = 760;
 
             if (player.PosX < 0 || player.PosY < 0)
             {

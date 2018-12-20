@@ -39,6 +39,8 @@
             this.Lab_PlayerCounter = new System.Windows.Forms.Label();
             this.List_SkillsetList = new System.Windows.Forms.FlowLayoutPanel();
             this.BossItem = new RaidCalc.Views.PlayerItem();
+            this.Lab_CostCounter = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // Flow_PlayerList
@@ -164,6 +166,28 @@
             this.BossItem.SkillsVisible = false;
             this.BossItem.TabIndex = 103;
             // 
+            // Lab_CostCounter
+            // 
+            this.Lab_CostCounter.AutoSize = true;
+            this.Lab_CostCounter.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Lab_CostCounter.Location = new System.Drawing.Point(795, 90);
+            this.Lab_CostCounter.Margin = new System.Windows.Forms.Padding(0, 0, 3, 0);
+            this.Lab_CostCounter.Name = "Lab_CostCounter";
+            this.Lab_CostCounter.Size = new System.Drawing.Size(62, 20);
+            this.Lab_CostCounter.TabIndex = 3;
+            this.Lab_CostCounter.Text = "(00/10)";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label3.Location = new System.Drawing.Point(741, 90);
+            this.label3.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(54, 20);
+            this.label3.TabIndex = 3;
+            this.label3.Text = "코스트";
+            // 
             // UserCommand_View
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
@@ -177,8 +201,10 @@
             this.Controls.Add(this.Button_SetSkill);
             this.Controls.Add(this.Button_PlayerAdd);
             this.Controls.Add(this.label2);
+            this.Controls.Add(this.Lab_CostCounter);
             this.Controls.Add(this.Lab_PlayerCounter);
             this.Controls.Add(this.label1);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.Lab_SkillsetBox);
             this.Controls.Add(this.Flow_PlayerList);
             this.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -203,5 +229,7 @@
         private System.Windows.Forms.Label Lab_PlayerCounter;
         private System.Windows.Forms.FlowLayoutPanel List_SkillsetList;
         private PlayerItem BossItem;
+        private System.Windows.Forms.Label Lab_CostCounter;
+        private System.Windows.Forms.Label label3;
     }
 }

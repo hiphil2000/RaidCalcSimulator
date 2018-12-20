@@ -28,41 +28,92 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.Text_Name = new System.Windows.Forms.TextBox();
-            this.Text_Stat1 = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.Text_Stat2 = new System.Windows.Forms.TextBox();
-            this.Text_Stat3 = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.Panel_Stat = new System.Windows.Forms.Panel();
-            this.Panel_Health = new System.Windows.Forms.FlowLayoutPanel();
-            this.Text_CurrentHealth = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.Text_MaxHealth = new System.Windows.Forms.TextBox();
             this.Combo_Skills = new System.Windows.Forms.ComboBox();
+            this.Text_MaxHealth = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.Text_CurrentHealth = new System.Windows.Forms.TextBox();
+            this.Panel_Health = new System.Windows.Forms.FlowLayoutPanel();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.Text_Stat3 = new System.Windows.Forms.TextBox();
+            this.Text_Stat2 = new System.Windows.Forms.TextBox();
+            this.Text_Stat1 = new System.Windows.Forms.TextBox();
+            this.Panel_Stat = new System.Windows.Forms.Panel();
+            this.Text_Name = new System.Windows.Forms.TextBox();
+            this.Picture_PlayerIcon = new System.Windows.Forms.PictureBox();
             this.flowLayoutPanel1.SuspendLayout();
-            this.Panel_Stat.SuspendLayout();
             this.Panel_Health.SuspendLayout();
+            this.Panel_Stat.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Picture_PlayerIcon)).BeginInit();
             this.SuspendLayout();
             // 
-            // Text_Name
+            // flowLayoutPanel1
             // 
-            this.Text_Name.Location = new System.Drawing.Point(3, 3);
-            this.Text_Name.Margin = new System.Windows.Forms.Padding(0, 0, 4, 0);
-            this.Text_Name.Name = "Text_Name";
-            this.Text_Name.Size = new System.Drawing.Size(168, 25);
-            this.Text_Name.TabIndex = 0;
+            this.flowLayoutPanel1.Controls.Add(this.Picture_PlayerIcon);
+            this.flowLayoutPanel1.Controls.Add(this.Text_Name);
+            this.flowLayoutPanel1.Controls.Add(this.Panel_Stat);
+            this.flowLayoutPanel1.Controls.Add(this.Panel_Health);
+            this.flowLayoutPanel1.Controls.Add(this.Combo_Skills);
+            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Padding = new System.Windows.Forms.Padding(3);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(791, 31);
+            this.flowLayoutPanel1.TabIndex = 2;
+            this.flowLayoutPanel1.Click += new System.EventHandler(this.PlayerItem_Click);
             // 
-            // Text_Stat1
+            // Combo_Skills
             // 
-            this.Text_Stat1.Location = new System.Drawing.Point(0, 0);
-            this.Text_Stat1.Margin = new System.Windows.Forms.Padding(0);
-            this.Text_Stat1.MaxLength = 1;
-            this.Text_Stat1.Name = "Text_Stat1";
-            this.Text_Stat1.Size = new System.Drawing.Size(22, 25);
-            this.Text_Stat1.TabIndex = 1;
-            this.Text_Stat1.TextChanged += new System.EventHandler(this.Text_Stat1_TextChanged);
+            this.Combo_Skills.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.Combo_Skills.Location = new System.Drawing.Point(593, 3);
+            this.Combo_Skills.Margin = new System.Windows.Forms.Padding(0);
+            this.Combo_Skills.Name = "Combo_Skills";
+            this.Combo_Skills.Size = new System.Drawing.Size(165, 25);
+            this.Combo_Skills.TabIndex = 6;
+            this.Combo_Skills.Click += new System.EventHandler(this.PlayerItem_Click);
+            // 
+            // Text_MaxHealth
+            // 
+            this.Text_MaxHealth.Location = new System.Drawing.Point(164, 0);
+            this.Text_MaxHealth.Margin = new System.Windows.Forms.Padding(0);
+            this.Text_MaxHealth.Name = "Text_MaxHealth";
+            this.Text_MaxHealth.Size = new System.Drawing.Size(145, 25);
+            this.Text_MaxHealth.TabIndex = 5;
+            this.Text_MaxHealth.Click += new System.EventHandler(this.PlayerItem_Click);
+            this.Text_MaxHealth.TextChanged += new System.EventHandler(this.Text_MaxHealth_TextChanged);
+            // 
+            // label3
+            // 
+            this.label3.Location = new System.Drawing.Point(148, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(13, 25);
+            this.label3.TabIndex = 4;
+            this.label3.Text = "/";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label3.Click += new System.EventHandler(this.PlayerItem_Click);
+            // 
+            // Text_CurrentHealth
+            // 
+            this.Text_CurrentHealth.Location = new System.Drawing.Point(0, 0);
+            this.Text_CurrentHealth.Margin = new System.Windows.Forms.Padding(0);
+            this.Text_CurrentHealth.Name = "Text_CurrentHealth";
+            this.Text_CurrentHealth.Size = new System.Drawing.Size(145, 25);
+            this.Text_CurrentHealth.TabIndex = 4;
+            this.Text_CurrentHealth.Click += new System.EventHandler(this.PlayerItem_Click);
+            this.Text_CurrentHealth.TextChanged += new System.EventHandler(this.Text_CurrentHealth_TextChanged);
+            // 
+            // Panel_Health
+            // 
+            this.Panel_Health.Controls.Add(this.Text_CurrentHealth);
+            this.Panel_Health.Controls.Add(this.label3);
+            this.Panel_Health.Controls.Add(this.Text_MaxHealth);
+            this.Panel_Health.Location = new System.Drawing.Point(281, 3);
+            this.Panel_Health.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
+            this.Panel_Health.Name = "Panel_Health";
+            this.Panel_Health.Size = new System.Drawing.Size(309, 25);
+            this.Panel_Health.TabIndex = 4;
+            this.Panel_Health.Click += new System.EventHandler(this.PlayerItem_Click);
             // 
             // label1
             // 
@@ -73,26 +124,7 @@
             this.label1.Size = new System.Drawing.Size(13, 17);
             this.label1.TabIndex = 1;
             this.label1.Text = "/";
-            // 
-            // Text_Stat2
-            // 
-            this.Text_Stat2.Location = new System.Drawing.Point(35, 0);
-            this.Text_Stat2.Margin = new System.Windows.Forms.Padding(0);
-            this.Text_Stat2.MaxLength = 1;
-            this.Text_Stat2.Name = "Text_Stat2";
-            this.Text_Stat2.Size = new System.Drawing.Size(22, 25);
-            this.Text_Stat2.TabIndex = 2;
-            this.Text_Stat2.TextChanged += new System.EventHandler(this.Text_Stat2_TextChanged);
-            // 
-            // Text_Stat3
-            // 
-            this.Text_Stat3.Location = new System.Drawing.Point(70, 0);
-            this.Text_Stat3.Margin = new System.Windows.Forms.Padding(0);
-            this.Text_Stat3.MaxLength = 1;
-            this.Text_Stat3.Name = "Text_Stat3";
-            this.Text_Stat3.Size = new System.Drawing.Size(22, 25);
-            this.Text_Stat3.TabIndex = 3;
-            this.Text_Stat3.TextChanged += new System.EventHandler(this.Text_Stat3_TextChanged);
+            this.label1.Click += new System.EventHandler(this.PlayerItem_Click);
             // 
             // label2
             // 
@@ -103,19 +135,40 @@
             this.label2.Size = new System.Drawing.Size(13, 17);
             this.label2.TabIndex = 1;
             this.label2.Text = "/";
+            this.label2.Click += new System.EventHandler(this.PlayerItem_Click);
             // 
-            // flowLayoutPanel1
+            // Text_Stat3
             // 
-            this.flowLayoutPanel1.Controls.Add(this.Text_Name);
-            this.flowLayoutPanel1.Controls.Add(this.Panel_Stat);
-            this.flowLayoutPanel1.Controls.Add(this.Panel_Health);
-            this.flowLayoutPanel1.Controls.Add(this.Combo_Skills);
-            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Padding = new System.Windows.Forms.Padding(3);
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(761, 31);
-            this.flowLayoutPanel1.TabIndex = 2;
+            this.Text_Stat3.Location = new System.Drawing.Point(70, 0);
+            this.Text_Stat3.Margin = new System.Windows.Forms.Padding(0);
+            this.Text_Stat3.MaxLength = 1;
+            this.Text_Stat3.Name = "Text_Stat3";
+            this.Text_Stat3.Size = new System.Drawing.Size(22, 25);
+            this.Text_Stat3.TabIndex = 3;
+            this.Text_Stat3.Click += new System.EventHandler(this.PlayerItem_Click);
+            this.Text_Stat3.TextChanged += new System.EventHandler(this.Text_Stat3_TextChanged);
+            // 
+            // Text_Stat2
+            // 
+            this.Text_Stat2.Location = new System.Drawing.Point(35, 0);
+            this.Text_Stat2.Margin = new System.Windows.Forms.Padding(0);
+            this.Text_Stat2.MaxLength = 1;
+            this.Text_Stat2.Name = "Text_Stat2";
+            this.Text_Stat2.Size = new System.Drawing.Size(22, 25);
+            this.Text_Stat2.TabIndex = 2;
+            this.Text_Stat2.Click += new System.EventHandler(this.PlayerItem_Click);
+            this.Text_Stat2.TextChanged += new System.EventHandler(this.Text_Stat2_TextChanged);
+            // 
+            // Text_Stat1
+            // 
+            this.Text_Stat1.Location = new System.Drawing.Point(0, 0);
+            this.Text_Stat1.Margin = new System.Windows.Forms.Padding(0);
+            this.Text_Stat1.MaxLength = 1;
+            this.Text_Stat1.Name = "Text_Stat1";
+            this.Text_Stat1.Size = new System.Drawing.Size(22, 25);
+            this.Text_Stat1.TabIndex = 1;
+            this.Text_Stat1.Click += new System.EventHandler(this.PlayerItem_Click);
+            this.Text_Stat1.TextChanged += new System.EventHandler(this.Text_Stat1_TextChanged);
             // 
             // Panel_Stat
             // 
@@ -124,59 +177,31 @@
             this.Panel_Stat.Controls.Add(this.Text_Stat3);
             this.Panel_Stat.Controls.Add(this.label2);
             this.Panel_Stat.Controls.Add(this.label1);
-            this.Panel_Stat.Location = new System.Drawing.Point(178, 3);
+            this.Panel_Stat.Location = new System.Drawing.Point(181, 3);
             this.Panel_Stat.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.Panel_Stat.Name = "Panel_Stat";
             this.Panel_Stat.Size = new System.Drawing.Size(94, 25);
             this.Panel_Stat.TabIndex = 3;
+            this.Panel_Stat.Click += new System.EventHandler(this.PlayerItem_Click);
             // 
-            // Panel_Health
+            // Text_Name
             // 
-            this.Panel_Health.Controls.Add(this.Text_CurrentHealth);
-            this.Panel_Health.Controls.Add(this.label3);
-            this.Panel_Health.Controls.Add(this.Text_MaxHealth);
-            this.Panel_Health.Location = new System.Drawing.Point(278, 3);
-            this.Panel_Health.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
-            this.Panel_Health.Name = "Panel_Health";
-            this.Panel_Health.Size = new System.Drawing.Size(309, 25);
-            this.Panel_Health.TabIndex = 4;
+            this.Text_Name.Location = new System.Drawing.Point(34, 3);
+            this.Text_Name.Margin = new System.Windows.Forms.Padding(0, 0, 4, 0);
+            this.Text_Name.Name = "Text_Name";
+            this.Text_Name.Size = new System.Drawing.Size(140, 25);
+            this.Text_Name.TabIndex = 0;
+            this.Text_Name.Click += new System.EventHandler(this.PlayerItem_Click);
             // 
-            // Text_CurrentHealth
+            // Picture_PlayerIcon
             // 
-            this.Text_CurrentHealth.Location = new System.Drawing.Point(0, 0);
-            this.Text_CurrentHealth.Margin = new System.Windows.Forms.Padding(0);
-            this.Text_CurrentHealth.Name = "Text_CurrentHealth";
-            this.Text_CurrentHealth.Size = new System.Drawing.Size(145, 25);
-            this.Text_CurrentHealth.TabIndex = 4;
-            this.Text_CurrentHealth.TextChanged += new System.EventHandler(this.Text_CurrentHealth_TextChanged);
-            // 
-            // label3
-            // 
-            this.label3.Location = new System.Drawing.Point(148, 0);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(13, 25);
-            this.label3.TabIndex = 4;
-            this.label3.Text = "/";
-            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // Text_MaxHealth
-            // 
-            this.Text_MaxHealth.Location = new System.Drawing.Point(164, 0);
-            this.Text_MaxHealth.Margin = new System.Windows.Forms.Padding(0);
-            this.Text_MaxHealth.Name = "Text_MaxHealth";
-            this.Text_MaxHealth.Size = new System.Drawing.Size(145, 25);
-            this.Text_MaxHealth.TabIndex = 5;
-            this.Text_MaxHealth.TextChanged += new System.EventHandler(this.Text_MaxHealth_TextChanged);
-            // 
-            // Combo_Skills
-            // 
-            this.Combo_Skills.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.Combo_Skills.FormattingEnabled = true;
-            this.Combo_Skills.Location = new System.Drawing.Point(590, 3);
-            this.Combo_Skills.Margin = new System.Windows.Forms.Padding(0);
-            this.Combo_Skills.Name = "Combo_Skills";
-            this.Combo_Skills.Size = new System.Drawing.Size(165, 25);
-            this.Combo_Skills.TabIndex = 6;
+            this.Picture_PlayerIcon.Location = new System.Drawing.Point(6, 3);
+            this.Picture_PlayerIcon.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
+            this.Picture_PlayerIcon.Name = "Picture_PlayerIcon";
+            this.Picture_PlayerIcon.Size = new System.Drawing.Size(25, 25);
+            this.Picture_PlayerIcon.TabIndex = 7;
+            this.Picture_PlayerIcon.TabStop = false;
+            this.Picture_PlayerIcon.Click += new System.EventHandler(this.PlayerItem_Click);
             // 
             // PlayerItem
             // 
@@ -187,32 +212,33 @@
             this.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "PlayerItem";
-            this.Size = new System.Drawing.Size(761, 31);
+            this.Size = new System.Drawing.Size(791, 31);
             this.Click += new System.EventHandler(this.PlayerItem_Click);
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel1.PerformLayout();
-            this.Panel_Stat.ResumeLayout(false);
-            this.Panel_Stat.PerformLayout();
             this.Panel_Health.ResumeLayout(false);
             this.Panel_Health.PerformLayout();
+            this.Panel_Stat.ResumeLayout(false);
+            this.Panel_Stat.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Picture_PlayerIcon)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.PictureBox Picture_PlayerIcon;
         private System.Windows.Forms.TextBox Text_Name;
+        private System.Windows.Forms.Panel Panel_Stat;
         private System.Windows.Forms.TextBox Text_Stat1;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox Text_Stat2;
         private System.Windows.Forms.TextBox Text_Stat3;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
-        private System.Windows.Forms.Panel Panel_Stat;
+        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.FlowLayoutPanel Panel_Health;
-        private System.Windows.Forms.TextBox Text_MaxHealth;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox Text_CurrentHealth;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox Text_MaxHealth;
         private System.Windows.Forms.ComboBox Combo_Skills;
     }
 }
