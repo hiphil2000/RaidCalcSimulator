@@ -49,28 +49,34 @@ namespace RaidCalc.Views
 
             Lab_Description.Text = Skill.Description;
             string result = Skill.Cooltime < 0 ? "패시브" : Skill.Cooltime.ToString() + "턴";
+            result = Skill.Cooltime >= 999 ? "궁극기" : result;
             Lab_Cooltime.Text = result;
             Lab_SkillName.Text = Skill.Name;
             string typeText = "";
-            if (Skill.Type.HasFlag(SkillType.Basic))
-                typeText = SkillType.Basic.ToString();
             if (Skill.Type.HasFlag(SkillType.Defence))
                 typeText = SkillType.Defence.ToString();
             if (Skill.Type.HasFlag(SkillType.Offence))
                 typeText = SkillType.Offence.ToString();
             if (Skill.Type.HasFlag(SkillType.Heal))
                 typeText = SkillType.Heal.ToString();
+            if (Skill.Type.HasFlag(SkillType.Basic))
+                typeText = SkillType.Basic.ToString();
             Lab_SkillType.Text = typeText;
 
             Lab_SkillConst.Text = Skill.ForceConst < 0 ? "무제한" : Skill.ForceConst.ToString();
-            if (Skill.Type.HasFlag(SkillType.Basic))
-                BackColor = Color.FromArgb(255, 229, 153);
             if (Skill.Type.HasFlag(SkillType.Offence))
                 BackColor = Color.FromArgb(234, 153, 153);
             if (Skill.Type.HasFlag(SkillType.Defence))
                 BackColor = Color.FromArgb(159, 197, 232);
             if (Skill.Type.HasFlag(SkillType.Heal))
                 BackColor = Color.FromArgb(182, 215, 168);
+            if (Skill.Type.HasFlag(SkillType.Basic))
+                BackColor = Color.FromArgb(255, 229, 153);
+            if (Skill.Type.HasFlag(SkillType.Ultimate))
+            {
+                var font = Lab_SkillName.Font;
+                Lab_SkillName.Font = new Font(font, FontStyle.Bold);
+            }
         }
 
         private Control BindAll(Control control)

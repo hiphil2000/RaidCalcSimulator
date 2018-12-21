@@ -144,6 +144,83 @@ namespace RaidCalc.Controllers
             }
         }
 
+        public void GridHighlight(Point p)
+        {
+            PlayerCommand_View view = View as PlayerCommand_View;
+            var grid = view.GridItem;
+            if (string.IsNullOrEmpty(_SelectedPlayerName))
+            {
+                grid.SetHighlight(p, "Point", null);
+            }
+            else
+            {
+                var selectedItem = view.FindPlayerItemByName(_SelectedPlayerName).Player_Skills.SelectedItem;
+                if (selectedItem == null)
+                {
+                    grid.SetHighlight(p, "Point", null);
+                    return;
+                }
+                var selectedSkill = selectedItem.ToString();
+                if (selectedSkill == null)
+                {
+                    grid.SetHighlight(p, "Point", null);
+                    return;
+                }
+                else
+                {
+                    var skill = MainFrame.GetSkillByName(selectedSkill);
+                    if (skill == null)
+                    {
+                        grid.SetHighlight(p, "Point", null);
+                        return;
+                    }
+                    var type = skill.RangeType;
+                    var rangeConst = skill.RangeConst;
+                    Point cp = new Point();
+                    if (type.Contains("Ellipse"))
+                    {
+                        int r = int.Parse(rangeConst);
+                        cp = p;
+                        if (type.Contains("Self"))
+                        {
+                            cp = grid.GetPointByPlayerName(_SelectedPlayerName);
+                            grid.SetHighlight(p, "Ellipse", r, true, cp);
+                            return;
+                        }
+                        grid.SetHighlight(p, "Ellipse", r, true);
+                    }
+                    else if (type.Contains("Rectangle"))
+                    {
+                        var wh = rangeConst.Split(':')[0].Split(',');
+                        var rp = rangeConst.Split(':')[1].Split(',');
+                        grid.SetHighlight(p, "Rectangle",
+                                          new Size(int.Parse(wh[0]), int.Parse(wh[1])),
+                                          new Point(int.Parse(rp[0]), int.Parse(rp[1])),
+                                          true);
+                    }
+                    else if (type.Contains("Player"))
+                    {
+                        if (rangeConst.Contains("Self"))
+                        {
+                            grid.SetHighlight(p, "Player", _SelectedPlayerName);
+                        }
+                        else
+                        {
+                            grid.SetHighlight(p, "Player", "SelectOne");
+                        }
+                    }
+                    else if (type.Contains("Filter"))
+                    {
+
+                    }
+                    else
+                    {
+                        grid.SetHighlight(p, "Point", null);
+                    }
+                }
+            }
+        }
+
         public void InitData()
         {
             PlayerCommand_View view = View as PlayerCommand_View;
@@ -215,14 +292,14 @@ namespace RaidCalc.Controllers
             {
                 if (view.GridItem.points.ContainsKey(item.Name) == false)
                 {
-                    errorMsg += $"{item.Name}의 위치가 정해지지 않았습니다.";
+                    errorMsg += $"{item.Name}의 위치가 정해지지 않았습니다." + Environment.NewLine;
                 }
             }
             if (errorMsg.Length <= 0 )
                 isValidated = true;
             else
             {
-                errorMsg.Insert(0, "유효성 검사에 실패했습니다.\r\n자세한 내용:\r\n");
+                errorMsg = errorMsg.Insert(0, $"유효성 검사에 실패했습니다.{Environment.NewLine}자세한 내용:{Environment.NewLine}");
                 MessageBox.Show(errorMsg.ToString(), "실패");
             }
             return isValidated;

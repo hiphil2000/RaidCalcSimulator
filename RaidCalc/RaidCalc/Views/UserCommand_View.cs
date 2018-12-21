@@ -321,11 +321,14 @@ namespace RaidCalc.Views
         {
             if ((contrl.Parent as PlayerItem) == null)
             {
-                return GetParentPlayerItem(contrl.Parent);
+                if ((contrl as PlayerItem) != null)
+                    return contrl as PlayerItem;
+                else
+                    return GetParentPlayerItem(contrl.Parent);
             }
             else
             {
-                return contrl.Parent as PlayerItem;
+                return GetParentPlayerItem(contrl.Parent); 
             }
         }
 
@@ -333,11 +336,11 @@ namespace RaidCalc.Views
         {
             if ((contrl.Parent as SkillItem) == null)
             {
-                return GetParentSkillItem(contrl.Parent);
+                return contrl as SkillItem;
             }
             else
             {
-                return contrl.Parent as SkillItem;
+                return GetParentSkillItem(contrl.Parent);
             }
         }
 

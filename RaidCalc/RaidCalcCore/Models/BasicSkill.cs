@@ -17,5 +17,7 @@ namespace RaidCalcCore.Models
             SkillFunction = func;
         }
         public string Description { get; set; }
+        public string RangeType { get; set; }
+        public string RangeConst { get; set; }
     }
 }

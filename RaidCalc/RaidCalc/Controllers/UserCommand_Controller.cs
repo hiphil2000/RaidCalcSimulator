@@ -153,10 +153,10 @@ namespace RaidCalc.Controllers
             int sitemCost;
             if (sitem.Skill.Type.HasFlag(SkillType.Basic))
                 sitemCost = 1;
-            else if (sitem.Skill.Type.HasFlag(SkillType.Offence) || sitem.Skill.Type.HasFlag(SkillType.Defence) || sitem.Skill.Type.HasFlag(SkillType.Heal))
-                sitemCost = 2;
-            else
+            else if (sitem.Skill.Type.HasFlag(SkillType.Ultimate))
                 sitemCost = 3;
+            else 
+                sitemCost = 2;
             if (_SelectedSkills.Contains(sitem.Skill))
             {
                 _SelectedSkills.Remove(sitem.Skill);
@@ -165,6 +165,16 @@ namespace RaidCalc.Controllers
             }
             else
             {
+                if (sitem.Skill.Type.HasFlag(SkillType.Ultimate))
+                {
+                    ISkillBase ultimate = _SelectedSkills.FirstOrDefault(x => x.Type.HasFlag(SkillType.Ultimate));
+                    if (ultimate != null)
+                    {
+                        MessageBox.Show($"해당 플레이어는 이미 궁극기를 선택했습니다.({ultimate.Name})", "실패");
+                        sitem.IsSelected = false;
+                        return;
+                    }
+                }
                 if (cost + sitemCost > 10)
                 {
                     MessageBox.Show($"코스트 초과함. ({cost + sitemCost}/10)");
@@ -195,13 +205,13 @@ namespace RaidCalc.Controllers
                 {
                     cost ++;
                 }
-                else if (item.Type.HasFlag(SkillType.Offence) || item.Type.HasFlag(SkillType.Defence) || item.Type.HasFlag(SkillType.Heal))
+                else if (item.Type.HasFlag(SkillType.Ultimate))
                 {
-                    cost += 2;
+                    cost += 3;
                 }
                 else
                 {
-                    cost += 3;
+                    cost += 2;
                 }
             }
             view.CostCounter = cost;
@@ -237,9 +247,16 @@ namespace RaidCalc.Controllers
                 player.CommonSkills.Clear();
                 foreach (ISkillBase skill in skills)
                 {
-                    if (player.CommonSkills.Contains(skill) == false)
+                    if (skill.Type.HasFlag(SkillType.Ultimate))
                     {
-                        player.CommonSkills.Add(skill);
+                        player.UltimateSkill = skill;
+                    }
+                    else
+                    {
+                        if (player.CommonSkills.Contains(skill) == false)
+                        {
+                            player.CommonSkills.Add(skill);
+                        }
                     }
                 }
             }
@@ -270,31 +287,39 @@ namespace RaidCalc.Controllers
         {
             bool isValidated = false;
             SyncronizeData();
+            string errorMsg = "";
             foreach (Player player in _PlayerList)
             {
                 if (player.MaxHp < player.CurrentHp)
                 {
-                    MessageBox.Show($"올바르지 않은 HP값입니다. ({player.Name})");
-                    return false;
+                    errorMsg += $"올바르지 않은 HP값입니다. ({player.Name})" + Environment.NewLine;
                 }
                 if (player.Stat.Stat1 < 0 || player.Stat.Stat1 > 5 ||
                     player.Stat.Stat2 < 0 || player.Stat.Stat2 > 5 ||
                     player.Stat.Stat3 < 0 || player.Stat.Stat3 > 5)
                 {
-                    MessageBox.Show($"올바르지 않은 스탯입니다. ({player.Name})");
-                    return false;
+                    errorMsg += $"올바르지 않은 스탯입니다. ({player.Name})" + Environment.NewLine;
                 }
                 if (player.CommonSkills.Count < 1)
                 {
-                    MessageBox.Show($"스킬이 지정되지 않았습니다. ({player.Name})");
-                    return false;
+                    errorMsg += $"스킬이 지정되지 않았습니다. ({player.Name})" + Environment.NewLine;
                 }
-                isValidated = true;
             }
             if (_PlayerList.Count < 1)
             {
-                MessageBox.Show($"플레이어가 너무 적습니다. ({_PlayerList.Count}명)"); 
-                return false;
+                errorMsg += $"플레이어가 너무 적습니다. ({_PlayerList.Count}명)" + Environment.NewLine;
+            }
+            if (_Boss == null)
+            {
+                errorMsg += $"보스가 정해지지 않았습니다." + Environment.NewLine;
+            }
+
+            if (errorMsg.Length <= 0)
+                isValidated = true;
+            else
+            {
+                errorMsg = errorMsg.Insert(0, $"유효성 검사에 실패했습니다.{Environment.NewLine}자세한 내용:{Environment.NewLine}");
+                MessageBox.Show(errorMsg.ToString(), "실패");
             }
             return isValidated;
         }
@@ -311,11 +336,15 @@ namespace RaidCalc.Controllers
                 player.Stat = new Stats(pitem.Player_Stat1, pitem.Player_Stat2, pitem.Player_Stat3);
             }
             PlayerItem bossItem = (PlayerItem)view.Controls["BossItem"];
-            _Boss = MainFrame.GetBossByName(view.GetBossItem.Combo_BossList.SelectedItem.ToString());
-            _Boss.CurrentHp = bossItem.Player_CurrentHealth;
-            _Boss.MaxHp = bossItem.Player_MaxHealth;
-            _Boss.PosX = -1;
-            _Boss.PosY = -1;
+            try
+            {
+                _Boss = MainFrame.GetBossByName(view.GetBossItem.Combo_BossList.SelectedItem.ToString());
+                _Boss.CurrentHp = bossItem.Player_CurrentHealth;
+                _Boss.MaxHp = bossItem.Player_MaxHealth;
+                _Boss.PosX = -1;
+                _Boss.PosY = -1;
+            }
+            catch { }
 
         }
 

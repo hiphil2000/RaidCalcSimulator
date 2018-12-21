@@ -130,17 +130,13 @@ namespace RaidCalc.Views
 
         private void Grid_GridMap_MouseMove_1(object sender, MouseEventArgs e)
         {
-            Grid_GridMap.SetHighlight(e.Location);
+            (Controller as PlayerCommand_Controller).GridHighlight(e.Location);
+            Grid_GridMap.SetHighlight(e.Location, "Rectangle", new Size(3,4), new Point(1,2), true);
         }
 
         private void Grid_GridMap_MouseLeave(object sender, EventArgs e)
         {
-            Grid_GridMap.SetHighlight(new Point(-1,-1));
-        }
-
-        private void PlayerCommand_View_MouseMove(object sender, MouseEventArgs e)
-        {
-
+            Grid_GridMap.SetHighlight(new Point(-1,-1), null);
         }
         #endregion
 
@@ -169,7 +165,7 @@ namespace RaidCalc.Views
             {
                 foreach (Control child in control.Controls)
                 {
-                    if (child.Name.Equals("Combo_Skills") == false)
+                    if (child as ComboBox == null)
                         child.Click += e;
                     BindEventsAllChildren(child, e);
                 }

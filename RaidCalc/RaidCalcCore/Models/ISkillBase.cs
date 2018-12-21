@@ -15,5 +15,7 @@ namespace RaidCalcCore.Models
         double ForceConst { get; set; }
         Func<IPlayer, IPlayer, object, bool> SkillFunction { get; set; }
         string Description { get; set; }
+        string RangeType { get; set; }
+        string RangeConst { get; set; }
     }
 }

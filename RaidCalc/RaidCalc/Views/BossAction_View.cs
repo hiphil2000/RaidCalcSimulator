@@ -101,12 +101,12 @@ namespace RaidCalc.Views
 
         private void Grid_GridMap_MouseMove(object sender, MouseEventArgs e)
         {
-            Grid_GridMap.SetHighlight(e.Location);
+            Grid_GridMap.SetHighlight(e.Location, "Point");
         }
 
         private void Grid_GridMap_MouseLeave(object sender, EventArgs e)
         {
-            Grid_GridMap.SetHighlight(new Point(-1, -1));
+            Grid_GridMap.SetHighlight(new Point(-1, -1), null);
         }
         private void Grid_GridMap_Paint(object sender, PaintEventArgs e)
         {

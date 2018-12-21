@@ -112,6 +112,47 @@ namespace RaidCalc
             _CurrentPage.Controller.InitData();
         }
 
+        private void RaidCalc_Load(object sender, EventArgs e)
+        {
+            string settingPath = AppDomain.CurrentDomain.BaseDirectory + "AppSettings.json";
+            if (File.Exists(settingPath))
+            {
+                using (StreamReader sr = new StreamReader(settingPath))
+                {
+                    var path = Game.LoadSetting(sr.ReadToEnd());
+                    if (File.Exists(path.Item1))
+                    {
+                        using (StreamReader sr2 = new StreamReader(path.Item1))
+                        {
+                            GameDataPath = path.Item1;
+                            Game.SetDatas(sr2.ReadToEnd());
+                        }
+                    }
+                    else
+                        MessageBox.Show("지정한 게임 데이터 파일의 위치가 올바르지 않습니다.");
+
+                    if (Directory.Exists(path.Item2))
+                    {
+                        LogStartPath = path.Item2;
+                        Game.WriteSystemLog($"현재 지정된 기본 로그 저장 경로: [{LogStartPath}]");
+                    }
+                    else
+                        MessageBox.Show("지정한 로그 기본 저장 위치가 올바르지 않습니다.");
+                }
+            }
+            else
+            {
+                MessageBox.Show($"기본 설정 경로에 파일이 없습니다. 파일을 생성합니다.{Environment.NewLine}[{settingPath}]", "알림");
+                string AppSetting =
+@"
+{
+    ""GameDataFile"": """",
+    ""LogStartPath"": """"
+}";
+                File.WriteAllText(settingPath, AppSetting, Encoding.UTF8);
+            }
+        }
+
         public void SetDatas(string gameData, string logFolder)
         {
             GameDataPath = gameData;
@@ -122,6 +163,14 @@ namespace RaidCalc
             {
                 GameData = sr.ReadToEnd();
             }
+
+            string AppSetting =
+@"
+{
+    ""GameDataFile"": """ + gameData + @""",
+    ""LogStartPath"": """ + logFolder + @"""
+}";
+            File.WriteAllText(AppDomain.CurrentDomain.BaseDirectory + "AppSettings.json", AppSetting);
             Game.SetDatas(GameData);
             Game.WriteSystemLog($"현재 지정된 기본 로그 저장 경로: [{LogStartPath}]");
             Text_NowLog.Text = Game.PrintLogBuffer();
@@ -139,12 +188,16 @@ namespace RaidCalc
 
         public ISkillBase GetSkillByName(string name)
         {
-            return _SkillList[name];
-        }
+            ISkillBase result = null;
+            try
+            {
+                result = _SkillList[name];
+            }
+            catch
+            {
 
-        private void RaidCalc_Load(object sender, EventArgs e)
-        {
-
+            }
+            return result;
         }
 
         public void StartGame()
@@ -177,8 +230,11 @@ namespace RaidCalc
                 {
                     msg += $"\"{skill.Name}\", ";
                 }
-                msg = msg.Substring(0, msg.Length - 1);
-                msg += "]}";
+                msg = msg.Substring(0, msg.LastIndexOf(','));
+                msg += "]";
+                if (p.UltimateSkill != null)
+                    msg += ", \"UltimateSkill\" : \"{p.UltimateSkill.Name}\"";
+                msg += "}";
                 Game.WriteLog(msg);
             }
         }
@@ -186,7 +242,7 @@ namespace RaidCalc
         public void SetBoss(Boss boss)
         {
             Game.SetBoss(boss);
-            string msg = $"[<Boss>{boss.Name}](이)가 로드됨. {{\"Name\": \"{boss.Name}\", \"HP\": \"{boss.CurrentHp}/{boss.MaxHp}\", \"CommonSkills\": [ ";
+            string msg = $"[<Boss>{boss.Name}](이)가 로드됨. {{\"Name\": \"{boss.Name}\", \"HP\": \"{boss.CurrentHp}/{boss.MaxHp}\", \"Skills\": [ ";
             foreach (ISkillBase skill in boss.Skills)
             {
                 msg += $"\"{skill.Name}\", ";
@@ -335,6 +391,7 @@ namespace RaidCalc
             LogWindow.ShowDialog();
         }
         #endregion
+
         
     }
 }

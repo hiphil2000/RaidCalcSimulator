@@ -10,6 +10,7 @@
         Upgrade = 32,
         Deflect = 64,
         OffenceTick = 128,
-        HealTick = 256
+        HealTick = 256,
+        Ultimate = 512
     }
 }
